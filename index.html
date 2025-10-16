@@ -896,7 +896,10 @@
         }
 
         function formatClock(date) {
-            return date.toLocaleTimeString('ca-ES', { hour12: false });
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const seconds = date.getSeconds().toString().padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
         }
 
         function debounce(func, wait) {
@@ -971,8 +974,16 @@
         }
 
         function updateClocks() {
-            currentTimeDisplay.textContent = formatClock(new Date());
-            totalTimeDisplay.textContent = formatTimeWithHours(totalSecondsDedicated);
+            // Update current time
+            if (currentTimeDisplay) {
+                currentTimeDisplay.textContent = formatClock(new Date());
+            }
+            
+            // Update time spent on page  
+            if (totalTimeDisplay) {
+                totalTimeDisplay.textContent = formatTimeWithHours(totalSecondsDedicated);
+            }
+            
             totalSecondsDedicated++;
         }
 
@@ -1967,9 +1978,11 @@
             // Setup event handlers
             setupEventHandlers();
             
-            // Start clocks
-            setInterval(updateClocks, CLOCK_UPDATE_INTERVAL);
-            updateClocks();
+            // Start clocks immediately and set up interval
+            setTimeout(() => {
+                updateClocks(); // Call after a small delay to ensure DOM is ready
+                setInterval(updateClocks, CLOCK_UPDATE_INTERVAL);
+            }, 100);
         }
 
         // Initialize when page loads
