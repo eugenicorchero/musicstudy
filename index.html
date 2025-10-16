@@ -12,51 +12,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
     <style>
-        /* CSS Custom Properties for Theme Support */
+        /* Professional Color Scheme */
         :root {
-            --primary-bg: #0d0d1a;
-            --secondary-bg: #1a1a2e;
-            --tertiary-bg: #16213e;
-            --accent-primary: #00ffff;
-            --accent-secondary: #00ff9f;
-            --text-primary: #ffffff;
-            --text-secondary: #a1a1aa;
-            --text-muted: #71717a;
-            --border-primary: rgba(255, 255, 255, 0.1);
-            --border-accent: rgba(0, 255, 255, 0.3);
-            --glass-bg: rgba(26, 26, 46, 0.8);
+            --primary-bg: #1a1a2e;
+            --secondary-bg: #16213e;
+            --accent-cyan: #00ffff;
+            --accent-green: #00ff9f;
+            --accent-blue: #4ea5d9;
+            --accent-purple: #9d4edd;
+            --accent-pink: #f72585;
+            --accent-orange: #f77f00;
+            --text-white: #ffffff;
+            --text-gray: #a8a8a8;
+            --text-cyan: #00ffff;
+            --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-accent: linear-gradient(135deg, #00ffff 0%, #00ff9f 100%);
-            --shadow-glow: 0 0 20px rgba(0, 255, 255, 0.3);
-            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* Light theme variables */
-        [data-theme="light"] {
-            --primary-bg: #f8fafc;
-            --secondary-bg: #ffffff;
-            --tertiary-bg: #f1f5f9;
-            --accent-primary: #0ea5e9;
-            --accent-secondary: #06b6d4;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #64748b;
-            --border-primary: rgba(0, 0, 0, 0.1);
-            --border-accent: rgba(14, 165, 233, 0.3);
-            --glass-bg: rgba(255, 255, 255, 0.8);
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --success: #059669;
-            --warning: #d97706;
-            --error: #dc2626;
-            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-accent: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
-            --shadow-glow: 0 0 20px rgba(14, 165, 233, 0.3);
-            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
+        /* Dynamic background colors for phases */
+        .bg-phase-green { background: linear-gradient(135deg, #0f4c3a 0%, #1a5f4a 100%); }
+        .bg-phase-cyan { background: linear-gradient(135deg, #0a3a4a 0%, #1a4a5a 100%); }
+        .bg-phase-blue { background: linear-gradient(135deg, #1a2d5a 0%, #2a3d6a 100%); }
+        .bg-phase-purple { background: linear-gradient(135deg, #3a1a5a 0%, #4a2a6a 100%); }
+        .bg-phase-pink { background: linear-gradient(135deg, #5a1a3a 0%, #6a2a4a 100%); }
+        .bg-phase-orange { background: linear-gradient(135deg, #5a3a1a 0%, #6a4a2a 100%); }
 
         /* Base Styles */
         * {
@@ -68,10 +47,11 @@
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             min-height: 100dvh; /* Dynamic viewport height for mobile */
-            color: var(--text-primary);
+            color: var(--text-white);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            transition: background 0.8s ease-in-out;
         }
 
         /* Scrollbar Styling */
@@ -436,62 +416,54 @@
     </style>
 </head>
 <body class="font-sans antialiased" data-theme="dark">
-    <!-- Theme Toggle Button -->
-    <button id="theme-toggle" class="fab focus-ring" title="Canviar tema">
-        <i id="theme-icon" class="fas fa-sun text-lg"></i>
-    </button>
 
-    <!-- Settings FAB -->
-    <button id="settings-fab" class="fixed bottom-24 right-6 w-12 h-12 rounded-full glass border border-white/20 flex items-center justify-center z-50 hover:scale-105 transition-transform" title="Configuració">
-        <i class="fas fa-cog text-accent-primary"></i>
-    </button>
 
-    <!-- 1. ENHANCED ONBOARDING MODAL -->
-    <div id="onboarding-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300">
-        <div class="glass rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/20">
+    <!-- 1. FIXED ONBOARDING MODAL -->
+    <div id="onboarding-modal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border-2 border-gray-200">
             <div class="text-center mb-6">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 flex items-center justify-center">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
                     <i class="fas fa-music text-white text-2xl"></i>
                 </div>
-                <h2 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent mb-2">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
                     Music Study Protocol
                 </h2>
-                <p class="text-text-secondary text-sm">Optimitza la teva pràctica musical</p>
+                <p class="text-gray-600 text-sm">Optimitza la teva pràctica musical</p>
             </div>
             
             <div class="space-y-4 mb-8">
                 <div class="flex items-start space-x-3">
-                    <div class="w-6 h-6 rounded-full bg-cyan-400/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <i class="fas fa-guitar text-cyan-400 text-xs"></i>
+                    <div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fas fa-guitar text-blue-600 text-xs"></i>
                     </div>
                     <div>
-                        <h3 class="font-medium text-text-primary">Prepara l'Instrument</h3>
-                        <p class="text-sm text-text-secondary">Assegura't que estigui afinat i a punt</p>
+                        <h3 class="font-medium text-gray-800">Prepara l'Instrument</h3>
+                        <p class="text-sm text-gray-600">Assegura't que estigui afinat i a punt</p>
                     </div>
                 </div>
                 
                 <div class="flex items-start space-x-3">
-                    <div class="w-6 h-6 rounded-full bg-emerald-400/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <i class="fas fa-clipboard-list text-emerald-400 text-xs"></i>
+                    <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fas fa-clipboard-list text-green-600 text-xs"></i>
                     </div>
                     <div>
-                        <h3 class="font-medium text-text-primary">Organitza</h3>
-                        <p class="text-sm text-text-secondary">Partitures, llapis i paper de notes a mà</p>
+                        <h3 class="font-medium text-gray-800">Organitza</h3>
+                        <p class="text-sm text-gray-600">Partitures, llapis i paper de notes a mà</p>
                     </div>
                 </div>
                 
                 <div class="flex items-start space-x-3">
-                    <div class="w-6 h-6 rounded-full bg-purple-400/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <i class="fas fa-lungs text-purple-400 text-xs"></i>
+                    <div class="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fas fa-lungs text-purple-600 text-xs"></i>
                     </div>
                     <div>
-                        <h3 class="font-medium text-text-primary">Respiració</h3>
-                        <p class="text-sm text-text-secondary">Tres respiracions profundes per centrar-te</p>
+                        <h3 class="font-medium text-gray-800">Respiració</h3>
+                        <p class="text-sm text-gray-600">Tres respiracions profundes per centrar-te</p>
                     </div>
                 </div>
             </div>
 
-            <button onclick="closeOnboardingModal()" class="btn-primary w-full py-4 text-lg font-semibold focus-ring">
+            <button onclick="closeOnboardingModal()" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg">
                 <i class="fas fa-play mr-2"></i>
                 Començar el Protocol
             </button>
@@ -600,60 +572,25 @@
     <!-- 3. MAIN CONTAINER (Enhanced Mobile-First) -->
     <div class="flex flex-col min-h-screen">
         
-        <!-- ENHANCED HEADER -->
-        <header class="container-mobile mx-auto px-4 py-4">
-            <div class="glass rounded-2xl p-4 lg:p-6 border border-white/20">
-                <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
-                    
-                    <!-- TIME METRICS -->
-                    <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
-                        <div class="text-center">
-                            <div class="text-xs font-medium text-text-secondary uppercase tracking-wider">Hora Actual</div>
-                            <div id="current-time-display" class="text-lg font-bold text-text-primary text-display">00:00:00</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-xs font-medium text-text-secondary uppercase tracking-wider">Temps Dedicat</div>
-                            <div id="total-time-display" class="text-lg font-bold text-text-primary text-display">00:00:00</div>
-                        </div>
+        <!-- SIMPLIFIED HEADER -->
+        <header class="container-mobile mx-auto px-4 py-6">
+            <div class="text-center">
+                <h1 class="text-2xl lg:text-4xl font-bold text-white mb-2 tracking-wide">
+                    Music Study Protocol
+                </h1>
+                <div class="flex items-center justify-center space-x-6 text-sm">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-clock text-cyan-400"></i>
+                        <span id="current-time-display" class="text-white font-mono">00:00:00</span>
                     </div>
-
-                    <!-- MAIN TITLE -->
-                    <div class="text-center">
-                        <h1 class="text-xl lg:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
-                            Music Study Protocol
-                        </h1>
-                        <div class="flex items-center justify-center space-x-2 mt-1">
-                            <div class="w-2 h-2 rounded-full bg-accent-primary animate-pulse"></div>
-                            <span id="protocol-status-light" class="text-xs font-medium text-success uppercase tracking-wider">Preparat</span>
-                        </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
+                        <span id="protocol-status-light" class="text-cyan-400 font-medium uppercase tracking-wider">Preparat</span>
                     </div>
-                    
-                    <!-- ROUTINE SELECTOR -->
-                    <div class="dropdown">
-                        <button id="routine-selector" class="btn-secondary px-4 py-2 flex items-center space-x-2 focus-ring">
-                            <i class="fas fa-list text-sm"></i>
-                            <span class="text-sm">Rutina: <span id="current-routine-name">Per Defecte</span></span>
-                            <i class="fas fa-chevron-down text-xs"></i>
-                        </button>
-                        <div class="dropdown-content" id="routine-dropdown">
-                            <div class="p-2 space-y-1">
-                                <button class="routine-option w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm" data-routine="default">
-                                    <i class="fas fa-music mr-2"></i>Rutina Per Defecte
-                                </button>
-                                <button class="routine-option w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm" data-routine="beginner">
-                                    <i class="fas fa-seedling mr-2"></i>Principiant (45 min)
-                                </button>
-                                <button class="routine-option w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm" data-routine="advanced">
-                                    <i class="fas fa-crown mr-2"></i>Avançat (90 min)
-                                </button>
-                                <hr class="border-white/20 my-2">
-                                <button id="create-routine-btn" class="w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm text-accent-primary">
-                                    <i class="fas fa-plus mr-2"></i>Crear Nova Rutina
-                                </button>
-                            </div>
-                        </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-hourglass-half text-cyan-400"></i>
+                        <span id="total-time-display" class="text-white font-mono">00:00:00</span>
                     </div>
-
                 </div>
             </div>
         </header>
@@ -662,52 +599,43 @@
         <main class="flex-grow flex flex-col items-center justify-center container-mobile mx-auto px-4 py-8">
 
             <!-- PHASE INFORMATION -->
-            <div class="text-center mb-8 max-w-2xl w-full">
-                <div class="glass rounded-2xl p-6 border border-white/20">
-                    <!-- Group Title -->
-                    <h3 id="group-titol" class="text-sm font-medium text-text-secondary uppercase tracking-wider mb-2"></h3>
-                    <!-- Phase Title -->
-                    <h2 id="fase-titol" class="text-2xl lg:text-3xl font-bold text-accent-primary mb-3 leading-tight">
-                        Preparat per Començar
-                    </h2>
-                    <!-- Phase Description -->
-                    <div id="fase-descripcio" class="text-text-secondary">
-                        <p class="text-base mb-2">Utilitza el seqüenciador inferior per triar un bloc, i premeu Play per iniciar la rutina.</p>
-                        <div class="flex items-center justify-center space-x-4 text-sm">
-                            <span class="flex items-center space-x-1">
-                                <i class="fas fa-drum text-accent-primary text-xs"></i>
-                                <span id="bpm-display">BPM: N/A</span>
-                            </span>
-                            <span class="flex items-center space-x-1">
-                                <i class="fas fa-clock text-accent-primary text-xs"></i>
-                                <span id="phase-duration">Durada: --</span>
-                            </span>
-                        </div>
+            <div class="text-center mb-8 max-w-3xl w-full">
+                <!-- Group Title -->
+                <h3 id="group-titol" class="text-sm font-medium text-cyan-400 uppercase tracking-wider mb-2"></h3>
+                <!-- Phase Title -->
+                <h2 id="fase-titol" class="text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
+                    Preparat per Començar
+                </h2>
+                <!-- Phase Description -->
+                <div id="fase-descripcio" class="text-gray-300 max-w-2xl mx-auto">
+                    <p class="text-lg mb-3">Utilitza el seqüenciador inferior per triar un bloc, i premeu Play per iniciar la rutina.</p>
+                    <div class="flex items-center justify-center space-x-6 text-sm text-cyan-400">
+                        <span class="flex items-center space-x-2">
+                            <i class="fas fa-drum"></i>
+                            <span id="bpm-display">BPM: N/A</span>
+                        </span>
+                        <span class="flex items-center space-x-2">
+                            <i class="fas fa-clock"></i>
+                            <span id="phase-duration">Durada: --</span>
+                        </span>
                     </div>
                 </div>
             </div>
             
-            <!-- TIMER CIRCLE -->
+            <!-- SIMPLIFIED TIMER DISPLAY -->
             <div class="relative mb-8">
-                <!-- Enhanced SVG Progress Circle -->
-                <svg id="progress-svg" class="w-64 h-64 lg:w-80 lg:h-80 transform -rotate-90" viewBox="0 0 120 120">
+                <!-- Simple Progress Circle -->
+                <svg id="progress-svg" class="w-48 h-48 lg:w-64 lg:h-64 transform -rotate-90" viewBox="0 0 120 120">
                     <!-- Background circle -->
-                    <circle class="text-text-muted/20 stroke-current" stroke-width="4" cx="60" cy="60" r="54" fill="transparent"></circle>
+                    <circle class="stroke-white/20" stroke-width="3" cx="60" cy="60" r="54" fill="transparent"></circle>
                     <!-- Progress circle -->
-                    <circle id="progress-circle" class="progress-ring__circle stroke-current text-accent-primary" stroke-width="4" stroke-linecap="round" cx="60" cy="60" r="54" fill="transparent" stroke-dasharray="339" stroke-dashoffset="339"></circle>
-                    <!-- Pulse circle for active state -->
-                    <circle id="pulse-circle" class="opacity-30 stroke-current text-accent-primary hidden" stroke-width="2" cx="60" cy="60" r="56" fill="transparent" stroke-dasharray="4 4">
-                        <animateTransform attributeName="transform" type="rotate" values="0 60 60;360 60 60" dur="3s" repeatCount="indefinite"/>
-                    </circle>
+                    <circle id="progress-circle" class="progress-ring__circle stroke-current stroke-cyan-400 transition-all duration-500" stroke-width="3" stroke-linecap="round" cx="60" cy="60" r="54" fill="transparent" stroke-dasharray="339" stroke-dashoffset="339"></circle>
                 </svg>
 
                 <!-- Timer Display -->
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
-                    <div id="time-display" class="text-5xl lg:text-6xl font-light text-text-primary text-display leading-none">00:00</div>
-                    <div class="flex items-center space-x-2 mt-3">
-                        <div id="timer-status-indicator" class="w-2 h-2 rounded-full bg-text-muted"></div>
-                        <div id="timer-status" class="text-sm text-text-secondary uppercase tracking-wide">Inactiu</div>
-                    </div>
+                    <div id="time-display" class="text-4xl lg:text-5xl font-light text-white font-mono leading-none">00:00</div>
+                    <div id="timer-status" class="text-sm text-cyan-400 uppercase tracking-wide mt-2">Inactiu</div>
                 </div>
             </div>
 
@@ -774,46 +702,7 @@
         </div>
     </aside>
 
-    <!-- CUSTOM ROUTINE MODAL -->
-    <div id="custom-routine-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/20">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-bold text-text-primary">Crear Rutina Personalitzada</h2>
-                <button id="close-routine-modal" class="btn-secondary w-8 h-8 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="space-y-6">
-                <!-- Routine Name -->
-                <div>
-                    <label class="block text-sm font-medium text-text-primary mb-2">Nom de la Rutina</label>
-                    <input type="text" id="routine-name" class="w-full glass rounded-lg border border-white/20 px-3 py-2 text-text-primary focus-ring" placeholder="La meva rutina personalitzada">
-                </div>
-                
-                <!-- Phase List -->
-                <div>
-                    <label class="block text-sm font-medium text-text-primary mb-2">Fases</label>
-                    <div id="custom-phases-list" class="space-y-3">
-                        <!-- Custom phases will be added here -->
-                    </div>
-                    <button id="add-phase-btn" class="btn-secondary mt-3 px-4 py-2 text-sm">
-                        <i class="fas fa-plus mr-2"></i>Afegir Fase
-                    </button>
-                </div>
-                
-                <!-- Actions -->
-                <div class="flex space-x-3 pt-4 border-t border-white/20">
-                    <button id="save-routine-btn" class="btn-primary px-6 py-2 flex-1">
-                        <i class="fas fa-save mr-2"></i>Guardar Rutina
-                    </button>
-                    <button id="cancel-routine-btn" class="btn-secondary px-6 py-2">
-                        Cancel·lar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- FOOTER -->
     <footer class="glass border-t border-white/20 backdrop-blur-xl">
@@ -827,226 +716,121 @@
 
     <script>
         // =======================================================
-        // 1. ENHANCED DATA STRUCTURE & ROUTINE MANAGEMENT
+        // 1. STUDY PHASES DATA (Based on original CSV structure)
         // =======================================================
 
-        // Default routine data (enhanced from original CSV)
-        const DEFAULT_ROUTINE = {
-            id: 'default',
-            name: 'Rutina Per Defecte',
-            description: 'Rutina completa de 75 minuts basada en el protocol estàndard',
-            totalTime: 75 * 60, // 75 minutes
-            phases: [
-                // I. Escalfament i Tècnica (Grup)
-                {
-                    id: "I",
-                    code: "I",
-                    title: "I. Escalfament i Tècnica",
-                    duration: 20 * 60,
-                    description: "Objectiu: Preparar el cos, la ment i l'instrument.",
-                    bpm: null,
-                    isGroup: true,
-                    color: { main: "gray", text: "text-gray-400", bg: "bg-gray-900" }
-                },
-                {
-                    id: "I.1",
-                    code: "I.1",
-                    title: "Preparació i So Fonamental",
-                    duration: 5 * 60,
-                    description: "Estiraments lleugers i concentració. Toca notes llargues per centrar el teu so, fes exercicis de digitació per connectar amb l'instrument.",
-                    bpm: "Focus en qualitat del so i respiració",
-                    isGroup: false,
-                    color: { main: "emerald", text: "text-emerald-400", bg: "bg-emerald-900/50" },
-                    icon: "fas fa-leaf"
-                },
-                {
-                    id: "I.2",
-                    code: "I.2", 
-                    title: "Tècnica Diària",
-                    duration: 15 * 60,
-                    description: "Practica la tècnica amb uniformitat i precisió. ESCALES - ARPEGIS - ACORDS - ESTUDIS",
-                    bpm: "Inici: 60-80 bpm → Objectiu: 100-120 bpm",
-                    isGroup: false,
-                    color: { main: "green", text: "text-green-400", bg: "bg-green-900/50" },
-                    icon: "fas fa-dumbbell"
-                },
-                // II. Treball del Repertori (Grup)
-                {
-                    id: "II",
-                    code: "II",
-                    title: "II. Treball del Repertori",
-                    duration: 40 * 60,
-                    description: "Objectiu: Abordar les obres i resoldre els problemes tècnics i musicals.",
-                    bpm: null,
-                    isGroup: true,
-                    color: { main: "gray", text: "text-gray-400", bg: "bg-gray-900" }
-                },
-                {
-                    id: "II.1",
-                    code: "II.1",
-                    title: "Repàs de la peça principal",
-                    duration: 10 * 60,
-                    description: "Toca la peça o fragment que ja domines per guanyar confiança i musicalitat. Recupera el que has estudiat les darreres sessions",
-                    bpm: "Al tempo indicat a la partitura",
-                    isGroup: false,
-                    color: { main: "cyan", text: "text-cyan-400", bg: "bg-cyan-900/50" },
-                    icon: "fas fa-redo"
-                },
-                {
-                    id: "II.2",
-                    code: "II.2",
-                    title: "Objectiu Principal",
-                    duration: 25 * 60,
-                    description: "Aïlla els errors i treballa-los amb estratègies (tempo lent, per compassos, format obstinat).",
-                    bpm: "40-60 bpm → 75% del tempo real",
-                    isGroup: false,
-                    color: { main: "blue", text: "text-blue-400", bg: "bg-blue-900/50" },
-                    icon: "fas fa-target"
-                },
-                {
-                    id: "II.3",
-                    code: "II.3",
-                    title: "Simulació",
-                    duration: 5 * 60,
-                    description: "Toca el fragment estudiat sense aturar-te (encara que fallis). Simula una situació d'actuació.",
-                    bpm: "80-100% del tempo real",
-                    isGroup: false,
-                    color: { main: "indigo", text: "text-indigo-400", bg: "bg-indigo-900/50" },
-                    icon: "fas fa-theater-masks"
-                },
-                // III. Desenvolupament i Planificació (Grup)
-                {
-                    id: "III",
-                    code: "III",
-                    title: "III. Desenvolupament i Planificació",
-                    duration: 15 * 60,
-                    description: "Objectiu: Desenvolupar l'oïda i organitzar.",
-                    bpm: null,
-                    isGroup: true,
-                    color: { main: "gray", text: "text-gray-400", bg: "bg-gray-900" }
-                },
-                {
-                    id: "III.1",
-                    code: "III.1",
-                    title: "Desenvolupament",
-                    duration: 10 * 60,
-                    description: "Exercicis de lectura a vista, improvisació, treure frases d'oïda.",
-                    bpm: "No s'usa",
-                    isGroup: false,
-                    color: { main: "purple", text: "text-purple-400", bg: "bg-purple-900/50" },
-                    icon: "fas fa-brain"
-                },
-                {
-                    id: "III.2",
-                    code: "III.2",
-                    title: "Planificació",
-                    duration: 5 * 60,
-                    description: "Dedica 5 minuts a pensar que cal millorar per a la pròxima sessió d'estudi.",
-                    bpm: "No s'usa",
-                    isGroup: false,
-                    color: { main: "pink", text: "text-pink-400", bg: "bg-pink-900/50" },
-                    icon: "fas fa-clipboard-check"
-                }
-            ]
-        };
-
-        // Additional routine templates
-        const ROUTINE_TEMPLATES = {
-            beginner: {
-                id: 'beginner',
-                name: 'Principiant',
-                description: 'Rutina simplificada de 45 minuts per a principiants',
-                totalTime: 45 * 60,
-                phases: [
-                    {
-                        id: "B.1",
-                        code: "B.1",
-                        title: "Escalfament",
-                        duration: 10 * 60,
-                        description: "Exercicis bàsics i preparació de l'instrument",
-                        bpm: "60-80 bpm",
-                        isGroup: false,
-                        color: { main: "green", text: "text-green-400", bg: "bg-green-900/50" },
-                        icon: "fas fa-seedling"
-                    },
-                    {
-                        id: "B.2",
-                        code: "B.2",
-                        title: "Tècnica Bàsica",
-                        duration: 20 * 60,
-                        description: "Escales simples i exercicis fonamentals",
-                        bpm: "60-90 bpm",
-                        isGroup: false,
-                        color: { main: "blue", text: "text-blue-400", bg: "bg-blue-900/50" },
-                        icon: "fas fa-graduation-cap"
-                    },
-                    {
-                        id: "B.3",
-                        code: "B.3",
-                        title: "Repertori Simple",
-                        duration: 15 * 60,
-                        description: "Peces senzilles i lectura bàsica",
-                        bpm: "Tempo còmode",
-                        isGroup: false,
-                        color: { main: "purple", text: "text-purple-400", bg: "bg-purple-900/50" },
-                        icon: "fas fa-music"
-                    }
-                ]
+        const STUDY_PHASES = [
+            // I. Escalfament i Tècnica (Grup)
+            {
+                code: "I",
+                title: "I. Escalfament i Tècnica",
+                duration: 20 * 60, // 20 minutes
+                description: "Objectiu: Preparar el cos, la ment i l'instrument.",
+                bpm: "",
+                isGroup: true,
+                backgroundClass: "bg-phase-green"
             },
-            advanced: {
-                id: 'advanced',
-                name: 'Avançat',
-                description: 'Rutina intensiva de 90 minuts per a músics avançats',
-                totalTime: 90 * 60,
-                phases: [
-                    {
-                        id: "A.1",
-                        code: "A.1",
-                        title: "Escalfament Tècnic",
-                        duration: 15 * 60,
-                        description: "Exercicis avançats de digitació i agilitat",
-                        bpm: "80-120 bpm",
-                        isGroup: false,
-                        color: { main: "red", text: "text-red-400", bg: "bg-red-900/50" },
-                        icon: "fas fa-fire"
-                    },
-                    {
-                        id: "A.2",
-                        code: "A.2",
-                        title: "Estudi Intensiu",
-                        duration: 50 * 60,
-                        description: "Treball profund del repertori i tècniques avançades",
-                        bpm: "Variable segons repertori",
-                        isGroup: false,
-                        color: { main: "orange", text: "text-orange-400", bg: "bg-orange-900/50" },
-                        icon: "fas fa-crown"
-                    },
-                    {
-                        id: "A.3",
-                        code: "A.3",
-                        title: "Perfeccionament",
-                        duration: 25 * 60,
-                        description: "Refinament musical i interpretació",
-                        bpm: "Tempo final",
-                        isGroup: false,
-                        color: { main: "violet", text: "text-violet-400", bg: "bg-violet-900/50" },
-                        icon: "fas fa-gem"
-                    }
-                ]
+            // Subfases del Grup I
+            {
+                code: "I.1",
+                title: "Preparació i So Fonamental",
+                duration: 5 * 60, // 5 minutes
+                description: "Estiraments lleugers i concentració. Toca notes llargues per centrar el teu so, fes exercicis de digitació per connectar amb l'instrument.",
+                bpm: "Focus en la qualitat del so i la respiració",
+                isGroup: false,
+                backgroundClass: "bg-phase-green",
+                icon: "fas fa-leaf"
+            },
+            {
+                code: "I.2",
+                title: "Tècnica Diària (Escales/Arpegis)",
+                duration: 15 * 60, // 15 minutes
+                description: "Practica la tècnica amb uniformitat i precisió. ESCALES - ARPEGIS - ACORDS - ESTUDIS",
+                bpm: "Inici: 60-80 bpm → Objectiu: 100-120 bpm",
+                isGroup: false,
+                backgroundClass: "bg-phase-green",
+                icon: "fas fa-dumbbell"
+            },
+            // II. Treball del Repertori (Grup)
+            {
+                code: "II",
+                title: "II. Treball del Repertori",
+                duration: 40 * 60, // 40 minutes
+                description: "Objectiu: Abordar les obres i resoldre els problemes tècnics i musicals.",
+                bpm: "",
+                isGroup: true,
+                backgroundClass: "bg-phase-cyan"
+            },
+            // Subfases del Grup II
+            {
+                code: "II.1",
+                title: "Repàs de la peça principal",
+                duration: 10 * 60, // 10 minutes
+                description: "Toca la peça o fragment que ja domines per guanyar confiança i musicalitat. Recupera el que has estudiat les darreres sessions",
+                bpm: "Al tempo indicat a la partitura",
+                isGroup: false,
+                backgroundClass: "bg-phase-cyan",
+                icon: "fas fa-redo"
+            },
+            {
+                code: "II.2",
+                title: "Objectiu Principal (Passatges Difícils)",
+                duration: 25 * 60, // 25 minutes
+                description: "Aïlla els errors i treballa-los amb estratègies (tempo lent, per compassos, format obstinat).",
+                bpm: "40-60 bpm → 75% del tempo real",
+                isGroup: false,
+                backgroundClass: "bg-phase-blue",
+                icon: "fas fa-target"
+            },
+            {
+                code: "II.3",
+                title: "Simulació",
+                duration: 5 * 60, // 5 minutes
+                description: "Toca el fragment estudiat sense aturar-te (encara que fallis). Simula una situació d'actuació.",
+                bpm: "80-100% del tempo real",
+                isGroup: false,
+                backgroundClass: "bg-phase-blue",
+                icon: "fas fa-theater-masks"
+            },
+            // III. Desenvolupament i Planificació (Grup)
+            {
+                code: "III",
+                title: "III. Desenvolupament i Planificació",
+                duration: 15 * 60, // 15 minutes
+                description: "Objectiu: Desenvolupar l'oïda i organitzar.",
+                bpm: "",
+                isGroup: true,
+                backgroundClass: "bg-phase-purple"
+            },
+            // Subfases del Grup III
+            {
+                code: "III.1",
+                title: "Desenvolupament",
+                duration: 10 * 60, // 10 minutes
+                description: "Exercicis de lectura a vista senzilla, improvisació sobre un acord/pedal/tonalitat/escala, treure frases/riffs/cançons d'oïda.",
+                bpm: "Lliure",
+                isGroup: false,
+                backgroundClass: "bg-phase-purple",
+                icon: "fas fa-brain"
+            },
+            {
+                code: "III.2",
+                title: "Planificació",
+                duration: 5 * 60, // 5 minutes
+                description: "Dedica 5 minuts a pensar que cal millorar per a la pròxima sessió d'estudi i que faràs de forma ordenada.",
+                bpm: "No s'usa",
+                isGroup: false,
+                backgroundClass: "bg-phase-pink",
+                icon: "fas fa-clipboard-check"
             }
-        };
+        ];
 
-        // Current routine and state
-        let currentRoutine = DEFAULT_ROUTINE;
+        // Current state
         let currentPhaseIndex = 0;
         let timeLeft = 0;
         let isRunning = false;
         let interval;
         let totalSecondsDedicated = 0;
-
-        // Theme management
-        let currentTheme = localStorage.getItem('music-study-theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', currentTheme);
 
         // Timer and UI elements
         const timeDisplay = document.getElementById('time-display');
@@ -1170,12 +954,11 @@
         // =======================================================
 
         function getCurrentPhase() {
-            return currentRoutine.phases.find(phase => !phase.isGroup && 
-                currentRoutine.phases.indexOf(phase) >= currentPhaseIndex);
+            return STUDY_PHASES[currentPhaseIndex];
         }
 
         function getExecutablePhases() {
-            return currentRoutine.phases.filter(phase => !phase.isGroup);
+            return STUDY_PHASES.filter(phase => !phase.isGroup);
         }
 
         function updateClocks() {
@@ -1186,12 +969,12 @@
 
         function updateUI() {
             const executablePhases = getExecutablePhases();
-            const currentExecutableIndex = executablePhases.findIndex(phase => 
-                currentRoutine.phases.indexOf(phase) === currentPhaseIndex);
+            const currentExecutableIndex = executablePhases.findIndex((phase, index) => 
+                STUDY_PHASES.indexOf(phase) === currentPhaseIndex);
             
             if (currentExecutableIndex === -1) return;
             
-            const phase = executablePhases[currentExecutableIndex];
+            const phase = STUDY_PHASES[currentPhaseIndex];
             const percent = timeLeft / phase.duration;
             const offset = totalCircleLength * (1 - percent);
 
@@ -1202,26 +985,26 @@
             // Update phase information
             const groupPhase = findGroupForPhase(currentPhaseIndex);
             groupTitle.textContent = groupPhase ? groupPhase.title : '';
-            phaseTitle.textContent = phase.title;
+            phaseTitle.textContent = phase.title.replace(/^[IVX]+\.\d*\s*/, ''); // Remove phase number prefix
             
-            // Update description with enhanced formatting
+            // Update description
             const descriptionHTML = `
-                <p class="text-base mb-3">${phase.description}</p>
-                <div class="flex items-center justify-center space-x-4 text-sm">
-                    <span class="flex items-center space-x-1">
-                        <i class="fas fa-drum text-accent-primary text-xs"></i>
+                <p class="text-lg mb-3">${phase.description}</p>
+                <div class="flex items-center justify-center space-x-6 text-sm text-cyan-400">
+                    <span class="flex items-center space-x-2">
+                        <i class="fas fa-drum"></i>
                         <span>${phase.bpm || 'Lliure'}</span>
                     </span>
-                    <span class="flex items-center space-x-1">
-                        <i class="fas fa-clock text-accent-primary text-xs"></i>
+                    <span class="flex items-center space-x-2">
+                        <i class="fas fa-clock"></i>
                         <span>${Math.floor(phase.duration / 60)} min</span>
                     </span>
                 </div>
             `;
             phaseDescription.innerHTML = descriptionHTML;
 
-            // Update UI colors based on phase
-            updateUIColors(phase);
+            // Update background color
+            updateBackgroundColor(phase);
 
             // Update status
             updateStatus();
@@ -1238,6 +1021,29 @@
             if (timeLeft === 0 && isRunning) {
                 handlePhaseCompletion();
             }
+        }
+
+        function updateBackgroundColor(phase) {
+            // Remove existing background classes
+            document.body.classList.remove('bg-phase-green', 'bg-phase-cyan', 'bg-phase-blue', 'bg-phase-purple', 'bg-phase-pink', 'bg-phase-orange');
+            
+            // Add current phase background
+            if (phase.backgroundClass) {
+                document.body.classList.add(phase.backgroundClass);
+            }
+        }
+
+        function getExecutablePhases() {
+            return STUDY_PHASES.filter(phase => !phase.isGroup);
+        }
+
+        function findGroupForPhase(phaseIndex) {
+            for (let i = phaseIndex; i >= 0; i--) {
+                if (STUDY_PHASES[i].isGroup) {
+                    return STUDY_PHASES[i];
+                }
+            }
+            return null;
         }
 
         function updateUIColors(phase) {
@@ -1266,8 +1072,8 @@
 
         function findGroupForPhase(phaseIndex) {
             for (let i = phaseIndex; i >= 0; i--) {
-                if (currentRoutine.phases[i].isGroup) {
-                    return currentRoutine.phases[i];
+                if (STUDY_PHASES[i].isGroup) {
+                    return STUDY_PHASES[i];
                 }
             }
             return null;
@@ -1306,7 +1112,7 @@
             const executablePhases = getExecutablePhases();
             if (executablePhases.length > 0) {
                 const currentExecutableIndex = executablePhases.findIndex(phase => 
-                    currentRoutine.phases.indexOf(phase) === currentPhaseIndex);
+                    STUDY_PHASES.indexOf(phase) === currentPhaseIndex);
                 if (currentExecutableIndex !== -1) {
                     timeLeft = executablePhases[currentExecutableIndex].duration;
                     updateUI();
@@ -1323,12 +1129,12 @@
             
             const executablePhases = getExecutablePhases();
             const currentExecutableIndex = executablePhases.findIndex(phase => 
-                currentRoutine.phases.indexOf(phase) === currentPhaseIndex);
+                STUDY_PHASES.indexOf(phase) === currentPhaseIndex);
             
             if (currentExecutableIndex < executablePhases.length - 1) {
                 // Move to next executable phase
                 const nextPhase = executablePhases[currentExecutableIndex + 1];
-                currentPhaseIndex = currentRoutine.phases.indexOf(nextPhase);
+                currentPhaseIndex = STUDY_PHASES.indexOf(nextPhase);
                 timeLeft = nextPhase.duration;
                 
                 showNotification(
@@ -1737,12 +1543,12 @@
         function buildPhaseSelector() {
             faseSelectorContainer.innerHTML = '';
             
-            currentRoutine.phases.forEach((phase, index) => {
+            STUDY_PHASES.forEach((phase, index) => {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'phase-card-wrapper flex-shrink-0';
 
                 const card = document.createElement('div');
-                card.className = 'phase-card glass rounded-xl border border-white/20 transition-all duration-300 cursor-pointer hover:border-accent-primary/50';
+                card.className = 'phase-card bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 transition-all duration-300 cursor-pointer hover:border-cyan-400/50 hover:bg-white/15';
                 card.setAttribute('data-index', index);
                 
                 const timeMin = Math.floor(phase.duration / 60);
@@ -1751,11 +1557,11 @@
                     // Group phase card
                     card.innerHTML = `
                         <div class="p-4 text-center opacity-70">
-                            <div class="w-8 h-8 mx-auto mb-2 rounded-full bg-text-muted/20 flex items-center justify-center">
-                                <i class="fas fa-folder text-text-muted text-sm"></i>
+                            <div class="w-8 h-8 mx-auto mb-2 rounded-full bg-white/20 flex items-center justify-center">
+                                <i class="fas fa-folder text-white text-sm"></i>
                             </div>
-                            <h4 class="text-xs font-medium text-text-muted uppercase tracking-wider mb-1">${phase.code} - ${timeMin} min total</h4>
-                            <p class="text-sm font-semibold text-text-secondary">${phase.title.split('.').slice(1).join('.').trim()}</p>
+                            <h4 class="text-xs font-medium text-white/60 uppercase tracking-wider mb-1">${phase.code} - ${timeMin} min total</h4>
+                            <p class="text-sm font-semibold text-white">${phase.title.split('.').slice(1).join('.').trim()}</p>
                         </div>
                     `;
                     card.classList.add('cursor-default');
@@ -1764,16 +1570,16 @@
                     card.innerHTML = `
                         <div class="p-4">
                             <div class="flex items-center justify-between mb-3">
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 flex items-center justify-center">
+                                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center">
                                     <i class="${phase.icon || 'fas fa-play'} text-white text-sm"></i>
                                 </div>
-                                <span class="text-xs font-medium text-text-secondary">${timeMin} min</span>
+                                <span class="text-xs font-medium text-cyan-400">${timeMin} min</span>
                             </div>
-                            <h4 class="text-sm font-semibold text-text-primary mb-2 leading-tight">${phase.title}</h4>
-                            <p class="text-xs text-text-secondary line-clamp-2">${phase.description.substring(0, 80)}...</p>
-                            <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-xs">
-                                <span class="text-text-muted">BPM: ${phase.bpm ? (phase.bpm.length > 15 ? phase.bpm.substring(0, 15) + '...' : phase.bpm) : 'Lliure'}</span>
-                                <span class="text-accent-primary font-medium">${phase.code}</span>
+                            <h4 class="text-sm font-semibold text-white mb-2 leading-tight">${phase.title.replace(/^[IVX]+\.\d*\s*/, '')}</h4>
+                            <p class="text-xs text-gray-300 line-clamp-2">${phase.description.substring(0, 60)}...</p>
+                            <div class="mt-3 pt-3 border-t border-white/20 flex items-center justify-between text-xs">
+                                <span class="text-gray-400">BPM: ${phase.bpm ? (phase.bpm.length > 12 ? phase.bpm.substring(0, 12) + '...' : phase.bpm) : 'Lliure'}</span>
+                                <span class="text-cyan-400 font-medium">${phase.code}</span>
                             </div>
                         </div>
                     `;
@@ -1790,11 +1596,11 @@
             const cards = faseSelectorContainer.querySelectorAll('.phase-card');
             
             cards.forEach((card, index) => {
-                const phase = currentRoutine.phases[index];
-                card.classList.remove('border-accent-primary', 'bg-accent-primary/10', 'border-white/20');
+                const phase = STUDY_PHASES[index];
+                card.classList.remove('border-cyan-400', 'bg-cyan-400/20', 'border-white/20');
                 
                 if (index === currentPhaseIndex && !phase.isGroup) {
-                    card.classList.add('border-accent-primary', 'bg-accent-primary/10');
+                    card.classList.add('border-cyan-400', 'bg-cyan-400/20');
                 } else {
                     card.classList.add('border-white/20');
                 }
@@ -1807,11 +1613,11 @@
             
             executablePhases.forEach((phase, index) => {
                 const dot = document.createElement('div');
-                const phaseIndex = currentRoutine.phases.indexOf(phase);
+                const phaseIndex = STUDY_PHASES.indexOf(phase);
                 
                 dot.className = `w-2 h-2 rounded-full transition-colors duration-300 ${
-                    phaseIndex === currentPhaseIndex ? 'bg-accent-primary' : 
-                    phaseIndex < currentPhaseIndex ? 'bg-success' : 'bg-text-muted/30'
+                    phaseIndex === currentPhaseIndex ? 'bg-cyan-400' : 
+                    phaseIndex < currentPhaseIndex ? 'bg-green-400' : 'bg-white/30'
                 }`;
                 
                 phaseProgressDots.appendChild(dot);
@@ -1819,7 +1625,7 @@
         }
 
         function changePhase(index) {
-            const phase = currentRoutine.phases[index];
+            const phase = STUDY_PHASES[index];
             if (!phase || phase.isGroup) return;
 
             pauseTimer();
@@ -1864,17 +1670,14 @@
                 return;
             }
             
-            currentRoutine = routine;
-            
             // Reset to first executable phase
             const executablePhases = getExecutablePhases();
             if (executablePhases.length > 0) {
-                currentPhaseIndex = currentRoutine.phases.indexOf(executablePhases[0]);
+                currentPhaseIndex = STUDY_PHASES.indexOf(executablePhases[0]);
                 timeLeft = executablePhases[0].duration;
             }
             
             // Update UI
-            document.getElementById('current-routine-name').textContent = routine.name;
             buildPhaseSelector();
             updateUI();
             
@@ -1977,20 +1780,20 @@
             nextBtn.addEventListener('click', () => {
                 const executablePhases = getExecutablePhases();
                 const currentIndex = executablePhases.findIndex(phase => 
-                    currentRoutine.phases.indexOf(phase) === currentPhaseIndex);
+                    STUDY_PHASES.indexOf(phase) === currentPhaseIndex);
                 if (currentIndex < executablePhases.length - 1) {
                     const nextPhase = executablePhases[currentIndex + 1];
-                    changePhase(currentRoutine.phases.indexOf(nextPhase));
+                    changePhase(STUDY_PHASES.indexOf(nextPhase));
                 }
             });
             
             prevBtn.addEventListener('click', () => {
                 const executablePhases = getExecutablePhases();
                 const currentIndex = executablePhases.findIndex(phase => 
-                    currentRoutine.phases.indexOf(phase) === currentPhaseIndex);
+                    STUDY_PHASES.indexOf(phase) === currentPhaseIndex);
                 if (currentIndex > 0) {
                     const prevPhase = executablePhases[currentIndex - 1];
-                    changePhase(currentRoutine.phases.indexOf(prevPhase));
+                    changePhase(STUDY_PHASES.indexOf(prevPhase));
                 }
             });
             
@@ -2142,7 +1945,7 @@
             // Initialize timer
             const executablePhases = getExecutablePhases();
             if (executablePhases.length > 0) {
-                currentPhaseIndex = currentRoutine.phases.indexOf(executablePhases[0]);
+                currentPhaseIndex = STUDY_PHASES.indexOf(executablePhases[0]);
                 timeLeft = executablePhases[0].duration;
             }
             
