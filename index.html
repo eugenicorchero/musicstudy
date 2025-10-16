@@ -413,7 +413,15 @@
             width: auto !important;
             height: auto !important;
             padding: 0.75rem !important;
+            min-width: 260px; /* prevent control overlap */
         }
+
+        /* Prevent overlaps in collapsed header */
+        #ms-metro-header { column-gap: 0.5rem; }
+        #ms-metro-header > div:first-child { flex-shrink: 0; } /* icon group */
+        #ms-metro-min { display: flex; align-items: center; gap: 0.5rem; justify-content: flex-end; flex: 1 1 auto; }
+        #ms-min-bpm { display: inline-block; min-width: 3ch; text-align: right; }
+        #ms-metro-toggle { margin-left: 0.5rem; flex-shrink: 0; }
 
         .ms-time-sig {
             font-family: 'JetBrains Mono', monospace;
@@ -543,7 +551,7 @@
                 <div class="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 flex items-center justify-center">
                     <i class="fas fa-drum text-white text-sm"></i>
                 </div>
-                <div>
+                <div id="ms-metro-titletext">
                     <h3 class="text-sm font-bold text-text-primary">Metrònom</h3>
                     <span id="ms-metro-state" class="text-xs text-text-secondary">INACTIU</span>
                 </div>
@@ -554,7 +562,6 @@
                     <span id="ms-min-bpm" class="text-sm font-bold text-accent-primary">100</span>
                     <span class="text-xs text-text-secondary">BPM</span>
                 </div>
-                <div id="ms-min-timesig" class="ms-time-sig">4/4</div>
                 <button id="ms-min-play-btn" class="btn-primary w-8 h-8 rounded-full flex items-center justify-center">
                     <i id="ms-min-play" class="fas fa-play text-xs"></i>
                     <i id="ms-min-pause" class="fas fa-pause text-xs hidden"></i>
@@ -1770,7 +1777,7 @@
             const stateLbl = document.getElementById('ms-metro-state');
             const minWrap = document.getElementById('ms-metro-min');
             const minBPM = document.getElementById('ms-min-bpm');
-            const minSig = document.getElementById('ms-min-timesig');
+            // simplified minimized view: no time signature label
             const minPlayBtn = document.getElementById('ms-min-play-btn');
             const minPlayIcon = document.getElementById('ms-min-play');
             const minPauseIcon = document.getElementById('ms-min-pause');
@@ -1920,7 +1927,6 @@
                 const [b, n] = sig.split('/').map(Number);
                 msTimeSig = { beats: b, note: n };
                 sigBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.sig === sig));
-                minSig.textContent = sig;
                 msCreateBeatIndicators();
                 if (msIsRunning) msBeatCount = 0;
             }
@@ -1931,12 +1937,17 @@
                     area.classList.add('ms-metro-minimized');
                     controls.classList.add('hidden');
                     minWrap.classList.remove('hidden');
+                    // hide title text when collapsed to reduce clutter
+                    const titleText = document.getElementById('ms-metro-titletext');
+                    if (titleText) titleText.classList.add('hidden');
                     toggleIcon.classList.add('rotate-180');
                     area.style.width = 'auto';
                 } else {
                     area.classList.remove('ms-metro-minimized');
                     controls.classList.remove('hidden');
                     minWrap.classList.add('hidden');
+                    const titleText = document.getElementById('ms-metro-titletext');
+                    if (titleText) titleText.classList.remove('hidden');
                     toggleIcon.classList.remove('rotate-180');
                     area.style.width = '320px';
                 }
