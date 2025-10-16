@@ -2,234 +2,742 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Music Study Protocol - Temporitzador i Metrònom Focus</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Configuració global del fons i la font */
-        body {
-            background-color: #0d0d1a; 
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.5s ease-in-out;
-            min-height: 100vh;
+    <style>
+        /* CSS Custom Properties for Theme Support */
+        :root {
+            --primary-bg: #0d0d1a;
+            --secondary-bg: #1a1a2e;
+            --tertiary-bg: #16213e;
+            --accent-primary: #00ffff;
+            --accent-secondary: #00ff9f;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-primary: rgba(255, 255, 255, 0.1);
+            --border-accent: rgba(0, 255, 255, 0.3);
+            --glass-bg: rgba(26, 26, 46, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #00ffff 0%, #00ff9f 100%);
+            --shadow-glow: 0 0 20px rgba(0, 255, 255, 0.3);
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
-        
-        /* Oculta la barra de desplaçament del cos, però permet-la a seccions específiques */
-        ::-webkit-scrollbar { display: none; }
-        
-        /* Estils del Cercle de Progrés (SVG) */
+
+        /* Light theme variables */
+        [data-theme="light"] {
+            --primary-bg: #f8fafc;
+            --secondary-bg: #ffffff;
+            --tertiary-bg: #f1f5f9;
+            --accent-primary: #0ea5e9;
+            --accent-secondary: #06b6d4;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-primary: rgba(0, 0, 0, 0.1);
+            --border-accent: rgba(14, 165, 233, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --success: #059669;
+            --warning: #d97706;
+            --error: #dc2626;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            --shadow-glow: 0 0 20px rgba(14, 165, 233, 0.3);
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Base Styles */
+        * {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background: var(--primary-bg);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            min-height: 100dvh; /* Dynamic viewport height for mobile */
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar { 
+            width: 6px; 
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track { 
+            background: var(--secondary-bg); 
+        }
+        ::-webkit-scrollbar-thumb { 
+            background: var(--accent-primary); 
+            border-radius: 3px; 
+        }
+        ::-webkit-scrollbar-thumb:hover { 
+            background: var(--accent-secondary); 
+        }
+
+        /* Glass morphism effect */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Progress Ring Animation */
         .progress-ring__circle {
-            transition: stroke-dashoffset 0.5s ease-in-out;
+            transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
+            filter: drop-shadow(0 0 8px currentColor);
         }
-        
-        /* Estil futurista per al slider (Accent: Cyan) */
+
+        /* Enhanced Button Styles */
+        .btn-primary {
+            background: var(--gradient-accent);
+            color: var(--primary-bg);
+            border: none;
+            border-radius: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-accent);
+            border-radius: 12px;
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-accent);
+            transform: translateY(-1px);
+        }
+
+        /* Enhanced Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--secondary-bg);
+            outline: none;
+            position: relative;
+        }
+
+        input[type=range]::-webkit-slider-track {
+            background: var(--secondary-bg);
+            height: 8px;
+            border-radius: 4px;
+        }
+
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 1rem; 
-            height: 1rem; 
+            appearance: none;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background: #00ffff; 
+            background: var(--gradient-accent);
             cursor: pointer;
-            box-shadow: 0 0 12px rgba(0, 255, 255, 0.8);
-            margin-top: -6px; 
-        }
-        input[type=range]::-moz-range-thumb {
-            width: 1rem; 
-            height: 1rem; 
-            border-radius: 50%;
-            background: #00ffff;
-            cursor: pointer;
-            box-shadow: 0 0 12px rgba(0, 255, 255, 0.8);
-        }
-        input[type=range] {
-            height: 6px;
-            background: #2a2a4a; 
+            box-shadow: 0 0 0 4px var(--glass-bg), 0 0 12px rgba(0, 255, 255, 0.6);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Estil per al Metrònom Minimitzat */
-        .metronom-minimized {
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 6px var(--glass-bg), 0 0 16px rgba(0, 255, 255, 0.8);
+        }
+
+        input[type=range]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+        }
+
+        /* Touch-optimized controls for mobile */
+        @media (max-width: 768px) {
+            .btn-primary, .btn-secondary {
+                min-height: 48px; /* Minimum touch target size */
+                min-width: 48px;
+            }
+            
+            input[type=range]::-webkit-slider-thumb {
+                width: 24px;
+                height: 24px;
+            }
+            
+            .phase-card {
+                min-height: 60px;
+                padding: 1rem;
+            }
+        }
+
+        /* Metronome minimized state */
+        .metronome-minimized {
             width: auto !important;
             height: auto !important;
-            padding: 0.5rem !important;
+            padding: 0.75rem !important;
         }
 
-        /* Estil per al Seqüenciador de Fases Inferior (Scroll horitzontal) */
-        #fase-selector-container {
+        /* Phase selector horizontal scroll */
+        .phase-selector-container {
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-        }
-        .fase-btn-wrapper {
-            /* Amplada mínima per mantenir la claredat dels títols llargs */
-            min-width: 18rem; 
-            scroll-snap-align: center;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
-        /* Millora de l'espaiat i la llegibilitat de les fases centrals */
-        #fase-titol {
-            line-height: 1.2;
+        .phase-selector-container::-webkit-scrollbar {
+            display: none;
         }
-        #fase-descripcio .bpm-text {
-            /* Text petit i monoespaiat per als BPM */
-            font-size: 0.75rem; 
+
+        .phase-card-wrapper {
+            min-width: 280px;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+        }
+
+        /* Improved text hierarchy */
+        .text-display {
+            font-family: 'JetBrains Mono', monospace;
+            font-feature-settings: 'tnum' 1;
+        }
+
+        /* Pulse animation for active states */
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+            }
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+
+        /* Loading spinner */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Improved focus states for accessibility */
+        *:focus {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+
+        .focus-ring:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Smooth transitions for theme switching */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Enhanced mobile responsiveness */
+        @media (max-width: 640px) {
+            .text-6xl { font-size: 3rem; }
+            .text-7xl { font-size: 3.5rem; }
+            
+            .container-mobile {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+        /* Swipe indicator */
+        .swipe-indicator {
+            position: relative;
+        }
+
+        .swipe-indicator::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 4px;
+            background: var(--accent-primary);
+            border-radius: 2px;
+            opacity: 0.6;
+        }
+
+        /* Floating action button */
+        .fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fab:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.6);
+        }
+
+        /* Custom dropdown styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-accent);
+            border-radius: 12px;
+            margin-top: 8px;
+            box-shadow: var(--shadow-soft);
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dropdown.active .dropdown-content {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        /* Time signature display */
+        .time-signature {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-accent);
+            border-radius: 8px;
+            padding: 0.5rem;
+            min-width: 48px;
+            text-align: center;
+        }
+
+        /* Beat visualization */
+        .beat-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            transition: all 0.1s ease;
+        }
+
+        .beat-indicator.active {
+            background: var(--accent-primary);
+            box-shadow: 0 0 12px var(--accent-primary);
+            transform: scale(1.3);
+        }
+
+        .beat-indicator.accent {
+            background: var(--accent-secondary);
+            box-shadow: 0 0 16px var(--accent-secondary);
+        }
+
+        /* Time signature button styles */
+        .time-sig-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-accent);
+            border-radius: 8px;
+            padding: 0.5rem;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .time-sig-btn:hover {
+            background: var(--border-accent);
+            color: var(--text-primary);
+        }
+
+        .time-sig-btn.active {
+            background: var(--accent-primary);
+            color: var(--primary-bg);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+        }
+
+        /* Line clamp utility */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Enhanced mobile touch targets */
+        @media (hover: none) {
+            .btn-primary:hover, .btn-secondary:hover {
+                transform: none;
+            }
+            
+            .btn-primary:active, .btn-secondary:active {
+                transform: scale(0.95);
+            }
         }
     </style>
 </head>
-<body class="flex flex-col font-sans antialiased transition-colors duration-500 text-gray-100">
+<body class="font-sans antialiased" data-theme="dark">
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="fab focus-ring" title="Canviar tema">
+        <i id="theme-icon" class="fas fa-sun text-lg"></i>
+    </button>
 
-    <!-- 1. POP-UP D'INICI (MODAL D'ONBOARDING) -->
-    <div id="onboarding-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
-        <div class="bg-gray-900 border border-cyan-400/50 rounded-xl p-8 max-w-lg w-full shadow-2xl shadow-cyan-500/10">
-            <h2 class="text-3xl font-extrabold text-cyan-400 mb-4 tracking-wider">PROTOCOL D'INICI DE PRÀCTICA</h2>
-            <p class="text-gray-300 mb-6">Abans de començar la teva rutina <b>Music Study Protocol</b>, assegura't que el teu entorn estigui optimitzat:</p>
+    <!-- Settings FAB -->
+    <button id="settings-fab" class="fixed bottom-24 right-6 w-12 h-12 rounded-full glass border border-white/20 flex items-center justify-center z-50 hover:scale-105 transition-transform" title="Configuració">
+        <i class="fas fa-cog text-accent-primary"></i>
+    </button>
+
+    <!-- 1. ENHANCED ONBOARDING MODAL -->
+    <div id="onboarding-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+        <div class="glass rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/20">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 flex items-center justify-center">
+                    <i class="fas fa-music text-white text-2xl"></i>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent mb-2">
+                    Music Study Protocol
+                </h2>
+                <p class="text-text-secondary text-sm">Optimitza la teva pràctica musical</p>
+            </div>
             
-            <ul class="space-y-3 text-sm text-gray-400 list-inside list-disc">
-                <li><b>Prepara l'Instrument</b>: A punt i afinat.</li>
-                <li><b>Organitza</b>: Partitures, llapis, goma i paper de notes a mà.</li>
-                <li><b>Respiració</b>: Fes tres respiracions profundes per centrar la teva ment.</li>
-            </ul>
+            <div class="space-y-4 mb-8">
+                <div class="flex items-start space-x-3">
+                    <div class="w-6 h-6 rounded-full bg-cyan-400/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fas fa-guitar text-cyan-400 text-xs"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-text-primary">Prepara l'Instrument</h3>
+                        <p class="text-sm text-text-secondary">Assegura't que estigui afinat i a punt</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-3">
+                    <div class="w-6 h-6 rounded-full bg-emerald-400/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fas fa-clipboard-list text-emerald-400 text-xs"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-text-primary">Organitza</h3>
+                        <p class="text-sm text-text-secondary">Partitures, llapis i paper de notes a mà</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-3">
+                    <div class="w-6 h-6 rounded-full bg-purple-400/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fas fa-lungs text-purple-400 text-xs"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-text-primary">Respiració</h3>
+                        <p class="text-sm text-text-secondary">Tres respiracions profundes per centrar-te</p>
+                    </div>
+                </div>
+            </div>
 
-            <button onclick="closeOnboardingModal()" class="mt-8 w-full py-3 bg-cyan-600 text-gray-900 font-bold rounded-lg hover:bg-cyan-500 transition duration-200 shadow-md shadow-cyan-500/30">
-                COMENÇAR EL PROTOCOL
+            <button onclick="closeOnboardingModal()" class="btn-primary w-full py-4 text-lg font-semibold focus-ring">
+                <i class="fas fa-play mr-2"></i>
+                Començar el Protocol
             </button>
         </div>
     </div>
 
-    <!-- 2. METRÒNOM (COMPONENT FLOTANT MINIMITZABLE) -->
-    <div id="metronome-area" class="fixed bottom-4 right-4 lg:right-8 p-3 w-64 bg-gray-900/90 border border-[#00ffff]/30 rounded-xl shadow-2xl shadow-[#00ffff]/10 z-20 backdrop-blur-sm transition-all duration-300">
+    <!-- 2. ENHANCED METRONOME (Advanced Features) -->
+    <div id="metronome-area" class="fixed bottom-4 right-4 lg:right-8 glass rounded-2xl shadow-2xl z-20 transition-all duration-300 border border-white/20" style="width: 320px;">
         
-        <!-- HEADER DEL METRÒNOM (Sempre visible, conté toggle i play/pause) -->
-        <div id="metronome-header" class="flex items-center justify-between pb-1 border-b border-gray-700/50 mb-2 cursor-pointer" onclick="toggleMetronomeCollapse()">
-            <div id="metronome-title-expanded" class="flex items-center space-x-2">
-                <h3 class="text-xs font-bold uppercase tracking-widest text-[#00ffff]">Metrònom</h3>
-                <span id="metronome-state" class="text-xs font-mono text-gray-500 border border-gray-700 rounded px-1 hidden lg:block">INACTIU</span>
+        <!-- METRONOME HEADER -->
+        <div id="metronome-header" class="flex items-center justify-between p-4 border-b border-white/10 cursor-pointer" onclick="toggleMetronomeCollapse()">
+            <div id="metronome-title-expanded" class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 flex items-center justify-center">
+                    <i class="fas fa-drum text-white text-sm"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-text-primary">Metrònom</h3>
+                    <span id="metronome-state" class="text-xs text-text-secondary">INACTIU</span>
+                </div>
             </div>
             
-            <!-- Versió minimitzada (Només visible quan està col·lapsat) -->
-            <div id="metronome-minimized-view" class="flex items-center space-x-2 hidden">
-                <span id="minimized-bpm" class="text-sm font-bold text-[#00ff00]">100 BPM</span>
-                <button id="metronom-play-pause-min" class="p-1 rounded-full bg-cyan-600 hover:bg-cyan-500 text-gray-900 transition duration-200">
-                    <svg id="min-play-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
-                    <svg id="min-stop-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+            <!-- MINIMIZED VIEW -->
+            <div id="metronome-minimized-view" class="flex items-center space-x-3 hidden">
+                <div class="flex items-center space-x-2">
+                    <span id="minimized-bpm" class="text-sm font-bold text-accent-primary">100</span>
+                    <span class="text-xs text-text-secondary">BPM</span>
+                </div>
+                <div id="minimized-time-sig" class="time-signature text-xs">4/4</div>
+                <button id="metronom-play-pause-min" class="btn-primary w-8 h-8 rounded-full flex items-center justify-center">
+                    <i id="min-play-icon" class="fas fa-play text-xs"></i>
+                    <i id="min-pause-icon" class="fas fa-pause text-xs hidden"></i>
                 </button>
             </div>
             
-            <!-- Botó per col·lapsar -->
-            <svg id="metronome-toggle-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 transform rotate-0 transition duration-300" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+            <!-- COLLAPSE BUTTON -->
+            <button class="p-1 rounded-lg hover:bg-white/10 transition-colors focus-ring">
+                <i id="metronome-toggle-icon" class="fas fa-chevron-up text-text-secondary transform transition-transform duration-300"></i>
+            </button>
         </div>
         
-        <!-- CONTROLS EXPANDITS (Es col·lapsen) -->
-        <div id="metronome-controls-expanded">
-             <!-- CONTROLS BPM -->
-            <div class="flex items-center space-x-2 mb-3">
-                <input type="number" id="bpm-input" value="100" min="40" max="150" class="w-12 p-1 text-center bg-gray-950 rounded border border-[#00ffff]/50 text-[#00ffff] font-bold text-xs">
-                <span class="text-gray-400 text-xs">BPM</span>
-                <input type="range" id="bpm-slider" min="40" max="150" value="100" class="flex-grow h-2 rounded-lg appearance-none cursor-pointer">
+        <!-- EXPANDED CONTROLS -->
+        <div id="metronome-controls-expanded" class="p-4 space-y-4">
+            <!-- BPM CONTROLS -->
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <label class="text-sm font-medium text-text-primary">Tempo (BPM)</label>
+                    <div class="flex items-center space-x-2">
+                        <button id="bpm-down" class="btn-secondary w-8 h-8 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-minus text-xs"></i>
+                        </button>
+                        <input type="number" id="bpm-input" value="100" min="40" max="200" class="w-16 px-2 py-1 text-center glass rounded-lg border border-white/20 text-text-primary text-sm focus-ring">
+                        <button id="bpm-up" class="btn-secondary w-8 h-8 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-plus text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+                <input type="range" id="bpm-slider" min="40" max="200" value="100" class="w-full">
             </div>
 
-            <!-- CONTROLS VOLUM -->
-            <div class="flex items-center space-x-2 mb-3">
-                <span class="text-gray-400 text-xs w-12">Volum</span>
-                <input type="range" id="volume-slider" min="0" max="100" value="50" class="flex-grow h-2 rounded-lg appearance-none cursor-pointer">
-                <span id="volume-display" class="text-gray-400 text-xs w-8 text-right">50%</span>
+            <!-- TIME SIGNATURE -->
+            <div class="space-y-3">
+                <label class="text-sm font-medium text-text-primary">Compàs</label>
+                <div class="grid grid-cols-4 gap-2">
+                    <button class="time-sig-btn active" data-sig="4/4">4/4</button>
+                    <button class="time-sig-btn" data-sig="3/4">3/4</button>
+                    <button class="time-sig-btn" data-sig="2/4">2/4</button>
+                    <button class="time-sig-btn" data-sig="6/8">6/8</button>
+                </div>
+            </div>
+
+            <!-- BEAT VISUALIZATION -->
+            <div class="space-y-3">
+                <label class="text-sm font-medium text-text-primary">Beat Visual</label>
+                <div id="beat-indicators" class="flex justify-center space-x-2">
+                    <!-- Beat indicators will be generated by JS -->
+                </div>
+            </div>
+
+            <!-- SOUND & VOLUME -->
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <label class="text-sm font-medium text-text-primary">So</label>
+                    <select id="metronome-sound" class="glass rounded-lg border border-white/20 px-2 py-1 text-sm text-text-primary focus-ring">
+                        <option value="click">Click</option>
+                        <option value="wood">Fusta</option>
+                        <option value="beep">Beep</option>
+                        <option value="tick">Tick</option>
+                    </select>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-volume-down text-text-secondary text-sm"></i>
+                    <input type="range" id="volume-slider" min="0" max="100" value="50" class="flex-grow">
+                    <span id="volume-display" class="text-xs text-text-secondary w-8 text-right">50%</span>
+                </div>
             </div>
             
-            <!-- INDICADOR VISUAL i TOGGLE PRINCIPAL -->
-            <div class="flex items-center justify-between pt-1">
-                <div class="flex items-center space-x-2">
-                    <span class="text-gray-500 text-xs">Beat Actiu:</span>
-                    <div id="metronom-visual" class="w-3 h-3 rounded-full bg-gray-700 transition-colors duration-100"></div>
-                </div>
-                <!-- Aquest botó controla el metrònom quan està EXPANDIT -->
-                <button id="metronom-toggle" class="p-2 rounded-full bg-[#00ffff] hover:bg-cyan-500 text-gray-900 transition duration-200 shadow-md shadow-[#00ffff]/30 w-10 h-10 flex items-center justify-center" title="Inicia/Atura el metrònom">
-                    <svg id="metronom-play-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
-                    <svg id="metronom-stop-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
-                </button>
-            </div>
+            <!-- MAIN CONTROL -->
+            <button id="metronom-toggle" class="btn-primary w-full py-3 font-semibold focus-ring">
+                <i id="metronom-play-icon" class="fas fa-play mr-2"></i>
+                <i id="metronom-pause-icon" class="fas fa-pause mr-2 hidden"></i>
+                <span id="metronom-text">Iniciar</span>
+            </button>
         </div>
     </div>
 
-    <!-- 3. CONTENIDOR PRINCIPAL (Temporitzador central) -->
-    <div class="flex flex-col flex-grow w-full max-w-7xl mx-auto p-4 lg:p-8">
+    <!-- 3. MAIN CONTAINER (Enhanced Mobile-First) -->
+    <div class="flex flex-col min-h-screen">
         
-        <!-- Capçalera Simplificada i Panell d'Estat -->
-        <header class="w-full mx-auto">
-            <div class="flex flex-col md:flex-row items-center justify-between p-2 lg:p-4 border-b border-gray-700/50 mb-8">
-                
-                <!-- METRIQUES DE TEMPS (Esquerra) -->
-                <div class="flex space-x-4 text-xs font-mono text-gray-400 mb-4 md:mb-0">
-                    <div class="text-center">
-                        <span class="block text-cyan-400 font-bold uppercase tracking-wider">Hora Actual</span>
-                        <span id="current-time-display" class="block text-lg font-light text-white">00:00:00</span>
+        <!-- ENHANCED HEADER -->
+        <header class="container-mobile mx-auto px-4 py-4">
+            <div class="glass rounded-2xl p-4 lg:p-6 border border-white/20">
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
+                    
+                    <!-- TIME METRICS -->
+                    <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                        <div class="text-center">
+                            <div class="text-xs font-medium text-text-secondary uppercase tracking-wider">Hora Actual</div>
+                            <div id="current-time-display" class="text-lg font-bold text-text-primary text-display">00:00:00</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-xs font-medium text-text-secondary uppercase tracking-wider">Temps Dedicat</div>
+                            <div id="total-time-display" class="text-lg font-bold text-text-primary text-display">00:00:00</div>
+                        </div>
                     </div>
+
+                    <!-- MAIN TITLE -->
                     <div class="text-center">
-                        <span class="block text-cyan-400 font-bold uppercase tracking-wider">Temps Dedicat</span>
-                        <span id="total-time-display" class="block text-lg font-light text-white">00:00:00</span>
+                        <h1 class="text-xl lg:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+                            Music Study Protocol
+                        </h1>
+                        <div class="flex items-center justify-center space-x-2 mt-1">
+                            <div class="w-2 h-2 rounded-full bg-accent-primary animate-pulse"></div>
+                            <span id="protocol-status-light" class="text-xs font-medium text-success uppercase tracking-wider">Preparat</span>
+                        </div>
                     </div>
+                    
+                    <!-- ROUTINE SELECTOR -->
+                    <div class="dropdown">
+                        <button id="routine-selector" class="btn-secondary px-4 py-2 flex items-center space-x-2 focus-ring">
+                            <i class="fas fa-list text-sm"></i>
+                            <span class="text-sm">Rutina: <span id="current-routine-name">Per Defecte</span></span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="dropdown-content" id="routine-dropdown">
+                            <div class="p-2 space-y-1">
+                                <button class="routine-option w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm" data-routine="default">
+                                    <i class="fas fa-music mr-2"></i>Rutina Per Defecte
+                                </button>
+                                <button class="routine-option w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm" data-routine="beginner">
+                                    <i class="fas fa-seedling mr-2"></i>Principiant (45 min)
+                                </button>
+                                <button class="routine-option w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm" data-routine="advanced">
+                                    <i class="fas fa-crown mr-2"></i>Avançat (90 min)
+                                </button>
+                                <hr class="border-white/20 my-2">
+                                <button id="create-routine-btn" class="w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm text-accent-primary">
+                                    <i class="fas fa-plus mr-2"></i>Crear Nova Rutina
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-
-                <!-- TÍTOL PRINCIPAL (Centre) -->
-                <h1 class="text-xl lg:text-3xl font-extrabold tracking-widest text-cyan-400 text-center">MUSIC STUDY PROTOCOL</h1>
-                
-                <!-- ESTAT DEL PROTOCOL (Dreta) -->
-                <p class="text-xs font-mono text-gray-400 mt-4 md:mt-0 uppercase text-center md:text-right">ESTAT: <span id="protocol-status-light" class="text-green-500">PREPARAT</span></p>
-
             </div>
         </header>
         
-        <!-- SECCIÓ CENTRAL: TEMPORITZADOR I INFORMACIÓ DE LA FASE -->
-        <main id="app-container" class="flex-grow flex flex-col items-center justify-center p-4 lg:p-0 mb-6 md:mb-12">
+        <!-- MAIN TIMER SECTION -->
+        <main class="flex-grow flex flex-col items-center justify-center container-mobile mx-auto px-4 py-8">
 
-            <!-- INFORMACIÓ DE LA FASE ACTUAL AL CENTRE -->
-            <div class="text-center mb-10 max-w-xl w-full h-28">
-                <!-- Títol de la FASE AGRUPADORA (Grup I, II, o III) -->
-                <h3 id="group-titol" class="text-lg md:text-xl font-bold tracking-wider text-gray-500 transition-colors duration-500 mb-1 leading-tight"></h3>
-                <!-- Títol de la SUBFASE (e.g. Preparació i So Fonamental) -->
-                <h2 id="fase-titol" class="text-2xl md:text-3xl font-bold tracking-wider text-green-400 transition-colors duration-500 mb-2 leading-tight">Preparat per Començar</h2>
-                <div id="fase-descripcio" class="text-sm text-gray-400 italic px-4">
-                    <span class="block text-base font-medium mb-1">Utilitza el seqüenciador inferior per triar un bloc, i premeu Play per iniciar la rutina.</span>
-                    <span class="bpm-text block mt-1 text-xs text-gray-500 font-mono italic">BPM: N/A</span>
+            <!-- PHASE INFORMATION -->
+            <div class="text-center mb-8 max-w-2xl w-full">
+                <div class="glass rounded-2xl p-6 border border-white/20">
+                    <!-- Group Title -->
+                    <h3 id="group-titol" class="text-sm font-medium text-text-secondary uppercase tracking-wider mb-2"></h3>
+                    <!-- Phase Title -->
+                    <h2 id="fase-titol" class="text-2xl lg:text-3xl font-bold text-accent-primary mb-3 leading-tight">
+                        Preparat per Començar
+                    </h2>
+                    <!-- Phase Description -->
+                    <div id="fase-descripcio" class="text-text-secondary">
+                        <p class="text-base mb-2">Utilitza el seqüenciador inferior per triar un bloc, i premeu Play per iniciar la rutina.</p>
+                        <div class="flex items-center justify-center space-x-4 text-sm">
+                            <span class="flex items-center space-x-1">
+                                <i class="fas fa-drum text-accent-primary text-xs"></i>
+                                <span id="bpm-display">BPM: N/A</span>
+                            </span>
+                            <span class="flex items-center space-x-1">
+                                <i class="fas fa-clock text-accent-primary text-xs"></i>
+                                <span id="phase-duration">Durada: --</span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- CERCLE DE PROGRÉS I TEMPS RESTANT -->
-            <div class="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
-                
-                <!-- SVG del Cercle de Progrés (Dash Array) -->
-                <svg id="progress-svg" class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                    <!-- Cercle de fons -->
-                    <circle class="text-gray-800 stroke-current" stroke-width="6" cx="50" cy="50" r="45" fill="transparent"></circle>
-                    <!-- Cercle de progrés (el color canvia amb la fase) -->
-                    <circle id="progress-circle" class="progress-ring__circle stroke-current" stroke-width="6" stroke-linecap="round" cx="50" cy="50" r="45" fill="transparent" stroke-dasharray="283" stroke-dashoffset="283"></circle>
+            <!-- TIMER CIRCLE -->
+            <div class="relative mb-8">
+                <!-- Enhanced SVG Progress Circle -->
+                <svg id="progress-svg" class="w-64 h-64 lg:w-80 lg:h-80 transform -rotate-90" viewBox="0 0 120 120">
+                    <!-- Background circle -->
+                    <circle class="text-text-muted/20 stroke-current" stroke-width="4" cx="60" cy="60" r="54" fill="transparent"></circle>
+                    <!-- Progress circle -->
+                    <circle id="progress-circle" class="progress-ring__circle stroke-current text-accent-primary" stroke-width="4" stroke-linecap="round" cx="60" cy="60" r="54" fill="transparent" stroke-dasharray="339" stroke-dashoffset="339"></circle>
+                    <!-- Pulse circle for active state -->
+                    <circle id="pulse-circle" class="opacity-30 stroke-current text-accent-primary hidden" stroke-width="2" cx="60" cy="60" r="56" fill="transparent" stroke-dasharray="4 4">
+                        <animateTransform attributeName="transform" type="rotate" values="0 60 60;360 60 60" dur="3s" repeatCount="indefinite"/>
+                    </circle>
                 </svg>
 
-                <!-- Temps al Centre del Cercle -->
-                <div class="absolute flex flex-col items-center">
-                    <p id="time-display" class="text-6xl md:text-7xl font-light text-white">00:00</p>
-                    <p id="timer-status" class="text-sm mt-2 text-gray-400 tracking-widest uppercase">INACTIU</p>
+                <!-- Timer Display -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <div id="time-display" class="text-5xl lg:text-6xl font-light text-text-primary text-display leading-none">00:00</div>
+                    <div class="flex items-center space-x-2 mt-3">
+                        <div id="timer-status-indicator" class="w-2 h-2 rounded-full bg-text-muted"></div>
+                        <div id="timer-status" class="text-sm text-text-secondary uppercase tracking-wide">Inactiu</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- CONTROLS DEL TEMPORITZADOR -->
-            <div class="flex space-x-8 mt-12">
+            <!-- ENHANCED TIMER CONTROLS -->
+            <div class="flex items-center space-x-4 lg:space-x-6">
                 
-                <!-- Botó per Saltar Enrere -->
-                <button id="prev-btn" class="p-4 rounded-full bg-gray-800 hover:bg-gray-700 transition duration-200 text-white disabled:opacity-30 border border-gray-700" title="Saltar a la fase anterior">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" /></svg>
+                <!-- Previous Phase Button -->
+                <button id="prev-btn" class="btn-secondary w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center focus-ring" title="Fase anterior">
+                    <i class="fas fa-step-backward text-lg"></i>
                 </button>
                 
-                <!-- Botó Principal Play / Pausa -->
-                <button id="play-pause-btn" class="p-5 rounded-full bg-green-500 hover:bg-green-600 transition duration-200 text-gray-900 shadow-xl shadow-green-500/50 transform hover:scale-105" title="Inicia/Pausa el temporitzador">
-                    <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
-                    <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 hidden" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+                <!-- Main Play/Pause Button -->
+                <button id="play-pause-btn" class="relative w-16 h-16 lg:w-20 lg:h-20 rounded-full btn-primary flex items-center justify-center shadow-2xl focus-ring group" title="Iniciar/Pausar">
+                    <i id="play-icon" class="fas fa-play text-xl lg:text-2xl transition-transform group-hover:scale-110"></i>
+                    <i id="pause-icon" class="fas fa-pause text-xl lg:text-2xl hidden transition-transform group-hover:scale-110"></i>
                 </button>
                 
-                <!-- Botó per Saltar Endavant -->
-                <button id="next-btn" class="p-4 rounded-full bg-gray-800 hover:bg-gray-700 transition duration-200 text-white disabled:opacity-30 border border-gray-700" title="Saltar a la següent fase">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
+                <!-- Next Phase Button -->
+                <button id="next-btn" class="btn-secondary w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center focus-ring" title="Fase següent">
+                    <i class="fas fa-step-forward text-lg"></i>
+                </button>
+            </div>
+
+            <!-- QUICK ACTIONS (Mobile-friendly) -->
+            <div class="flex items-center space-x-3 mt-8">
+                <button id="reset-btn" class="btn-secondary px-4 py-2 rounded-lg text-sm focus-ring">
+                    <i class="fas fa-redo mr-2"></i>Reiniciar
+                </button>
+                <button id="skip-phase-btn" class="btn-secondary px-4 py-2 rounded-lg text-sm focus-ring">
+                    <i class="fas fa-forward mr-2"></i>Saltar Fase
                 </button>
             </div>
 
@@ -237,160 +745,348 @@
         
     </div>
 
-    <!-- 4. SEQÜENCIADOR DE FASES (A LA PART INFERIOR) -->
-    <aside id="section-navigator" class="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 rounded-t-xl border-t border-gray-700/50 flex-shrink-0 mt-auto">
-        <h3 class="text-md font-extrabold uppercase tracking-wider text-cyan-400 border-b border-cyan-400/30 pb-2 mb-3 sticky top-0 bg-gray-900/80 z-10">Seqüenciador de Fases</h3>
-        <!-- Contenidor de scroll horitzontal -->
-        <div id="fase-selector-container" class="flex space-x-4 pb-2">
-            <!-- Les targetes de fase es generaran amb JS -->
+    <!-- 4. ENHANCED PHASE SEQUENCER -->
+    <aside class="glass border-t border-white/20 mt-auto backdrop-blur-xl">
+        <div class="container-mobile mx-auto px-4 py-4">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-text-primary flex items-center space-x-2">
+                    <i class="fas fa-list-ol text-accent-primary"></i>
+                    <span>Seqüenciador de Fases</span>
+                </h3>
+                <div class="flex items-center space-x-2 text-sm text-text-secondary">
+                    <i class="fas fa-hand-paper text-xs"></i>
+                    <span class="hidden sm:inline">Desliza per navegar</span>
+                    <span class="sm:hidden">Desliza</span>
+                </div>
+            </div>
+            
+            <!-- Phase Cards Container -->
+            <div id="fase-selector-container" class="phase-selector-container flex space-x-4 pb-4">
+                <!-- Phase cards will be generated by JavaScript -->
+            </div>
+            
+            <!-- Phase Progress Indicator -->
+            <div class="flex justify-center mt-4">
+                <div id="phase-progress-dots" class="flex space-x-2">
+                    <!-- Progress dots will be generated by JavaScript -->
+                </div>
+            </div>
         </div>
     </aside>
 
-        <!-- footer? no se si funciona -->
-    <footer class="w-full py-4 bg-gray-950 border-t border-gray-700/50 flex-shrink-0 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-xs font-light text-gray-500">
-                Eugeni Corchero &copy; 2025. Tots els drets reservats.
+    <!-- CUSTOM ROUTINE MODAL -->
+    <div id="custom-routine-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="glass rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/20">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-text-primary">Crear Rutina Personalitzada</h2>
+                <button id="close-routine-modal" class="btn-secondary w-8 h-8 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <!-- Routine Name -->
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Nom de la Rutina</label>
+                    <input type="text" id="routine-name" class="w-full glass rounded-lg border border-white/20 px-3 py-2 text-text-primary focus-ring" placeholder="La meva rutina personalitzada">
+                </div>
+                
+                <!-- Phase List -->
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Fases</label>
+                    <div id="custom-phases-list" class="space-y-3">
+                        <!-- Custom phases will be added here -->
+                    </div>
+                    <button id="add-phase-btn" class="btn-secondary mt-3 px-4 py-2 text-sm">
+                        <i class="fas fa-plus mr-2"></i>Afegir Fase
+                    </button>
+                </div>
+                
+                <!-- Actions -->
+                <div class="flex space-x-3 pt-4 border-t border-white/20">
+                    <button id="save-routine-btn" class="btn-primary px-6 py-2 flex-1">
+                        <i class="fas fa-save mr-2"></i>Guardar Rutina
+                    </button>
+                    <button id="cancel-routine-btn" class="btn-secondary px-6 py-2">
+                        Cancel·lar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="glass border-t border-white/20 backdrop-blur-xl">
+        <div class="container-mobile mx-auto px-4 py-3 text-center">
+            <p class="text-xs text-text-muted">
+                <i class="fas fa-heart text-red-400 mr-1"></i>
+                Creat per Eugeni Corchero &copy; 2025
             </p>
         </div>
     </footer>
 
     <script>
         // =======================================================
-        // 1. DADES DE LA RUTINA (Basades en l'estructura de l'Excel)
+        // 1. ENHANCED DATA STRUCTURE & ROUTINE MANAGEMENT
         // =======================================================
 
-        const FASES_ESTUDI = [
-            // I. Escalfament i Tècnica (Grup)
-            {
-                codi: "I",
-                titol: "I. Escalfament i Tècnica",
-                temps: 20 * 60, // 20 minuts
-                descripcio: "Objectiu: Preparar el cos, la ment i l'instrument.",
-                bpm: "",
-                isGroup: true,
-                color: { main: "gray", bg: "bg-gray-950", text: "text-gray-500", shade: 900 }
-            },
-            // Subfases del Grup I
-            {
-                codi: "I.1",
-                titol: "I.1 Preparació i So Fonamental",
-                temps: 5 * 60, // 5 minuts
-                descripcio: "Estiraments lleugers i concentració. Toca notes llargues per centrar el teu so, fes exercicis de digitació per connectar amb l'instrument.",
-                bpm: "No s'usa. El focus és la qualitat del so i la respiració.",
-                color: { main: "green", bg: "bg-green-950", text: "text-green-400", shade: 700 }
-            },
-            {
-                codi: "I.2",
-                titol: "I.2 Tècnica Diària (Escales/Arpegis)",
-                temps: 15 * 60, // 15 minuts
-                descripcio: "Practica la tècnica amb uniformitat i precisió. ESCALES - ARPEGIS - ACORDS - ESTUDIS",
-                bpm: "Inici Lent: 60-80 bpm. Objectiu Mitjà: 100-120 bpm.",
-                color: { main: "green", bg: "bg-green-900", text: "text-green-300", shade: 600 }
-            },
-            // II. Treball del Repertori (Grup)
-            {
-                codi: "II",
-                titol: "II. Treball del Repertori",
-                temps: 40 * 60, // 40 minuts
-                descripcio: "Objectiu: Abordar les obres i resoldre els problemes tècnics i musicals.",
-                bpm: "",
-                isGroup: true,
-                color: { main: "gray", bg: "bg-gray-950", text: "text-gray-500", shade: 900 }
-            },
-            // Subfases del Grup II
-            {
-                codi: "II.1",
-                titol: "II.1 Repàs de la peça principal",
-                temps: 10 * 60, // 10 minuts
-                descripcio: "Toca la peça o fragment que ja domines per guanyar confiança i musicalitat. Recupera el que has estudiat les darreres sessions",
-                bpm: "Al tempo indicat a la partitura.",
-                color: { main: "cyan", bg: "bg-cyan-950", text: "text-cyan-400", shade: 700 }
-            },
-            {
-                codi: "II.2",
-                titol: "II.2 Objectiu Principal(Passatges Difícils)",
-                temps: 25 * 60, // 25 minuts
-                descripcio: "Aïlla els errors i treballa-los amb estratègies (tempo lent, per compassos, format obstinat).",
-                bpm: "40-60 bpm. Augmenta gradualment (5 en 5 bpm) fins 75% del tempo real.",
-                color: { main: "cyan", bg: "bg-cyan-900", text: "text-cyan-300", shade: 600 }
-            },
-            {
-                codi: "II.3",
-                titol: "II.3 Simulació",
-                temps: 5 * 60, // 5 minuts
-                descripcio: "Toca el fragment estudiat sense aturar-te (encara que fallis). Simula una situació d'actuació.",
-                bpm: "Al 80% - 100% del tempo real.",
-                color: { main: "cyan", bg: "bg-cyan-800", text: "text-cyan-200", shade: 500 }
-            },
-            // III. Desenvolupament i Planificació (Grup)
-            {
-                codi: "III",
-                titol: "III. Desenvolupament i Planificació",
-                temps: 15 * 60, // 15 minuts
-                descripcio: "Objectiu: Desenvolupar l'oïda i organitzar.",
-                bpm: "",
-                isGroup: true,
-                color: { main: "gray", bg: "bg-gray-950", text: "text-gray-500", shade: 900 }
-            },
-            // Subfase del Grup III
-            {
-                codi: "III.1",
-                titol: "III.1 Desenvolupament",
-                temps: 10 * 60, // 10 minuts
-                descripcio: "Exercicis de lectura a vista senzilla, improvisació sobre un acord/pedal/tonalitat/escala, treure frases/riffs/cançons d'oïda.",
-                bpm: "No s'usa.",
-                color: { main: "fuchsia", bg: "bg-fuchsia-950", text: "text-fuchsia-400", shade: 700 }
-            },
-            //
-            {
-                codi: "III.2",
-                titol: "III.2 Planificació",
-                temps: 5 * 60, // 5 minuts
-                descripcio: "Dedica 5 minuts a pensar que cal millorar per a la pròxima sessió d'estudi i que faràs de forma ordenada.",
-                bpm: "No s'usa.",
-                color: { main: "fuchsia", bg: "bg-fuchsia-1050", text: "text-fuchsia-500", shade: 600 }
-            },
-        ];
+        // Default routine data (enhanced from original CSV)
+        const DEFAULT_ROUTINE = {
+            id: 'default',
+            name: 'Rutina Per Defecte',
+            description: 'Rutina completa de 75 minuts basada en el protocol estàndard',
+            totalTime: 75 * 60, // 75 minutes
+            phases: [
+                // I. Escalfament i Tècnica (Grup)
+                {
+                    id: "I",
+                    code: "I",
+                    title: "I. Escalfament i Tècnica",
+                    duration: 20 * 60,
+                    description: "Objectiu: Preparar el cos, la ment i l'instrument.",
+                    bpm: null,
+                    isGroup: true,
+                    color: { main: "gray", text: "text-gray-400", bg: "bg-gray-900" }
+                },
+                {
+                    id: "I.1",
+                    code: "I.1",
+                    title: "Preparació i So Fonamental",
+                    duration: 5 * 60,
+                    description: "Estiraments lleugers i concentració. Toca notes llargues per centrar el teu so, fes exercicis de digitació per connectar amb l'instrument.",
+                    bpm: "Focus en qualitat del so i respiració",
+                    isGroup: false,
+                    color: { main: "emerald", text: "text-emerald-400", bg: "bg-emerald-900/50" },
+                    icon: "fas fa-leaf"
+                },
+                {
+                    id: "I.2",
+                    code: "I.2", 
+                    title: "Tècnica Diària",
+                    duration: 15 * 60,
+                    description: "Practica la tècnica amb uniformitat i precisió. ESCALES - ARPEGIS - ACORDS - ESTUDIS",
+                    bpm: "Inici: 60-80 bpm → Objectiu: 100-120 bpm",
+                    isGroup: false,
+                    color: { main: "green", text: "text-green-400", bg: "bg-green-900/50" },
+                    icon: "fas fa-dumbbell"
+                },
+                // II. Treball del Repertori (Grup)
+                {
+                    id: "II",
+                    code: "II",
+                    title: "II. Treball del Repertori",
+                    duration: 40 * 60,
+                    description: "Objectiu: Abordar les obres i resoldre els problemes tècnics i musicals.",
+                    bpm: null,
+                    isGroup: true,
+                    color: { main: "gray", text: "text-gray-400", bg: "bg-gray-900" }
+                },
+                {
+                    id: "II.1",
+                    code: "II.1",
+                    title: "Repàs de la peça principal",
+                    duration: 10 * 60,
+                    description: "Toca la peça o fragment que ja domines per guanyar confiança i musicalitat. Recupera el que has estudiat les darreres sessions",
+                    bpm: "Al tempo indicat a la partitura",
+                    isGroup: false,
+                    color: { main: "cyan", text: "text-cyan-400", bg: "bg-cyan-900/50" },
+                    icon: "fas fa-redo"
+                },
+                {
+                    id: "II.2",
+                    code: "II.2",
+                    title: "Objectiu Principal",
+                    duration: 25 * 60,
+                    description: "Aïlla els errors i treballa-los amb estratègies (tempo lent, per compassos, format obstinat).",
+                    bpm: "40-60 bpm → 75% del tempo real",
+                    isGroup: false,
+                    color: { main: "blue", text: "text-blue-400", bg: "bg-blue-900/50" },
+                    icon: "fas fa-target"
+                },
+                {
+                    id: "II.3",
+                    code: "II.3",
+                    title: "Simulació",
+                    duration: 5 * 60,
+                    description: "Toca el fragment estudiat sense aturar-te (encara que fallis). Simula una situació d'actuació.",
+                    bpm: "80-100% del tempo real",
+                    isGroup: false,
+                    color: { main: "indigo", text: "text-indigo-400", bg: "bg-indigo-900/50" },
+                    icon: "fas fa-theater-masks"
+                },
+                // III. Desenvolupament i Planificació (Grup)
+                {
+                    id: "III",
+                    code: "III",
+                    title: "III. Desenvolupament i Planificació",
+                    duration: 15 * 60,
+                    description: "Objectiu: Desenvolupar l'oïda i organitzar.",
+                    bpm: null,
+                    isGroup: true,
+                    color: { main: "gray", text: "text-gray-400", bg: "bg-gray-900" }
+                },
+                {
+                    id: "III.1",
+                    code: "III.1",
+                    title: "Desenvolupament",
+                    duration: 10 * 60,
+                    description: "Exercicis de lectura a vista, improvisació, treure frases d'oïda.",
+                    bpm: "No s'usa",
+                    isGroup: false,
+                    color: { main: "purple", text: "text-purple-400", bg: "bg-purple-900/50" },
+                    icon: "fas fa-brain"
+                },
+                {
+                    id: "III.2",
+                    code: "III.2",
+                    title: "Planificació",
+                    duration: 5 * 60,
+                    description: "Dedica 5 minuts a pensar que cal millorar per a la pròxima sessió d'estudi.",
+                    bpm: "No s'usa",
+                    isGroup: false,
+                    color: { main: "pink", text: "text-pink-400", bg: "bg-pink-900/50" },
+                    icon: "fas fa-clipboard-check"
+                }
+            ]
+        };
 
-        // Filtrem les fases que realment tenen temps (les subfases) per al temporitzador
-        const SUBFASES = FASES_ESTUDI.filter(f => !f.isGroup);
-        // Trobem la primera subfase per iniciar
-        let currentFaseIndex = FASES_ESTUDI.findIndex(f => !f.isGroup); 
+        // Additional routine templates
+        const ROUTINE_TEMPLATES = {
+            beginner: {
+                id: 'beginner',
+                name: 'Principiant',
+                description: 'Rutina simplificada de 45 minuts per a principiants',
+                totalTime: 45 * 60,
+                phases: [
+                    {
+                        id: "B.1",
+                        code: "B.1",
+                        title: "Escalfament",
+                        duration: 10 * 60,
+                        description: "Exercicis bàsics i preparació de l'instrument",
+                        bpm: "60-80 bpm",
+                        isGroup: false,
+                        color: { main: "green", text: "text-green-400", bg: "bg-green-900/50" },
+                        icon: "fas fa-seedling"
+                    },
+                    {
+                        id: "B.2",
+                        code: "B.2",
+                        title: "Tècnica Bàsica",
+                        duration: 20 * 60,
+                        description: "Escales simples i exercicis fonamentals",
+                        bpm: "60-90 bpm",
+                        isGroup: false,
+                        color: { main: "blue", text: "text-blue-400", bg: "bg-blue-900/50" },
+                        icon: "fas fa-graduation-cap"
+                    },
+                    {
+                        id: "B.3",
+                        code: "B.3",
+                        title: "Repertori Simple",
+                        duration: 15 * 60,
+                        description: "Peces senzilles i lectura bàsica",
+                        bpm: "Tempo còmode",
+                        isGroup: false,
+                        color: { main: "purple", text: "text-purple-400", bg: "bg-purple-900/50" },
+                        icon: "fas fa-music"
+                    }
+                ]
+            },
+            advanced: {
+                id: 'advanced',
+                name: 'Avançat',
+                description: 'Rutina intensiva de 90 minuts per a músics avançats',
+                totalTime: 90 * 60,
+                phases: [
+                    {
+                        id: "A.1",
+                        code: "A.1",
+                        title: "Escalfament Tècnic",
+                        duration: 15 * 60,
+                        description: "Exercicis avançats de digitació i agilitat",
+                        bpm: "80-120 bpm",
+                        isGroup: false,
+                        color: { main: "red", text: "text-red-400", bg: "bg-red-900/50" },
+                        icon: "fas fa-fire"
+                    },
+                    {
+                        id: "A.2",
+                        code: "A.2",
+                        title: "Estudi Intensiu",
+                        duration: 50 * 60,
+                        description: "Treball profund del repertori i tècniques avançades",
+                        bpm: "Variable segons repertori",
+                        isGroup: false,
+                        color: { main: "orange", text: "text-orange-400", bg: "bg-orange-900/50" },
+                        icon: "fas fa-crown"
+                    },
+                    {
+                        id: "A.3",
+                        code: "A.3",
+                        title: "Perfeccionament",
+                        duration: 25 * 60,
+                        description: "Refinament musical i interpretació",
+                        bpm: "Tempo final",
+                        isGroup: false,
+                        color: { main: "violet", text: "text-violet-400", bg: "bg-violet-900/50" },
+                        icon: "fas fa-gem"
+                    }
+                ]
+            }
+        };
 
-
-        // =======================================================
-        // 2. LÒGICA DEL TEMPORITZADOR PRINCIPAL
-        // =======================================================
-
-        let interval;
+        // Current routine and state
+        let currentRoutine = DEFAULT_ROUTINE;
+        let currentPhaseIndex = 0;
+        let timeLeft = 0;
         let isRunning = false;
-        let timeLeft = FASES_ESTUDI[currentFaseIndex].temps;
-        const totalCircleLength = 2 * Math.PI * 45; 
+        let interval;
+        let totalSecondsDedicated = 0;
 
-        // Elements del DOM del Temporitzador
-        const body = document.body;
-        const groupTitol = document.getElementById('group-titol');
+        // Theme management
+        let currentTheme = localStorage.getItem('music-study-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        // Timer and UI elements
         const timeDisplay = document.getElementById('time-display');
-        const faseTitol = document.getElementById('fase-titol');
-        const faseDescripcioDiv = document.getElementById('fase-descripcio');
+        const phaseTitle = document.getElementById('fase-titol');
+        const groupTitle = document.getElementById('group-titol');
+        const phaseDescription = document.getElementById('fase-descripcio');
+        const bpmDisplay = document.getElementById('bpm-display');
+        const phaseDuration = document.getElementById('phase-duration');
         const progressCircle = document.getElementById('progress-circle');
+        const pulseCircle = document.getElementById('pulse-circle');
         const playPauseBtn = document.getElementById('play-pause-btn');
         const playIcon = document.getElementById('play-icon');
         const pauseIcon = document.getElementById('pause-icon');
         const timerStatus = document.getElementById('timer-status');
+        const timerStatusIndicator = document.getElementById('timer-status-indicator');
         const nextBtn = document.getElementById('next-btn');
         const prevBtn = document.getElementById('prev-btn');
         const protocolStatusLight = document.getElementById('protocol-status-light');
-        const onboardingModal = document.getElementById('onboarding-modal');
-        const faseSelectorContainer = document.getElementById('fase-selector-container');
-
-        // Mètriques de Temps
         const currentTimeDisplay = document.getElementById('current-time-display');
         const totalTimeDisplay = document.getElementById('total-time-display');
-        let totalSecondsDedicated = 0;
+        const faseSelectorContainer = document.getElementById('fase-selector-container');
+        const phaseProgressDots = document.getElementById('phase-progress-dots');
         
+        // Calculate total circle length for progress (updated radius)
+        const totalCircleLength = 2 * Math.PI * 54;
+
+        // =======================================================
+        // 2. UTILITY FUNCTIONS
+        // =======================================================
+        // =======================================================
+        // 2. UTILITY FUNCTIONS
+        // =======================================================
+
         function formatTime(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+            const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+            return `${minutes}:${seconds}`;
+        }
+
+        function formatTimeWithHours(totalSeconds) {
             const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
             const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
             const seconds = (totalSeconds % 60).toString().padStart(2, '0');
@@ -398,339 +1094,745 @@
         }
 
         function formatClock(date) {
-            const hours = date.getHours().toString().padStart(2, '0');
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            const seconds = date.getSeconds().toString().padStart(2, '0');
-            return `${hours}:${minutes}:${seconds}`;
+            return date.toLocaleTimeString('ca-ES', { hour12: false });
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function vibrate(pattern = [100]) {
+            if ('vibrate' in navigator) {
+                navigator.vibrate(pattern);
+            }
+        }
+
+        function showNotification(title, body, icon = 'fas fa-bell') {
+            // Create custom notification if browser notifications aren't supported
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 glass rounded-lg p-4 border border-white/20 z-50 min-w-80 shadow-2xl transform translate-x-full transition-transform duration-300';
+            notification.innerHTML = `
+                <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-accent-primary/20 flex items-center justify-center flex-shrink-0">
+                        <i class="${icon} text-accent-primary text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-medium text-text-primary text-sm">${title}</h4>
+                        <p class="text-text-secondary text-xs mt-1">${body}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="text-text-muted hover:text-text-primary">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Trigger animation
+            setTimeout(() => notification.classList.remove('translate-x-full'), 100);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+        }
+
+        // =======================================================
+        // 3. THEME MANAGEMENT
+        // =======================================================
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('music-study-theme', currentTheme);
+            
+            const themeIcon = document.getElementById('theme-icon');
+            themeIcon.className = currentTheme === 'dark' ? 'fas fa-sun text-lg' : 'fas fa-moon text-lg';
+            
+            showNotification(
+                'Tema canviat',
+                `Activat el tema ${currentTheme === 'dark' ? 'fosc' : 'clar'}`,
+                currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun'
+            );
+        }
+
+        // =======================================================
+        // 4. TIMER LOGIC
+        // =======================================================
+
+        function getCurrentPhase() {
+            return currentRoutine.phases.find(phase => !phase.isGroup && 
+                currentRoutine.phases.indexOf(phase) >= currentPhaseIndex);
+        }
+
+        function getExecutablePhases() {
+            return currentRoutine.phases.filter(phase => !phase.isGroup);
         }
 
         function updateClocks() {
-            // Rellotge actual
             currentTimeDisplay.textContent = formatClock(new Date());
-            
-            // Temps total dedicat a la pàgina
-            totalTimeDisplay.textContent = formatTime(totalSecondsDedicated);
-            totalSecondsDedicated++; // Incrementem cada segon
-        }
-
-        function getFaseGroup(faseIndex) {
-            // Retorna el títol del grup immediatament anterior (I, II, III)
-            for (let i = faseIndex; i >= 0; i--) {
-                if (FASES_ESTUDI[i].isGroup) {
-                    // Retorna el títol complet del grup (e.g., "I. Escalfament i Tècnica")
-                    return FASES_ESTUDI[i].titol;
-                }
-            }
-            return 'PROTOCOL'; // Per si no troba un grup inicial
-        }
-
-        function cleanDynamicClasses(element, prefix) {
-            const classList = element.classList;
-            Array.from(classList).filter(c => c.startsWith(prefix)).forEach(c => classList.remove(c));
+            totalTimeDisplay.textContent = formatTimeWithHours(totalSecondsDedicated);
+            totalSecondsDedicated++;
         }
 
         function updateUI() {
-            const fase = FASES_ESTUDI[currentFaseIndex];
-            const percent = (timeLeft / fase.temps);
+            const executablePhases = getExecutablePhases();
+            const currentExecutableIndex = executablePhases.findIndex(phase => 
+                currentRoutine.phases.indexOf(phase) === currentPhaseIndex);
+            
+            if (currentExecutableIndex === -1) return;
+            
+            const phase = executablePhases[currentExecutableIndex];
+            const percent = timeLeft / phase.duration;
             const offset = totalCircleLength * (1 - percent);
 
-            // 1. Actualitza el temps i el cercle de progrés
-            timeDisplay.textContent = formatTime(timeLeft).substring(3); // Mostrem només MM:SS
+            // Update timer display
+            timeDisplay.textContent = formatTime(timeLeft);
             progressCircle.style.strokeDashoffset = offset;
 
-            // 2. Actualitza els colors i el text de la fase
-            const groupTitleFull = getFaseGroup(currentFaseIndex);
-            // El títol de grup ha de ser només la part principal (I. Escalfament i Tècnica)
-            groupTitol.textContent = groupTitleFull.split('.').slice(0, 2).join('.'); 
+            // Update phase information
+            const groupPhase = findGroupForPhase(currentPhaseIndex);
+            groupTitle.textContent = groupPhase ? groupPhase.title : '';
+            phaseTitle.textContent = phase.title;
             
-            // El títol de la subfase ha de ser només el nom (Preparació i So Fonamental)
-            faseTitol.textContent = fase.titol.split(' ').slice(1).join(' '); 
-            
-            // Estructura millorada per la descripció i BPM
-            faseDescripcioDiv.innerHTML = `
-                <span class="block text-base font-medium mb-1">${fase.descripcio}</span>
-                <span class="bpm-text block mt-1 text-xs text-${fase.color.main}-300/80 font-mono italic">BPM: ${fase.bpm || 'N/A'}</span>
+            // Update description with enhanced formatting
+            const descriptionHTML = `
+                <p class="text-base mb-3">${phase.description}</p>
+                <div class="flex items-center justify-center space-x-4 text-sm">
+                    <span class="flex items-center space-x-1">
+                        <i class="fas fa-drum text-accent-primary text-xs"></i>
+                        <span>${phase.bpm || 'Lliure'}</span>
+                    </span>
+                    <span class="flex items-center space-x-1">
+                        <i class="fas fa-clock text-accent-primary text-xs"></i>
+                        <span>${Math.floor(phase.duration / 60)} min</span>
+                    </span>
+                </div>
             `;
+            phaseDescription.innerHTML = descriptionHTML;
 
-            // 3. Aplicació del tema de color dinàmic
-            cleanDynamicClasses(body, 'bg-');
-            body.classList.add(fase.color.bg); 
-            cleanDynamicClasses(faseTitol, 'text-');
-            faseTitol.classList.add(fase.color.text);
-            cleanDynamicClasses(progressCircle, 'stroke-');
-            progressCircle.classList.add(`stroke-${fase.color.main}-400`);
-            cleanDynamicClasses(playPauseBtn, 'bg-');
-            cleanDynamicClasses(playPauseBtn, 'shadow-');
-            playPauseBtn.classList.add(`bg-${fase.color.main}-500`, `hover:bg-${fase.color.main}-600`, `shadow-xl`, `shadow-${fase.color.main}-500/50`, 'transform', 'hover:scale-105');
-            
-            // 4. Estat del Protocol
-            if (isRunning) {
-                timerStatus.textContent = 'FLUX ACTIU';
-                protocolStatusLight.textContent = 'ACTIU';
-                cleanDynamicClasses(protocolStatusLight, 'text-');
-                protocolStatusLight.classList.add(`text-${fase.color.main}-400`, 'animate-pulse');
-            } else {
-                timerStatus.textContent = 'PAUSA';
-                protocolStatusLight.textContent = 'PAUSA';
-                cleanDynamicClasses(protocolStatusLight, 'text-');
-                protocolStatusLight.classList.add('text-yellow-400', 'animate-none');
-            }
-            
-            // Troba els índexs de les subfases disponibles
-            const subfasesIndexes = FASES_ESTUDI
-                .map((f, i) => f.isGroup ? -1 : i)
-                .filter(i => i !== -1);
-            
-            const currentSubfaseIndexInList = subfasesIndexes.indexOf(currentFaseIndex);
+            // Update UI colors based on phase
+            updateUIColors(phase);
 
-            prevBtn.disabled = currentSubfaseIndexInList === 0;
-            nextBtn.disabled = currentSubfaseIndexInList === subfasesIndexes.length - 1; 
+            // Update status
+            updateStatus();
 
-            // Actualitza l'estat del selector de fases
-            updateFaseSelector();
+            // Update navigation buttons
+            prevBtn.disabled = currentExecutableIndex === 0;
+            nextBtn.disabled = currentExecutableIndex === executablePhases.length - 1;
 
+            // Update phase selector
+            updatePhaseSelector();
+            updateProgressDots();
+
+            // Handle phase completion
             if (timeLeft === 0 && isRunning) {
-                playSoundAlert();
+                handlePhaseCompletion();
             }
         }
 
-        function changeFase(index) {
-            const fase = FASES_ESTUDI[index];
-            if (!fase || fase.isGroup) return; // No permet canviar a un grup
-
-            currentFaseIndex = index;
-            timeLeft = FASES_ESTUDI[currentFaseIndex].temps;
-            pauseTimer();
-            updateUI();
-            scrollToFase(index);
+        function updateUIColors(phase) {
+            // Update progress circle color
+            progressCircle.className = `progress-ring__circle stroke-current ${phase.color.text}`;
+            
+            // Update phase title color
+            phaseTitle.className = `text-2xl lg:text-3xl font-bold ${phase.color.text} mb-3 leading-tight`;
         }
-        
-        function getNextSubFaseIndex(currentIndex) {
-            for (let i = currentIndex + 1; i < FASES_ESTUDI.length; i++) {
-                if (!FASES_ESTUDI[i].isGroup) {
-                    return i;
+
+        function updateStatus() {
+            if (isRunning) {
+                timerStatus.textContent = 'Actiu';
+                timerStatusIndicator.className = 'w-2 h-2 rounded-full bg-success animate-pulse';
+                protocolStatusLight.textContent = 'Actiu';
+                protocolStatusLight.className = 'text-xs font-medium text-success uppercase tracking-wider';
+                pulseCircle.classList.remove('hidden');
+            } else {
+                timerStatus.textContent = 'Pausat';
+                timerStatusIndicator.className = 'w-2 h-2 rounded-full bg-warning';
+                protocolStatusLight.textContent = 'Pausat';
+                protocolStatusLight.className = 'text-xs font-medium text-warning uppercase tracking-wider';
+                pulseCircle.classList.add('hidden');
+            }
+        }
+
+        function findGroupForPhase(phaseIndex) {
+            for (let i = phaseIndex; i >= 0; i--) {
+                if (currentRoutine.phases[i].isGroup) {
+                    return currentRoutine.phases[i];
                 }
             }
-            return -1; // Final
-        }
-
-        function getPrevSubFaseIndex(currentIndex) {
-            for (let i = currentIndex - 1; i >= 0; i--) {
-                if (!FASES_ESTUDI[i].isGroup) {
-                    return i;
-                }
-            }
-            return -1; // Inici
+            return null;
         }
 
         function startTimer() {
             if (isRunning) return;
+            
             isRunning = true;
             playIcon.classList.add('hidden');
             pauseIcon.classList.remove('hidden');
-            updateUI(); 
-
+            
             interval = setInterval(() => {
                 if (timeLeft > 0) {
                     timeLeft--;
                     updateUI();
                 } else {
-                    clearInterval(interval);
-                    playSoundAlert();
-                    isRunning = false; 
-                    
-                    const nextIndex = getNextSubFaseIndex(currentFaseIndex);
-
-                    if (nextIndex !== -1) {
-                        changeFase(nextIndex);
-                        startTimer(); 
-                    } else {
-                        // Rutina acabada
-                        timerStatus.textContent = 'FINALITZAT';
-                        protocolStatusLight.textContent = 'FINALITZAT';
-                        cleanDynamicClasses(protocolStatusLight, 'text-');
-                        protocolStatusLight.classList.add('text-red-500', 'animate-none');
-                        groupTitol.textContent = 'FLUX COMPLETAT';
-                        faseTitol.textContent = 'OBJECTIU ASSOLIT';
-                        faseDescripcioDiv.innerHTML = '<span class="block">Felicitats! Protocol completat.</span>';
-                        playIcon.classList.remove('hidden');
-                        pauseIcon.classList.add('hidden');
-                    }
+                    handlePhaseCompletion();
                 }
             }, 1000);
+            
+            updateUI();
+            showNotification('Timer iniciat', 'La teva sessió d\'estudi ha començat', 'fas fa-play');
         }
 
         function pauseTimer() {
             clearInterval(interval);
             isRunning = false;
-            updateUI(); 
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
+            updateUI();
         }
 
-        function togglePlayPause() {
-            if (isRunning) {
-                pauseTimer();
-            } else {
-                if (timeLeft === 0 && getNextSubFaseIndex(currentFaseIndex) === -1) {
-                    // Si ha acabat i tornem a prémer play, comencem per la primera subfase
-                    currentFaseIndex = FASES_ESTUDI.findIndex(f => !f.isGroup);
-                    timeLeft = FASES_ESTUDI[currentFaseIndex].temps;
+        function resetTimer() {
+            pauseTimer();
+            const executablePhases = getExecutablePhases();
+            if (executablePhases.length > 0) {
+                const currentExecutableIndex = executablePhases.findIndex(phase => 
+                    currentRoutine.phases.indexOf(phase) === currentPhaseIndex);
+                if (currentExecutableIndex !== -1) {
+                    timeLeft = executablePhases[currentExecutableIndex].duration;
+                    updateUI();
                 }
-                startTimer();
             }
         }
-        
-        playPauseBtn.addEventListener('click', togglePlayPause);
-        nextBtn.addEventListener('click', () => {
-            const nextIndex = getNextSubFaseIndex(currentFaseIndex);
-            if (nextIndex !== -1) {
-                changeFase(nextIndex);
-            }
-        });
-        prevBtn.addEventListener('click', () => {
-             const prevIndex = getPrevSubFaseIndex(currentFaseIndex);
-             if (prevIndex !== -1) {
-                changeFase(prevIndex);
-            }
-        });
 
-        function playSoundAlert() {
+        function handlePhaseCompletion() {
+            clearInterval(interval);
+            isRunning = false;
+            
+            playSuccessSound();
+            vibrate([200, 100, 200]);
+            
+            const executablePhases = getExecutablePhases();
+            const currentExecutableIndex = executablePhases.findIndex(phase => 
+                currentRoutine.phases.indexOf(phase) === currentPhaseIndex);
+            
+            if (currentExecutableIndex < executablePhases.length - 1) {
+                // Move to next executable phase
+                const nextPhase = executablePhases[currentExecutableIndex + 1];
+                currentPhaseIndex = currentRoutine.phases.indexOf(nextPhase);
+                timeLeft = nextPhase.duration;
+                
+                showNotification(
+                    'Fase completada!',
+                    `Següent: ${nextPhase.title}`,
+                    'fas fa-check-circle'
+                );
+                
+                // Auto-start next phase after 3 seconds
+                setTimeout(() => {
+                    if (!isRunning) {
+                        startTimer();
+                    }
+                }, 3000);
+            } else {
+                // Routine completed
+                completeRoutine();
+            }
+            
+            updateUI();
+        }
+
+        function completeRoutine() {
+            timerStatus.textContent = 'Completat';
+            timerStatusIndicator.className = 'w-2 h-2 rounded-full bg-success';
+            protocolStatusLight.textContent = 'Completat';
+            protocolStatusLight.className = 'text-xs font-medium text-success uppercase tracking-wider';
+            
+            phaseTitle.textContent = 'Rutina Completada!';
+            groupTitle.textContent = 'Felicitats!';
+            phaseDescription.innerHTML = `
+                <p class="text-base mb-3">Has completat tota la rutina d'estudi. Bon treball!</p>
+                <div class="flex items-center justify-center space-x-4 text-sm">
+                    <span class="flex items-center space-x-1">
+                        <i class="fas fa-trophy text-accent-primary text-xs"></i>
+                        <span>Objectiu assolit</span>
+                    </span>
+                </div>
+            `;
+            
+            showNotification(
+                'Rutina completada!',
+                'Has completat tota la sessió d\'estudi. Molt bé!',
+                'fas fa-trophy'
+            );
+            
+            playCompletionSound();
+            vibrate([300, 100, 300, 100, 300]);
+        }
+        // =======================================================
+        // 5. ENHANCED AUDIO SYSTEM
+        // =======================================================
+
+        let audioContext;
+        
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            return audioContext;
+        }
+
+        function playSuccessSound() {
             try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
+                const ctx = initAudioContext();
+                const oscillator = ctx.createOscillator();
+                const gainNode = ctx.createGain();
 
                 oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
+                gainNode.connect(ctx.destination);
                 
-                oscillator.type = 'triangle';
-                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); 
-                gainNode.gain.setValueAtTime(0.6, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5); 
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                oscillator.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+                oscillator.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2); // G5
+                
+                gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+                
                 oscillator.start();
-                
-                oscillator.stop(audioCtx.currentTime + 0.5);
+                oscillator.stop(ctx.currentTime + 0.6);
             } catch (error) {
-                console.error("Error al reproduir so d'alerta:", error);
+                console.error("Error playing success sound:", error);
             }
         }
-        
+
+        function playCompletionSound() {
+            try {
+                const ctx = initAudioContext();
+                const frequencies = [523.25, 659.25, 783.99, 1046.50]; // C-E-G-C
+                
+                frequencies.forEach((freq, index) => {
+                    const oscillator = ctx.createOscillator();
+                    const gainNode = ctx.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+                    
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(freq, ctx.currentTime + index * 0.2);
+                    
+                    gainNode.gain.setValueAtTime(0.2, ctx.currentTime + index * 0.2);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + index * 0.2 + 0.5);
+                    
+                    oscillator.start(ctx.currentTime + index * 0.2);
+                    oscillator.stop(ctx.currentTime + index * 0.2 + 0.5);
+                });
+            } catch (error) {
+                console.error("Error playing completion sound:", error);
+            }
+        }
+
         // =======================================================
-        // 3. SEQÜENCIADOR DE FASES (Inferior amb Scroll)
+        // 6. ENHANCED METRONOME SYSTEM
         // =======================================================
 
-        /**
-         * Genera les targetes de navegació inferior.
-         */
-        function buildFaseSelector() {
-            faseSelectorContainer.innerHTML = ''; 
-            FASES_ESTUDI.forEach((fase, index) => {
-                const wrapper = document.createElement('div');
-                wrapper.className = `fase-btn-wrapper flex-shrink-0`;
+        let metronomeAudioContext;
+        let metronomeInterval;
+        let metronomeIsRunning = false;
+        let currentBPM = 100;
+        let currentTimeSignature = { beats: 4, noteValue: 4 };
+        let beatCount = 0;
+        let metronomeVolume = 0.5;
+        let metronomeSound = 'click';
+        let isMetronomeCollapsed = window.innerWidth < 1024;
 
-                const btn = document.createElement('button');
-                const timeMin = Math.floor(fase.temps / 60);
+        // Metronome DOM elements
+        const metronomeArea = document.getElementById('metronome-area');
+        const metronomeToggleIcon = document.getElementById('metronome-toggle-icon');
+        const metronomeControlsExpanded = document.getElementById('metronome-controls-expanded');
+        const metronomeMinimizedView = document.getElementById('metronome-minimized-view');
+        const metronomeToggle = document.getElementById('metronom-toggle');
+        const metronomePlayPauseMin = document.getElementById('metronom-play-pause-min');
+        const metronomeState = document.getElementById('metronome-state');
+        const minimizedBPM = document.getElementById('minimized-bpm');
+        const minimizedTimeSig = document.getElementById('minimized-time-sig');
+        const bpmInput = document.getElementById('bpm-input');
+        const bpmSlider = document.getElementById('bpm-slider');
+        const bpmUpBtn = document.getElementById('bpm-up');
+        const bpmDownBtn = document.getElementById('bpm-down');
+        const volumeSlider = document.getElementById('volume-slider');
+        const volumeDisplay = document.getElementById('volume-display');
+        const metronomeSoundSelect = document.getElementById('metronome-sound');
+        const beatIndicators = document.getElementById('beat-indicators');
+        const metronomePlayIcon = document.getElementById('metronom-play-icon');
+        const metronomePauseIcon = document.getElementById('metronom-pause-icon');
+        const metronomeText = document.getElementById('metronom-text');
+
+        // Sound generation functions for different metronome sounds
+        const metronomeSounds = {
+            click: (ctx, time, isAccent) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
                 
-                const isGroup = fase.isGroup;
-                // Agafem només el codi de la fase principal (I, II, III)
-                const mainGroupCode = fase.codi.split('.')[0]; 
+                osc.connect(gain);
+                gain.connect(ctx.destination);
                 
-                let contentHTML = '';
-                let buttonClasses = 'w-full transition duration-150 text-left fase-btn'; // Afegim classe per facilitar l'update
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(isAccent ? 1200 : 800, time);
                 
-                if (isGroup) {
-                    // Estil per a FASES AGRUPADORES
-                    contentHTML = `
-                        <div class="flex flex-col items-start p-3 rounded-lg border border-gray-600/50 transition duration-150 text-left w-full h-full justify-between bg-gray-900/50 hover:bg-gray-700/50 border-dashed">
-                            <span class="text-xs font-mono font-bold uppercase tracking-widest text-gray-500">${mainGroupCode} - ${timeMin} min TOTAL</span>
-                            <span class="text-lg font-extrabold text-white mt-1">${fase.titol.split('.').slice(1).join('.').trim()}</span>
-                        </div>
-                    `;
-                    // Els grups no són clicables (ja que el temporitzador no els executa)
-                    btn.disabled = true; 
-                    buttonClasses += ' cursor-default opacity-70';
-                } else {
-                    // Estil per a SUBFASES (Clicables)
-                    contentHTML = `
-                        <div class="flex flex-col items-start p-3 rounded-lg border border-gray-700/50 transition duration-150 text-left w-full h-full justify-between bg-gray-900/50 hover:bg-gray-800/80">
-                            <span class="text-xs font-mono font-bold uppercase tracking-widest text-gray-500">${mainGroupCode} - ${timeMin} min</span>
-                            <span class="text-sm font-semibold text-gray-200 mt-1">${fase.titol.split(' ').slice(1).join(' ')}</span>
-                        </div>
-                    `;
-                    btn.addEventListener('click', () => {
-                        changeFase(index);
-                    });
+                gain.gain.setValueAtTime(metronomeVolume * 0.3, time);
+                gain.gain.exponentialRampToValueAtTime(0.001, time + 0.1);
+                
+                osc.start(time);
+                osc.stop(time + 0.1);
+            },
+            
+            wood: (ctx, time, isAccent) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                const filter = ctx.createBiquadFilter();
+                
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(isAccent ? 800 : 400, time);
+                
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(isAccent ? 2000 : 1000, time);
+                filter.Q.setValueAtTime(10, time);
+                
+                gain.gain.setValueAtTime(metronomeVolume * 0.4, time);
+                gain.gain.exponentialRampToValueAtTime(0.001, time + 0.05);
+                
+                osc.start(time);
+                osc.stop(time + 0.05);
+            },
+            
+            beep: (ctx, time, isAccent) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(isAccent ? 1000 : 600, time);
+                
+                gain.gain.setValueAtTime(metronomeVolume * 0.2, time);
+                gain.gain.exponentialRampToValueAtTime(0.001, time + 0.2);
+                
+                osc.start(time);
+                osc.stop(time + 0.2);
+            },
+            
+            tick: (ctx, time, isAccent) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                const filter = ctx.createBiquadFilter();
+                
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(isAccent ? 2000 : 1500, time);
+                
+                filter.type = 'highpass';
+                filter.frequency.setValueAtTime(800, time);
+                
+                gain.gain.setValueAtTime(metronomeVolume * 0.3, time);
+                gain.gain.exponentialRampToValueAtTime(0.001, time + 0.03);
+                
+                osc.start(time);
+                osc.stop(time + 0.03);
+            }
+        };
+
+        function createMetronomeClick(time, isAccent) {
+            if (!metronomeAudioContext) return;
+            
+            const soundFunction = metronomeSounds[metronomeSound] || metronomeSounds.click;
+            soundFunction(metronomeAudioContext, time, isAccent);
+        }
+
+        function metronomeTick() {
+            if (!metronomeIsRunning) return;
+            
+            beatCount = (beatCount % currentTimeSignature.beats) + 1;
+            const isAccent = beatCount === 1;
+
+            try {
+                if (!metronomeAudioContext) {
+                    metronomeAudioContext = new (window.AudioContext || window.webkitAudioContext)();
                 }
-
-
-                btn.innerHTML = contentHTML;
-                btn.className = buttonClasses;
-                btn.setAttribute('data-index', index);
                 
-                wrapper.appendChild(btn);
+                if (metronomeAudioContext.state === 'suspended') {
+                    metronomeAudioContext.resume();
+                }
+                
+                const now = metronomeAudioContext.currentTime;
+                createMetronomeClick(now, isAccent);
+            } catch (error) {
+                console.warn("Error creating metronome click:", error);
+            }
+            
+            updateBeatIndicators(beatCount, isAccent);
+        }
+
+        function updateBeatIndicators(currentBeat, isAccent) {
+            const indicators = beatIndicators.querySelectorAll('.beat-indicator');
+            indicators.forEach((indicator, index) => {
+                indicator.classList.remove('active', 'accent');
+                if (index + 1 === currentBeat) {
+                    indicator.classList.add('active');
+                    if (isAccent) {
+                        indicator.classList.add('accent');
+                    }
+                }
+            });
+        }
+
+        function createBeatIndicators() {
+            beatIndicators.innerHTML = '';
+            for (let i = 0; i < currentTimeSignature.beats; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'beat-indicator';
+                beatIndicators.appendChild(indicator);
+            }
+        }
+
+        function updateMetronomeInterval() {
+            if (metronomeIsRunning) {
+                clearInterval(metronomeInterval);
+                const secondsPerBeat = 60 / currentBPM;
+                const delay = secondsPerBeat * 1000;
+                metronomeInterval = setInterval(metronomeTick, delay);
+            }
+        }
+
+        function startMetronome() {
+            if (metronomeIsRunning) return;
+            
+            metronomeIsRunning = true;
+            beatCount = 0;
+            
+            updateMetronomeInterval();
+            
+            // Update UI
+            metronomeState.textContent = 'ACTIU';
+            metronomeState.className = 'text-xs text-success';
+            
+            metronomePlayIcon.classList.add('hidden');
+            metronomePauseIcon.classList.remove('hidden');
+            metronomeText.textContent = 'Aturar';
+            
+            const minPlayIcon = document.getElementById('min-play-icon');
+            const minPauseIcon = document.getElementById('min-pause-icon');
+            minPlayIcon.classList.add('hidden');
+            minPauseIcon.classList.remove('hidden');
+            
+            showNotification('Metrònom iniciat', `${currentBPM} BPM en ${currentTimeSignature.beats}/${currentTimeSignature.noteValue}`, 'fas fa-drum');
+        }
+
+        function stopMetronome() {
+            if (!metronomeIsRunning) return;
+            
+            clearInterval(metronomeInterval);
+            metronomeIsRunning = false;
+            
+            // Update UI
+            metronomeState.textContent = 'INACTIU';
+            metronomeState.className = 'text-xs text-text-secondary';
+            
+            metronomePlayIcon.classList.remove('hidden');
+            metronomePauseIcon.classList.add('hidden');
+            metronomeText.textContent = 'Iniciar';
+            
+            const minPlayIcon = document.getElementById('min-play-icon');
+            const minPauseIcon = document.getElementById('min-pause-icon');
+            minPlayIcon.classList.remove('hidden');
+            minPauseIcon.classList.add('hidden');
+            
+            // Reset beat indicators
+            const indicators = beatIndicators.querySelectorAll('.beat-indicator');
+            indicators.forEach(indicator => {
+                indicator.classList.remove('active', 'accent');
+            });
+        }
+
+        function toggleMetronomeCollapse() {
+            isMetronomeCollapsed = !isMetronomeCollapsed;
+            
+            if (isMetronomeCollapsed) {
+                metronomeArea.classList.add('metronome-minimized');
+                metronomeControlsExpanded.classList.add('hidden');
+                metronomeMinimizedView.classList.remove('hidden');
+                metronomeToggleIcon.classList.add('rotate-180');
+                metronomeArea.style.width = 'auto';
+            } else {
+                metronomeArea.classList.remove('metronome-minimized');
+                metronomeControlsExpanded.classList.remove('hidden');
+                metronomeMinimizedView.classList.add('hidden');
+                metronomeToggleIcon.classList.remove('rotate-180');
+                metronomeArea.style.width = '320px';
+            }
+        }
+
+        function updateBPM(newBPM) {
+            newBPM = Math.max(40, Math.min(200, parseInt(newBPM)));
+            currentBPM = newBPM;
+            
+            bpmInput.value = currentBPM;
+            bpmSlider.value = currentBPM;
+            minimizedBPM.textContent = currentBPM;
+            
+            if (metronomeIsRunning) {
+                updateMetronomeInterval();
+            }
+        }
+
+        function updateVolume(newVolumePercent) {
+            metronomeVolume = parseFloat(newVolumePercent) / 100;
+            volumeDisplay.textContent = `${newVolumePercent}%`;
+        }
+
+        function setTimeSignature(sig) {
+            const [beats, noteValue] = sig.split('/').map(Number);
+            currentTimeSignature = { beats, noteValue };
+            
+            // Update UI
+            document.querySelectorAll('.time-sig-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.sig === sig) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            minimizedTimeSig.textContent = sig;
+            createBeatIndicators();
+            
+            if (metronomeIsRunning) {
+                beatCount = 0; // Reset beat count when changing time signature
+            }
+        }
+
+        // =======================================================
+        // 7. PHASE SELECTOR & NAVIGATION
+        // =======================================================
+
+        function buildPhaseSelector() {
+            faseSelectorContainer.innerHTML = '';
+            
+            currentRoutine.phases.forEach((phase, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'phase-card-wrapper flex-shrink-0';
+
+                const card = document.createElement('div');
+                card.className = 'phase-card glass rounded-xl border border-white/20 transition-all duration-300 cursor-pointer hover:border-accent-primary/50';
+                card.setAttribute('data-index', index);
+                
+                const timeMin = Math.floor(phase.duration / 60);
+                
+                if (phase.isGroup) {
+                    // Group phase card
+                    card.innerHTML = `
+                        <div class="p-4 text-center opacity-70">
+                            <div class="w-8 h-8 mx-auto mb-2 rounded-full bg-text-muted/20 flex items-center justify-center">
+                                <i class="fas fa-folder text-text-muted text-sm"></i>
+                            </div>
+                            <h4 class="text-xs font-medium text-text-muted uppercase tracking-wider mb-1">${phase.code} - ${timeMin} min total</h4>
+                            <p class="text-sm font-semibold text-text-secondary">${phase.title.split('.').slice(1).join('.').trim()}</p>
+                        </div>
+                    `;
+                    card.classList.add('cursor-default');
+                } else {
+                    // Regular phase card
+                    card.innerHTML = `
+                        <div class="p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 flex items-center justify-center">
+                                    <i class="${phase.icon || 'fas fa-play'} text-white text-sm"></i>
+                                </div>
+                                <span class="text-xs font-medium text-text-secondary">${timeMin} min</span>
+                            </div>
+                            <h4 class="text-sm font-semibold text-text-primary mb-2 leading-tight">${phase.title}</h4>
+                            <p class="text-xs text-text-secondary line-clamp-2">${phase.description.substring(0, 80)}...</p>
+                            <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-xs">
+                                <span class="text-text-muted">BPM: ${phase.bpm ? (phase.bpm.length > 15 ? phase.bpm.substring(0, 15) + '...' : phase.bpm) : 'Lliure'}</span>
+                                <span class="text-accent-primary font-medium">${phase.code}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    card.addEventListener('click', () => changePhase(index));
+                }
+                
+                wrapper.appendChild(card);
                 faseSelectorContainer.appendChild(wrapper);
             });
         }
-        
-        /**
-         * Actualitza les classes de color del selector per marcar la fase activa.
-         */
-        function updateFaseSelector() {
-            document.querySelectorAll('.fase-btn').forEach((btn, index) => {
-                const fase = FASES_ESTUDI[index];
-                const card = btn.querySelector('div');
-                if (!card) return;
 
-                const isGroup = fase.isGroup;
-                const titleEl = card.querySelector('span:nth-child(2)');
-                const groupTimeEl = card.querySelector('span:nth-child(1)');
+        function updatePhaseSelector() {
+            const cards = faseSelectorContainer.querySelectorAll('.phase-card');
+            
+            cards.forEach((card, index) => {
+                const phase = currentRoutine.phases[index];
+                card.classList.remove('border-accent-primary', 'bg-accent-primary/10', 'border-white/20');
                 
-                // Neteja les classes dinàmiques (bord, bg, shadow, text)
-                cleanDynamicClasses(card, 'bg-');
-                cleanDynamicClasses(card, 'shadow-');
-                cleanDynamicClasses(card, 'border-');
-                cleanDynamicClasses(titleEl, 'text-');
-                cleanDynamicClasses(groupTimeEl, 'text-');
-
-                // Neteja classes de grup específiques
-                card.classList.remove('border-dashed', 'opacity-80', 'border-gray-600/50');
-                
-                if (index === currentFaseIndex) {
-                    // Estil per a la fase ACTIVA (Neó) - Només subfases
-                    if (!isGroup) {
-                        card.classList.add(`bg-${fase.color.main}-900/80`, `shadow-lg`, `shadow-${fase.color.main}-500/50`, `border-${fase.color.main}-400`);
-                        titleEl.classList.add(`text-${fase.color.main}-200`);
-                        groupTimeEl.classList.add(`text-${fase.color.main}-300`);
-                    } else {
-                         // Aquesta lògica no s'hauria d'activar si el canvi de fase només permet subfases
-                        card.classList.add('bg-gray-800/50', 'border-gray-700/50', 'border-dashed');
-                        titleEl.classList.add('text-white');
-                        groupTimeEl.classList.add('text-gray-500');
-                    }
+                if (index === currentPhaseIndex && !phase.isGroup) {
+                    card.classList.add('border-accent-primary', 'bg-accent-primary/10');
                 } else {
-                    // Estil per a les fases INACTIVES
-                    if (!isGroup) {
-                        card.classList.add('bg-gray-800/50', 'border-gray-700/50', 'hover:bg-gray-700/70');
-                        titleEl.classList.add('text-gray-200');
-                        groupTimeEl.classList.add('text-gray-500');
-                    } else {
-                        // Estil per a separadors de grup inactius
-                        card.classList.add('bg-gray-900/50', 'border-gray-600/50', 'border-dashed', 'opacity-80');
-                        titleEl.classList.add('text-white');
-                        groupTimeEl.classList.add('text-gray-500');
-                    }
+                    card.classList.add('border-white/20');
                 }
             });
         }
 
-        /**
-         * Desplaça el scroll del contenidor de fases a la fase actual.
-         * @param {number} index - Índex de la fase activa.
-         */
-        function scrollToFase(index) {
-            const element = faseSelectorContainer.querySelector(`[data-index="${index}"]`);
-            if (element) {
-                // Utilitzem l'element wrapper per garantir el scroll-snap
-                const wrapper = element.parentElement; 
+        function updateProgressDots() {
+            const executablePhases = getExecutablePhases();
+            phaseProgressDots.innerHTML = '';
+            
+            executablePhases.forEach((phase, index) => {
+                const dot = document.createElement('div');
+                const phaseIndex = currentRoutine.phases.indexOf(phase);
+                
+                dot.className = `w-2 h-2 rounded-full transition-colors duration-300 ${
+                    phaseIndex === currentPhaseIndex ? 'bg-accent-primary' : 
+                    phaseIndex < currentPhaseIndex ? 'bg-success' : 'bg-text-muted/30'
+                }`;
+                
+                phaseProgressDots.appendChild(dot);
+            });
+        }
+
+        function changePhase(index) {
+            const phase = currentRoutine.phases[index];
+            if (!phase || phase.isGroup) return;
+
+            pauseTimer();
+            currentPhaseIndex = index;
+            timeLeft = phase.duration;
+            updateUI();
+            scrollToPhase(index);
+        }
+
+        function scrollToPhase(index) {
+            const card = faseSelectorContainer.querySelector(`[data-index="${index}"]`);
+            if (card) {
+                const wrapper = card.parentElement;
                 if (wrapper) {
                     faseSelectorContainer.scrollTo({
                         left: wrapper.offsetLeft - (faseSelectorContainer.clientWidth / 2) + (wrapper.clientWidth / 2),
@@ -741,238 +1843,338 @@
         }
 
         // =======================================================
-        // 4. METRÒNOM (Funcions prèviament definides)
+        // 8. ROUTINE MANAGEMENT
         // =======================================================
 
-        let audioCtx;
-        let metronomeInterval; 
-        let metronomeIsRunning = false;
-        let currentBPM = 100; 
-        const MIN_BPM = 40;
-        const MAX_BPM = 150;
-        let timeSignature = 4;
-        let beatCount = 0; 
-        let currentVolume = 0.5; 
-        let isCollapsed = (window.innerWidth < 1024); 
-        
-        // Elements del DOM del Metrònom
-        const metronomeArea = document.getElementById('metronome-area');
-        const metronomeToggleIcon = document.getElementById('metronome-toggle-icon');
-        const metronomeControlsExpanded = document.getElementById('metronome-controls-expanded');
-        const metronomeMinimizedView = document.getElementById('metronome-minimized-view');
-        const metronomToggleBtn = document.getElementById('metronom-toggle'); 
-        const metronomPlayPauseMin = document.getElementById('metronom-play-pause-min');
-        const minPlayIcon = document.getElementById('min-play-icon');
-        const minStopIcon = document.getElementById('min-stop-icon');
-        const minimizedBPM = document.getElementById('minimized-bpm');
-        const metronomeState = document.getElementById('metronome-state');
-        const metronomVisual = document.getElementById('metronom-visual');
-        const bpmInput = document.getElementById('bpm-input');
-        const bpmSlider = document.getElementById('bpm-slider');
-        const volumeSlider = document.getElementById('volume-slider');
-        const volumeDisplay = document.getElementById('volume-display');
-        const metronomPlayIcon = document.getElementById('metronom-play-icon');
-        const metronomStopIcon = document.getElementById('metronom-stop-icon');
-        
-        
-        function createClick(time, isAccent) {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
+        function loadRoutine(routineId) {
+            let routine;
             
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            
-            const frequency = isAccent ? 1000 : 800; 
-            const duration = 0.05; 
-            
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(frequency, time); 
-            
-            gain.gain.setValueAtTime(currentVolume, time);
-            gain.gain.exponentialRampToValueAtTime(0.001, time + duration); 
-
-            osc.start(time);
-            osc.stop(time + duration);
-        }
-
-        function metronomeTick() {
-            if (!metronomeIsRunning) return;
-            
-            beatCount = (beatCount % timeSignature) + 1;
-            const isAccent = beatCount === 1;
-
-            try {
-                if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-                const now = audioCtx.currentTime;
-                createClick(now, isAccent);
-            } catch (error) {
-                console.warn("Error en crear el click d'àudio.", error);
-            }
-            
-            if (!isCollapsed) {
-                metronomVisual.classList.remove('bg-gray-700', 'bg-cyan-500/50');
-                if (isAccent) {
-                    metronomVisual.classList.add('bg-[#00ffff]', 'shadow-md', 'shadow-[#00ffff]/80', 'animate-pulse'); 
-                } else {
-                    metronomVisual.classList.add('bg-cyan-500/50'); 
-                }
-                setTimeout(() => {
-                    metronomVisual.classList.remove('bg-[#00ffff]', 'bg-cyan-500/50', 'shadow-md', 'shadow-[#00ffff]/80', 'animate-pulse');
-                    metronomVisual.classList.add('bg-gray-700');
-                }, 50);
-            }
-        }
-
-        function updateMetronomeInterval() {
-             if (metronomeIsRunning) {
-                clearInterval(metronomeInterval);
-                const secondsPerBeat = 60 / currentBPM;
-                const delay = secondsPerBeat * 1000;
-                metronomeInterval = setInterval(metronomeTick, delay); 
-            }
-        }
-
-        function startMetronome() {
-            if (metronomeIsRunning) return;
-            
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            metronomeIsRunning = true;
-            beatCount = 0; 
-            
-            updateMetronomeInterval();
-            
-            metronomeState.textContent = 'ACTIU';
-            metronomeState.classList.add('text-green-500', 'animate-pulse');
-            metronomeState.classList.remove('text-gray-500', 'text-yellow-500');
-
-            metronomPlayIcon.classList.add('hidden');
-            metronomStopIcon.classList.remove('hidden');
-            metronomToggleBtn.classList.add('bg-red-500', 'shadow-red-500/50');
-            metronomToggleBtn.classList.remove('bg-[#00ffff]', 'shadow-[#00ffff]/30');
-            
-            minPlayIcon.classList.add('hidden');
-            minStopIcon.classList.remove('hidden');
-            metronomPlayPauseMin.classList.add('bg-red-500');
-            metronomPlayPauseMin.classList.remove('bg-cyan-600');
-        }
-
-        function stopMetronome() {
-            if (!metronomeIsRunning) return;
-            clearInterval(metronomeInterval);
-            metronomeIsRunning = false;
-            
-            metronomeState.textContent = 'PAUSA';
-            metronomeState.classList.remove('text-green-500', 'animate-pulse');
-            metronomeState.classList.add('text-yellow-500');
-
-            metronomPlayIcon.classList.remove('hidden');
-            metronomStopIcon.classList.add('hidden');
-            metronomVisual.classList.remove('bg-[#00ffff]', 'bg-cyan-500/50', 'shadow-md', 'shadow-[#00ffff]/80', 'animate-pulse');
-            metronomVisual.classList.add('bg-gray-700');
-            metronomToggleBtn.classList.remove('bg-red-500', 'shadow-red-500/50');
-            metronomToggleBtn.classList.add('bg-[#00ffff]', 'shadow-[#00ffff]/30');
-
-            minPlayIcon.classList.remove('hidden');
-            minStopIcon.classList.add('hidden');
-            metronomPlayPauseMin.classList.remove('bg-red-500');
-            metronomPlayPauseMin.classList.add('bg-cyan-600');
-        }
-        
-        function toggleMetronomeCollapse() {
-            isCollapsed = !isCollapsed;
-            
-            if (isCollapsed) {
-                metronomeArea.classList.add('metronom-minimized');
-                metronomeControlsExpanded.classList.add('hidden');
-                metronomeMinimizedView.classList.remove('hidden');
-                metronomeToggleIcon.classList.add('rotate-180');
+            if (routineId === 'default') {
+                routine = DEFAULT_ROUTINE;
+            } else if (ROUTINE_TEMPLATES[routineId]) {
+                routine = ROUTINE_TEMPLATES[routineId];
             } else {
-                metronomeArea.classList.remove('metronom-minimized');
-                metronomeControlsExpanded.classList.remove('hidden');
-                metronomeMinimizedView.classList.add('hidden');
-                metronomeToggleIcon.classList.remove('rotate-180');
+                // Try to load from localStorage
+                const savedRoutines = JSON.parse(localStorage.getItem('music-study-routines') || '{}');
+                routine = savedRoutines[routineId];
             }
-        }
-        
-        function updateBPM(newBPM) {
-            newBPM = parseInt(newBPM);
-            currentBPM = Math.max(MIN_BPM, Math.min(MAX_BPM, newBPM)); 
-
-            bpmInput.value = currentBPM;
-            bpmSlider.value = currentBPM;
-            minimizedBPM.textContent = `${currentBPM} BPM`;
             
-            if (metronomeIsRunning) {
-                updateMetronomeInterval();
+            if (!routine) {
+                showNotification('Error', 'No s\'ha pogut carregar la rutina', 'fas fa-exclamation-triangle');
+                return;
             }
-        }
-        
-        function updateVolume(newVolumePercent) {
-            currentVolume = parseFloat(newVolumePercent) / 100;
-            volumeDisplay.textContent = `${newVolumePercent}%`;
-        }
-
-        metronomToggleBtn.addEventListener('click', (event) => { 
-            event.stopPropagation();
-            metronomeIsRunning ? stopMetronome() : startMetronome();
-        });
-        
-        metronomPlayPauseMin.addEventListener('click', (event) => {
-            event.stopPropagation();
-            metronomeIsRunning ? stopMetronome() : startMetronome();
-        });
-
-        bpmInput.addEventListener('input', (e) => updateBPM(e.target.value));
-        bpmSlider.addEventListener('input', (e) => updateBPM(e.target.value));
-        volumeSlider.addEventListener('input', (e) => updateVolume(e.target.value));
-
-        // Aplica l'estat inicial col·lapsat si és necessari
-        if (isCollapsed) {
-            metronomeArea.classList.add('metronom-minimized');
-            metronomeControlsExpanded.classList.add('hidden');
-            metronomeMinimizedView.classList.remove('hidden');
-            metronomeToggleIcon.classList.add('rotate-180');
-        } else {
-            metronomeMinimizedView.classList.add('hidden');
+            
+            currentRoutine = routine;
+            
+            // Reset to first executable phase
+            const executablePhases = getExecutablePhases();
+            if (executablePhases.length > 0) {
+                currentPhaseIndex = currentRoutine.phases.indexOf(executablePhases[0]);
+                timeLeft = executablePhases[0].duration;
+            }
+            
+            // Update UI
+            document.getElementById('current-routine-name').textContent = routine.name;
+            buildPhaseSelector();
+            updateUI();
+            
+            showNotification('Rutina carregada', `${routine.name} - ${Math.floor(routine.totalTime / 60)} min`, 'fas fa-check');
         }
 
+        function saveCustomRoutine(routine) {
+            const savedRoutines = JSON.parse(localStorage.getItem('music-study-routines') || '{}');
+            savedRoutines[routine.id] = routine;
+            localStorage.setItem('music-study-routines', JSON.stringify(savedRoutines));
+        }
+
+        function createCustomRoutine() {
+            const modal = document.getElementById('custom-routine-modal');
+            modal.classList.remove('hidden');
+            
+            // Initialize with empty routine
+            document.getElementById('routine-name').value = '';
+            document.getElementById('custom-phases-list').innerHTML = '';
+        }
+
+        function addCustomPhase() {
+            const phasesList = document.getElementById('custom-phases-list');
+            const phaseIndex = phasesList.children.length + 1;
+            
+            const phaseDiv = document.createElement('div');
+            phaseDiv.className = 'glass rounded-lg p-4 border border-white/20';
+            phaseDiv.innerHTML = `
+                <div class="flex items-center justify-between mb-3">
+                    <h4 class="font-medium text-text-primary">Fase ${phaseIndex}</h4>
+                    <button class="btn-secondary w-8 h-8 rounded-lg flex items-center justify-center remove-phase-btn">
+                        <i class="fas fa-trash text-sm"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-text-secondary mb-1">Títol</label>
+                        <input type="text" class="phase-title w-full glass rounded border border-white/20 px-2 py-1 text-sm text-text-primary focus-ring" placeholder="Nom de la fase">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-text-secondary mb-1">Durada (minuts)</label>
+                        <input type="number" class="phase-duration w-full glass rounded border border-white/20 px-2 py-1 text-sm text-text-primary focus-ring" min="1" max="120" value="10">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-medium text-text-secondary mb-1">Descripció</label>
+                        <textarea class="phase-description w-full glass rounded border border-white/20 px-2 py-1 text-sm text-text-primary focus-ring" rows="2" placeholder="Descripció de la fase"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-text-secondary mb-1">BPM</label>
+                        <input type="text" class="phase-bpm w-full glass rounded border border-white/20 px-2 py-1 text-sm text-text-primary focus-ring" placeholder="Ex: 60-120 bpm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-text-secondary mb-1">Icona</label>
+                        <select class="phase-icon w-full glass rounded border border-white/20 px-2 py-1 text-sm text-text-primary focus-ring">
+                            <option value="fas fa-play">Play</option>
+                            <option value="fas fa-dumbbell">Tècnica</option>
+                            <option value="fas fa-music">Música</option>
+                            <option value="fas fa-target">Objectiu</option>
+                            <option value="fas fa-brain">Creativitat</option>
+                            <option value="fas fa-redo">Repàs</option>
+                            <option value="fas fa-theater-masks">Simulació</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            
+            phasesList.appendChild(phaseDiv);
+            
+            // Add remove functionality
+            phaseDiv.querySelector('.remove-phase-btn').addEventListener('click', () => {
+                phaseDiv.remove();
+                updatePhaseNumbers();
+            });
+        }
+
+        function updatePhaseNumbers() {
+            const phases = document.querySelectorAll('#custom-phases-list > div');
+            phases.forEach((phase, index) => {
+                phase.querySelector('h4').textContent = `Fase ${index + 1}`;
+            });
+        }
 
         // =======================================================
-        // 5. LÒGICA DEL MODAL D'INICI i INICIALITZACIÓ
+        // 9. EVENT HANDLERS & INITIALIZATION
         // =======================================================
+
+        function setupEventHandlers() {
+            // Theme toggle
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            
+            // Main timer controls
+            playPauseBtn.addEventListener('click', () => {
+                if (isRunning) {
+                    pauseTimer();
+                } else {
+                    startTimer();
+                }
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                const executablePhases = getExecutablePhases();
+                const currentIndex = executablePhases.findIndex(phase => 
+                    currentRoutine.phases.indexOf(phase) === currentPhaseIndex);
+                if (currentIndex < executablePhases.length - 1) {
+                    const nextPhase = executablePhases[currentIndex + 1];
+                    changePhase(currentRoutine.phases.indexOf(nextPhase));
+                }
+            });
+            
+            prevBtn.addEventListener('click', () => {
+                const executablePhases = getExecutablePhases();
+                const currentIndex = executablePhases.findIndex(phase => 
+                    currentRoutine.phases.indexOf(phase) === currentPhaseIndex);
+                if (currentIndex > 0) {
+                    const prevPhase = executablePhases[currentIndex - 1];
+                    changePhase(currentRoutine.phases.indexOf(prevPhase));
+                }
+            });
+            
+            document.getElementById('reset-btn').addEventListener('click', resetTimer);
+            document.getElementById('skip-phase-btn').addEventListener('click', () => {
+                handlePhaseCompletion();
+            });
+            
+            // Routine selector
+            document.getElementById('routine-selector').addEventListener('click', () => {
+                document.querySelector('.dropdown').classList.toggle('active');
+            });
+            
+            document.querySelectorAll('.routine-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    loadRoutine(option.dataset.routine);
+                    document.querySelector('.dropdown').classList.remove('active');
+                });
+            });
+            
+            document.getElementById('create-routine-btn').addEventListener('click', () => {
+                createCustomRoutine();
+                document.querySelector('.dropdown').classList.remove('active');
+            });
+            
+            // Custom routine modal
+            document.getElementById('close-routine-modal').addEventListener('click', () => {
+                document.getElementById('custom-routine-modal').classList.add('hidden');
+            });
+            
+            document.getElementById('add-phase-btn').addEventListener('click', addCustomPhase);
+            
+            document.getElementById('save-routine-btn').addEventListener('click', () => {
+                const name = document.getElementById('routine-name').value.trim();
+                if (!name) {
+                    showNotification('Error', 'Si us plau, introdueix un nom per la rutina', 'fas fa-exclamation-triangle');
+                    return;
+                }
+                
+                const phases = [];
+                const phaseElements = document.querySelectorAll('#custom-phases-list > div');
+                let totalTime = 0;
+                
+                phaseElements.forEach((phaseEl, index) => {
+                    const title = phaseEl.querySelector('.phase-title').value.trim();
+                    const duration = parseInt(phaseEl.querySelector('.phase-duration').value) * 60;
+                    const description = phaseEl.querySelector('.phase-description').value.trim();
+                    const bpm = phaseEl.querySelector('.phase-bpm').value.trim();
+                    const icon = phaseEl.querySelector('.phase-icon').value;
+                    
+                    if (title && duration > 0) {
+                        phases.push({
+                            id: `C.${index + 1}`,
+                            code: `C.${index + 1}`,
+                            title: title,
+                            duration: duration,
+                            description: description || 'Fase personalitzada',
+                            bpm: bpm || 'Lliure',
+                            isGroup: false,
+                            color: { main: 'purple', text: 'text-purple-400', bg: 'bg-purple-900/50' },
+                            icon: icon
+                        });
+                        totalTime += duration;
+                    }
+                });
+                
+                if (phases.length === 0) {
+                    showNotification('Error', 'Si us plau, afegeix almenys una fase vàlida', 'fas fa-exclamation-triangle');
+                    return;
+                }
+                
+                const routine = {
+                    id: `custom_${Date.now()}`,
+                    name: name,
+                    description: `Rutina personalitzada de ${Math.floor(totalTime / 60)} minuts`,
+                    totalTime: totalTime,
+                    phases: phases
+                };
+                
+                saveCustomRoutine(routine);
+                loadRoutine(routine.id);
+                document.getElementById('custom-routine-modal').classList.add('hidden');
+                
+                showNotification('Rutina creada', `${name} s'ha guardat correctament`, 'fas fa-check');
+            });
+            
+            document.getElementById('cancel-routine-btn').addEventListener('click', () => {
+                document.getElementById('custom-routine-modal').classList.add('hidden');
+            });
+            
+            // Metronome controls
+            metronomeToggle.addEventListener('click', () => {
+                metronomeIsRunning ? stopMetronome() : startMetronome();
+            });
+            
+            metronomePlayPauseMin.addEventListener('click', () => {
+                metronomeIsRunning ? stopMetronome() : startMetronome();
+            });
+            
+            bpmInput.addEventListener('input', (e) => updateBPM(e.target.value));
+            bpmSlider.addEventListener('input', (e) => updateBPM(e.target.value));
+            bpmUpBtn.addEventListener('click', () => updateBPM(currentBPM + 5));
+            bpmDownBtn.addEventListener('click', () => updateBPM(currentBPM - 5));
+            
+            volumeSlider.addEventListener('input', (e) => updateVolume(e.target.value));
+            metronomeSoundSelect.addEventListener('change', (e) => {
+                metronomeSound = e.target.value;
+            });
+            
+            // Time signature buttons
+            document.querySelectorAll('.time-sig-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setTimeSignature(btn.dataset.sig);
+                });
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+        }
 
         function closeOnboardingModal() {
-            onboardingModal.classList.add('opacity-0');
+            const modal = document.getElementById('onboarding-modal');
+            modal.classList.add('opacity-0');
             setTimeout(() => {
-                onboardingModal.classList.add('hidden');
-                document.body.style.overflow = 'auto'; 
+                modal.classList.add('hidden');
             }, 300);
         }
-        
-        window.onload = function() {
-            // Inicialització del rellotge i comptador dedicat
-            setInterval(updateClocks, 1000); 
 
-            // Inicialització del temporitzador
-            progressCircle.style.strokeDasharray = totalCircleLength;
-            progressCircle.style.strokeDashoffset = totalCircleLength; 
-            buildFaseSelector();
-            updateUI(); 
+        function initialize() {
+            // Initialize theme icon
+            const themeIcon = document.getElementById('theme-icon');
+            themeIcon.className = currentTheme === 'dark' ? 'fas fa-sun text-lg' : 'fas fa-moon text-lg';
             
-            // La primera fase ha de ser sempre una subfase (la que té temps)
-            const firstSubfase = FASES_ESTUDI[currentFaseIndex];
-            timeDisplay.textContent = formatTime(firstSubfase.temps).substring(3);
-            
-            // Inicialització del metrònom
+            // Initialize metronome
+            if (window.innerWidth < 1024) {
+                toggleMetronomeCollapse();
+            }
+            createBeatIndicators();
+            setTimeSignature('4/4');
             updateBPM(currentBPM);
-            updateVolume(currentVolume * 100);
+            updateVolume(metronomeVolume * 100);
             
-            // Mostrar el modal
-            document.body.style.overflow = 'hidden'; 
-            onboardingModal.classList.remove('hidden', 'opacity-0');
-        };
+            // Initialize timer
+            const executablePhases = getExecutablePhases();
+            if (executablePhases.length > 0) {
+                currentPhaseIndex = currentRoutine.phases.indexOf(executablePhases[0]);
+                timeLeft = executablePhases[0].duration;
+            }
+            
+            // Initialize UI
+            progressCircle.style.strokeDasharray = totalCircleLength;
+            progressCircle.style.strokeDashoffset = totalCircleLength;
+            
+            buildPhaseSelector();
+            updateUI();
+            
+            // Setup event handlers
+            setupEventHandlers();
+            
+            // Start clocks
+            setInterval(updateClocks, 1000);
+            updateClocks();
+            
+            // Add initial phase to the custom routine modal
+            addCustomPhase();
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initialize);
+        
+        // Handle visibility change to pause/resume appropriately
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && isRunning) {
+                // Page is hidden, could pause timer here if desired
+            } else if (!document.hidden && isRunning) {
+                // Page is visible again, timer continues
+            }
+        });
 
     </script>
 </body>
