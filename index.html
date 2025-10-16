@@ -62,7 +62,7 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            transition: background 0.8s ease-in-out;
+            transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Scrollbar Styling */
@@ -91,10 +91,13 @@
 
         /* Progress Ring Animation */
         .progress-ring__circle {
-            transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                       stroke 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                       filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
-            filter: drop-shadow(0 0 8px currentColor);
+            filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.3));
+            stroke-linecap: round;
         }
 
         /* Enhanced Button Styles */
@@ -410,6 +413,7 @@
         .line-clamp-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
+            line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -590,7 +594,7 @@
                     Music Study Protocol
                 </h1>
                 <div class="flex items-center justify-center space-x-6 text-sm">
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-2" title="Hora actual">
                         <i class="fas fa-clock text-cyan-400"></i>
                         <span id="current-time-display" class="text-white font-mono">00:00:00</span>
                     </div>
@@ -598,8 +602,8 @@
                         <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
                         <span id="protocol-status-light" class="text-cyan-400 font-medium uppercase tracking-wider">Preparat</span>
                     </div>
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-hourglass-half text-cyan-400"></i>
+                    <div class="flex items-center space-x-2" title="Temps dedicat avui">
+                        <i class="fas fa-stopwatch text-cyan-400"></i>
                         <span id="total-time-display" class="text-white font-mono">00:00:00</span>
                     </div>
                 </div>
@@ -637,10 +641,10 @@
             <div class="relative mb-8">
                 <!-- Simple Progress Circle -->
                 <svg id="progress-svg" class="w-48 h-48 lg:w-64 lg:h-64 transform -rotate-90" viewBox="0 0 120 120">
-                    <!-- Background circle -->
-                    <circle class="stroke-white/20" stroke-width="3" cx="60" cy="60" r="54" fill="transparent"></circle>
+                    <!-- Background circle - completely hidden -->
+                    <circle class="stroke-transparent" stroke-width="0" cx="60" cy="60" r="54" fill="transparent"></circle>
                     <!-- Progress circle -->
-                    <circle id="progress-circle" class="progress-ring__circle stroke-current stroke-cyan-400 transition-all duration-500" stroke-width="3" stroke-linecap="round" cx="60" cy="60" r="54" fill="transparent" stroke-dasharray="339" stroke-dashoffset="339"></circle>
+                    <circle id="progress-circle" class="progress-ring__circle stroke-current stroke-cyan-400 transition-all duration-500" stroke-width="4" stroke-linecap="round" cx="60" cy="60" r="54" fill="transparent" stroke-dasharray="339" stroke-dashoffset="339"></circle>
                     <!-- Pulse circle for active state -->
                     <circle id="pulse-circle" class="stroke-cyan-400 hidden animate-pulse" stroke-width="1" cx="60" cy="60" r="58" fill="transparent" opacity="0.5"></circle>
                 </svg>
@@ -851,8 +855,6 @@
         const phaseTitle = document.getElementById('fase-titol');
         const groupTitle = document.getElementById('group-titol');
         const phaseDescription = document.getElementById('fase-descripcio');
-        const bpmDisplay = document.getElementById('bpm-display');
-        const phaseDuration = document.getElementById('phase-duration');
         const progressCircle = document.getElementById('progress-circle');
         const pulseCircle = document.getElementById('pulse-circle');
         const playPauseBtn = document.getElementById('play-pause-btn');
@@ -867,12 +869,15 @@
         const faseSelectorContainer = document.getElementById('fase-selector-container');
         const phaseProgressDots = document.getElementById('phase-progress-dots');
         
-        // Calculate total circle length for progress (updated radius)
-        const totalCircleLength = 2 * Math.PI * 54;
+        // =======================================================
+        // CONSTANTS
+        // =======================================================
+        
+        const CIRCLE_RADIUS = 54;
+        const totalCircleLength = 2 * Math.PI * CIRCLE_RADIUS;
+        const TIMER_INTERVAL = 1000; // 1 second
+        const CLOCK_UPDATE_INTERVAL = 1000; // 1 second
 
-        // =======================================================
-        // 2. UTILITY FUNCTIONS
-        // =======================================================
         // =======================================================
         // 2. UTILITY FUNCTIONS
         // =======================================================
@@ -951,12 +956,6 @@
             currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', currentTheme);
             localStorage.setItem('music-study-theme', currentTheme);
-            
-            showNotification(
-                'Tema canviat',
-                `Activat el tema ${currentTheme === 'dark' ? 'fosc' : 'clar'}`,
-                currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun'
-            );
         }
 
         // =======================================================
@@ -992,6 +991,9 @@
             timeDisplay.textContent = formatTime(timeLeft);
             progressCircle.style.strokeDashoffset = offset;
 
+            // Update progress circle color based on phase
+            updateProgressCircleColor(phase);
+
             // Update phase information
             const groupPhase = findGroupForPhase(currentPhaseIndex);
             groupTitle.textContent = groupPhase ? groupPhase.title : '';
@@ -1017,7 +1019,7 @@
             updateBackgroundColor(phase);
 
             // Update status
-            updateStatus();
+            updateStatus(phase);
 
             // Update navigation buttons
             prevBtn.disabled = currentExecutableIndex === 0;
@@ -1043,8 +1045,25 @@
             }
         }
 
-        function getExecutablePhases() {
-            return STUDY_PHASES.filter(phase => !phase.isGroup);
+        function updateProgressCircleColor(phase) {
+            // Map phase background classes to circle colors and glow effects
+            const phaseColors = {
+                'bg-phase-green': { color: '#00ff9f', glow: 'rgba(0, 255, 159, 0.4)' },
+                'bg-phase-cyan': { color: '#00ffff', glow: 'rgba(0, 255, 255, 0.4)' },
+                'bg-phase-blue': { color: '#4ea5d9', glow: 'rgba(78, 165, 217, 0.4)' },
+                'bg-phase-purple': { color: '#9d4edd', glow: 'rgba(157, 78, 221, 0.4)' },
+                'bg-phase-pink': { color: '#f72585', glow: 'rgba(247, 37, 133, 0.4)' },
+                'bg-phase-orange': { color: '#f77f00', glow: 'rgba(247, 127, 0, 0.4)' }
+            };
+
+            const phaseColor = phaseColors[phase.backgroundClass] || phaseColors['bg-phase-cyan'];
+            
+            // Update circle stroke color and glow effect
+            progressCircle.style.stroke = phaseColor.color;
+            progressCircle.style.filter = `drop-shadow(0 0 12px ${phaseColor.glow})`;
+            
+            // Also update pulse circle color
+            pulseCircle.style.stroke = phaseColor.color;
         }
 
         function findGroupForPhase(phaseIndex) {
@@ -1056,37 +1075,36 @@
             return null;
         }
 
-        function updateUIColors(phase) {
-            // Update progress circle color
-            progressCircle.className = `progress-ring__circle stroke-current ${phase.color.text}`;
-            
-            // Update phase title color
-            phaseTitle.className = `text-2xl lg:text-3xl font-bold ${phase.color.text} mb-3 leading-tight`;
-        }
+        function updateStatus(phase = null) {
+            // Get current phase colors
+            const phaseColors = {
+                'bg-phase-green': '#00ff9f',
+                'bg-phase-cyan': '#00ffff', 
+                'bg-phase-blue': '#4ea5d9',
+                'bg-phase-purple': '#9d4edd',
+                'bg-phase-pink': '#f72585',
+                'bg-phase-orange': '#f77f00'
+            };
 
-        function updateStatus() {
+            const currentColor = phase ? phaseColors[phase.backgroundClass] || '#00ffff' : '#00ffff';
+            
             if (isRunning) {
                 timerStatus.textContent = 'Actiu';
-                timerStatus.className = 'text-sm text-green-400 uppercase tracking-wide mt-2';
+                timerStatus.style.color = currentColor;
+                timerStatus.className = 'text-sm uppercase tracking-wide mt-2 transition-colors duration-800';
                 protocolStatusLight.textContent = 'Actiu';
-                protocolStatusLight.className = 'text-green-400 font-medium uppercase tracking-wider';
+                protocolStatusLight.style.color = currentColor;
+                protocolStatusLight.className = 'font-medium uppercase tracking-wider transition-colors duration-800';
                 pulseCircle.classList.remove('hidden');
             } else {
                 timerStatus.textContent = 'Inactiu';
-                timerStatus.className = 'text-sm text-cyan-400 uppercase tracking-wide mt-2';
+                timerStatus.style.color = currentColor;
+                timerStatus.className = 'text-sm uppercase tracking-wide mt-2 transition-colors duration-800';
                 protocolStatusLight.textContent = 'Preparat';
-                protocolStatusLight.className = 'text-cyan-400 font-medium uppercase tracking-wider';
+                protocolStatusLight.style.color = currentColor;
+                protocolStatusLight.className = 'font-medium uppercase tracking-wider transition-colors duration-800';
                 pulseCircle.classList.add('hidden');
             }
-        }
-
-        function findGroupForPhase(phaseIndex) {
-            for (let i = phaseIndex; i >= 0; i--) {
-                if (STUDY_PHASES[i].isGroup) {
-                    return STUDY_PHASES[i];
-                }
-            }
-            return null;
         }
 
         function startTimer() {
@@ -1103,10 +1121,9 @@
                 } else {
                     handlePhaseCompletion();
                 }
-            }, 1000);
+            }, TIMER_INTERVAL);
             
             updateUI();
-            showNotification('Timer iniciat', 'La teva sessió d\'estudi ha començat', 'fas fa-play');
         }
 
         function pauseTimer() {
@@ -1201,18 +1218,25 @@
         let audioContext;
         
         function initAudioContext() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            try {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                return audioContext;
+            } catch (error) {
+                console.warn('Audio context initialization failed:', error);
+                return null;
             }
-            if (audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
-            return audioContext;
         }
 
         function playSuccessSound() {
             try {
                 const ctx = initAudioContext();
+                if (!ctx) return;
+                
                 const oscillator = ctx.createOscillator();
                 const gainNode = ctx.createGain();
 
@@ -1460,8 +1484,6 @@
             const minPauseIcon = document.getElementById('min-pause-icon');
             minPlayIcon.classList.add('hidden');
             minPauseIcon.classList.remove('hidden');
-            
-            showNotification('Metrònom iniciat', `${currentBPM} BPM en ${currentTimeSignature.beats}/${currentTimeSignature.noteValue}`, 'fas fa-drum');
         }
 
         function stopMetronome() {
@@ -1558,7 +1580,7 @@
                 wrapper.className = 'phase-card-wrapper flex-shrink-0';
 
                 const card = document.createElement('div');
-                card.className = 'phase-card bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 transition-all duration-300 cursor-pointer hover:border-cyan-400/50 hover:bg-white/15';
+                card.className = 'phase-card bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 transition-all duration-500 cursor-pointer hover:border-cyan-400/50 hover:bg-white/15';
                 card.setAttribute('data-index', index);
                 
                 const timeMin = Math.floor(phase.duration / 60);
@@ -1675,8 +1697,6 @@
             // Update UI
             buildPhaseSelector();
             updateUI();
-            
-            showNotification('Rutina carregada', 'Protocol d\'estudi inicialitzat', 'fas fa-check');
         }
 
         function saveCustomRoutine(routine) {
@@ -1948,7 +1968,7 @@
             setupEventHandlers();
             
             // Start clocks
-            setInterval(updateClocks, 1000);
+            setInterval(updateClocks, CLOCK_UPDATE_INTERVAL);
             updateClocks();
         }
 
@@ -1961,6 +1981,22 @@
                 // Page is hidden, could pause timer here if desired
             } else if (!document.hidden && isRunning) {
                 // Page is visible again, timer continues
+            }
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (interval) {
+                clearInterval(interval);
+            }
+            if (metronomeInterval) {
+                clearInterval(metronomeInterval);
+            }
+            if (audioContext && audioContext.state !== 'closed') {
+                audioContext.close();
+            }
+            if (metronomeAudioContext && metronomeAudioContext.state !== 'closed') {
+                metronomeAudioContext.close();
             }
         });
 
