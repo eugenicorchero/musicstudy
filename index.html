@@ -1722,9 +1722,13 @@
 
             // Load default routine
             loadRoutine('default');
-
-            // Setup event handlers
-            setupEventHandlers();
+            
+            // Setup event handlers (guard to avoid blocking clocks)
+            try {
+                setupEventHandlers();
+            } catch (e) {
+                console.warn('setupEventHandlers failed:', e);
+            }
 
             // Start clocks immediately and set up interval
             setTimeout(() => {
