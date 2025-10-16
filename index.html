@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -9,7 +10,9 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         /* Professional Color Scheme */
         :root {
@@ -26,12 +29,12 @@
             --text-cyan: #00ffff;
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
-            
+
             /* Gradients and Effects */
             --gradient-accent: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
             --shadow-glow: 0 4px 15px rgba(0, 255, 255, 0.2);
             --border-accent: rgba(0, 255, 255, 0.3);
-            
+
             /* Text colors for compatibility */
             --text-primary: var(--text-white);
             --text-secondary: var(--text-gray);
@@ -41,12 +44,29 @@
         }
 
         /* Dynamic background colors for phases */
-        .bg-phase-green { background: linear-gradient(135deg, #0f4c3a 0%, #1a5f4a 100%); }
-        .bg-phase-cyan { background: linear-gradient(135deg, #0a3a4a 0%, #1a4a5a 100%); }
-        .bg-phase-blue { background: linear-gradient(135deg, #1a2d5a 0%, #2a3d6a 100%); }
-        .bg-phase-purple { background: linear-gradient(135deg, #3a1a5a 0%, #4a2a6a 100%); }
-        .bg-phase-pink { background: linear-gradient(135deg, #5a1a3a 0%, #6a2a4a 100%); }
-        .bg-phase-orange { background: linear-gradient(135deg, #5a3a1a 0%, #6a4a2a 100%); }
+        .bg-phase-green {
+            background: linear-gradient(135deg, #0f4c3a 0%, #1a5f4a 100%);
+        }
+
+        .bg-phase-cyan {
+            background: linear-gradient(135deg, #0a3a4a 0%, #1a4a5a 100%);
+        }
+
+        .bg-phase-blue {
+            background: linear-gradient(135deg, #1a2d5a 0%, #2a3d6a 100%);
+        }
+
+        .bg-phase-purple {
+            background: linear-gradient(135deg, #3a1a5a 0%, #4a2a6a 100%);
+        }
+
+        .bg-phase-pink {
+            background: linear-gradient(135deg, #5a1a3a 0%, #6a2a4a 100%);
+        }
+
+        .bg-phase-orange {
+            background: linear-gradient(135deg, #5a3a1a 0%, #6a4a2a 100%);
+        }
 
         /* Base Styles */
         * {
@@ -57,7 +77,8 @@
             background: var(--primary-bg);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            min-height: 100dvh; /* Dynamic viewport height for mobile */
+            min-height: 100dvh;
+            /* Dynamic viewport height for mobile */
             color: var(--text-white);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
@@ -66,19 +87,22 @@
         }
 
         /* Scrollbar Styling */
-        ::-webkit-scrollbar { 
-            width: 6px; 
+        ::-webkit-scrollbar {
+            width: 6px;
             height: 6px;
         }
-        ::-webkit-scrollbar-track { 
-            background: var(--secondary-bg); 
+
+        ::-webkit-scrollbar-track {
+            background: var(--secondary-bg);
         }
-        ::-webkit-scrollbar-thumb { 
-            background: var(--accent-primary); 
-            border-radius: 3px; 
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 3px;
         }
-        ::-webkit-scrollbar-thumb:hover { 
-            background: var(--accent-secondary); 
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-secondary);
         }
 
         /* Glass morphism effect */
@@ -91,9 +115,9 @@
 
         /* Progress Ring Animation */
         .progress-ring__circle {
-            transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                       stroke 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-                       filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                stroke 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
             filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.3));
@@ -185,28 +209,26 @@
 
         /* Touch-optimized controls for mobile */
         @media (max-width: 768px) {
-            .btn-primary, .btn-secondary {
-                min-height: 48px; /* Minimum touch target size */
+
+            .btn-primary,
+            .btn-secondary {
+                min-height: 48px;
+                /* Minimum touch target size */
                 min-width: 48px;
             }
-            
+
             input[type=range]::-webkit-slider-thumb {
                 width: 24px;
                 height: 24px;
             }
-            
+
             .phase-card {
                 min-height: 60px;
                 padding: 1rem;
             }
         }
 
-        /* Metronome minimized state */
-        .metronome-minimized {
-            width: auto !important;
-            height: auto !important;
-            padding: 0.75rem !important;
-        }
+
 
         /* Phase selector horizontal scroll */
         .phase-selector-container {
@@ -235,10 +257,13 @@
 
         /* Pulse animation for active states */
         @keyframes pulse-glow {
-            0%, 100% { 
+
+            0%,
+            100% {
                 box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
             }
-            50% { 
+
+            50% {
                 box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
             }
         }
@@ -249,7 +274,9 @@
 
         /* Loading spinner */
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .loading-spinner {
@@ -274,9 +301,14 @@
 
         /* Enhanced mobile responsiveness */
         @media (max-width: 640px) {
-            .text-6xl { font-size: 3rem; }
-            .text-7xl { font-size: 3.5rem; }
-            
+            .text-6xl {
+                font-size: 3rem;
+            }
+
+            .text-7xl {
+                font-size: 3.5rem;
+            }
+
             .container-mobile {
                 padding-left: 1rem;
                 padding-right: 1rem;
@@ -352,62 +384,7 @@
             visibility: visible;
         }
 
-        /* Time signature display */
-        .time-signature {
-            font-family: 'JetBrains Mono', monospace;
-            background: var(--glass-bg);
-            border: 1px solid var(--border-accent);
-            border-radius: 8px;
-            padding: 0.5rem;
-            min-width: 48px;
-            text-align: center;
-        }
 
-        /* Beat visualization */
-        .beat-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--text-muted);
-            transition: all 0.1s ease;
-        }
-
-        .beat-indicator.active {
-            background: var(--accent-primary);
-            box-shadow: 0 0 12px var(--accent-primary);
-            transform: scale(1.3);
-        }
-
-        .beat-indicator.accent {
-            background: var(--accent-secondary);
-            box-shadow: 0 0 16px var(--accent-secondary);
-        }
-
-        /* Time signature button styles */
-        .time-sig-btn {
-            background: var(--glass-bg);
-            border: 1px solid var(--border-accent);
-            border-radius: 8px;
-            padding: 0.5rem;
-            text-align: center;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .time-sig-btn:hover {
-            background: var(--border-accent);
-            color: var(--text-primary);
-        }
-
-        .time-sig-btn.active {
-            background: var(--accent-primary);
-            color: var(--primary-bg);
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
-        }
 
         /* Line clamp utility */
         .line-clamp-2 {
@@ -420,24 +397,91 @@
 
         /* Enhanced mobile touch targets */
         @media (hover: none) {
-            .btn-primary:hover, .btn-secondary:hover {
+
+            .btn-primary:hover,
+            .btn-secondary:hover {
                 transform: none;
             }
-            
-            .btn-primary:active, .btn-secondary:active {
+
+            .btn-primary:active,
+            .btn-secondary:active {
                 transform: scale(0.95);
             }
         }
+        /* Metronome (self-contained) */
+        .ms-metro-minimized {
+            width: auto !important;
+            height: auto !important;
+            padding: 0.75rem !important;
+        }
+
+        .ms-time-sig {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-accent);
+            border-radius: 8px;
+            padding: 0.25rem 0.5rem;
+            min-width: 40px;
+            text-align: center;
+            font-size: 0.75rem;
+        }
+
+        .ms-beat-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            transition: all 0.12s ease;
+        }
+
+        .ms-beat-indicator.active {
+            background: var(--accent-primary);
+            box-shadow: 0 0 12px var(--accent-primary);
+            transform: scale(1.25);
+        }
+
+        .ms-beat-indicator.accent {
+            background: var(--accent-green);
+            box-shadow: 0 0 14px var(--accent-green);
+        }
+
+        .ms-time-sig-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-accent);
+            border-radius: 8px;
+            padding: 0.5rem;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .ms-time-sig-btn:hover {
+            background: var(--border-accent);
+            color: var(--text-primary);
+        }
+
+        .ms-time-sig-btn.active {
+            background: var(--accent-primary);
+            color: var(--primary-bg);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.35);
+        }
     </style>
 </head>
+
 <body class="font-sans antialiased" data-theme="dark">
 
 
     <!-- 1. FIXED ONBOARDING MODAL -->
-    <div id="onboarding-modal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+    <div id="onboarding-modal"
+        class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
         <div class="bg-white rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border-2 border-gray-200">
             <div class="text-center mb-6">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                <div
+                    class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
                     <i class="fas fa-music text-white text-2xl"></i>
                 </div>
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
@@ -445,7 +489,7 @@
                 </h2>
                 <p class="text-gray-600 text-sm">Optimitza la teva pràctica musical</p>
             </div>
-            
+
             <div class="space-y-4 mb-8">
                 <div class="flex items-start space-x-3">
                     <div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -456,9 +500,10 @@
                         <p class="text-sm text-gray-600">Assegura't que estigui afinat i a punt</p>
                     </div>
                 </div>
-                
+
                 <div class="flex items-start space-x-3">
-                    <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div
+                        class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                         <i class="fas fa-clipboard-list text-green-600 text-xs"></i>
                     </div>
                     <div>
@@ -466,9 +511,10 @@
                         <p class="text-sm text-gray-600">Partitures, llapis i paper de notes a mà</p>
                     </div>
                 </div>
-                
+
                 <div class="flex items-start space-x-3">
-                    <div class="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div
+                        class="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                         <i class="fas fa-lungs text-purple-600 text-xs"></i>
                     </div>
                     <div>
@@ -478,115 +524,114 @@
                 </div>
             </div>
 
-            <button onclick="closeOnboardingModal()" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg">
+            <button onclick="closeOnboardingModal()"
+                class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg">
                 <i class="fas fa-play mr-2"></i>
                 Començar el Protocol
             </button>
         </div>
     </div>
 
-    <!-- 2. ENHANCED METRONOME (Advanced Features) -->
-    <div id="metronome-area" class="fixed bottom-4 right-4 lg:right-8 glass rounded-2xl shadow-2xl z-20 transition-all duration-300 border border-white/20" style="width: 320px;">
-        
-        <!-- METRONOME HEADER -->
-        <div id="metronome-header" class="flex items-center justify-between p-4 border-b border-white/10 cursor-pointer" onclick="toggleMetronomeCollapse()">
-            <div id="metronome-title-expanded" class="flex items-center space-x-3">
+    <!-- 2. METRONOME (Self-contained, collapsible) -->
+    <div id="ms-metro-area"
+         class="fixed bottom-4 right-4 lg:right-8 glass rounded-2xl shadow-2xl z-20 transition-all duration-300 border border-white/20"
+         style="width: 320px;">
+
+        <!-- HEADER -->
+        <div id="ms-metro-header" class="flex items-center justify-between p-4 border-b border-white/10">
+            <div class="flex items-center space-x-3">
                 <div class="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 flex items-center justify-center">
                     <i class="fas fa-drum text-white text-sm"></i>
                 </div>
                 <div>
                     <h3 class="text-sm font-bold text-text-primary">Metrònom</h3>
-                    <span id="metronome-state" class="text-xs text-text-secondary">INACTIU</span>
+                    <span id="ms-metro-state" class="text-xs text-text-secondary">INACTIU</span>
                 </div>
             </div>
-            
-            <!-- MINIMIZED VIEW -->
-            <div id="metronome-minimized-view" class="flex items-center space-x-3 hidden">
+
+            <div id="ms-metro-min" class="flex items-center space-x-3 hidden">
                 <div class="flex items-center space-x-2">
-                    <span id="minimized-bpm" class="text-sm font-bold text-accent-primary">100</span>
+                    <span id="ms-min-bpm" class="text-sm font-bold text-accent-primary">100</span>
                     <span class="text-xs text-text-secondary">BPM</span>
                 </div>
-                <div id="minimized-time-sig" class="time-signature text-xs">4/4</div>
-                <button id="metronom-play-pause-min" class="btn-primary w-8 h-8 rounded-full flex items-center justify-center">
-                    <i id="min-play-icon" class="fas fa-play text-xs"></i>
-                    <i id="min-pause-icon" class="fas fa-pause text-xs hidden"></i>
+                <div id="ms-min-timesig" class="ms-time-sig">4/4</div>
+                <button id="ms-min-play-btn" class="btn-primary w-8 h-8 rounded-full flex items-center justify-center">
+                    <i id="ms-min-play" class="fas fa-play text-xs"></i>
+                    <i id="ms-min-pause" class="fas fa-pause text-xs hidden"></i>
                 </button>
             </div>
-            
-            <!-- COLLAPSE BUTTON -->
-            <button class="p-1 rounded-lg hover:bg-white/10 transition-colors focus-ring">
-                <i id="metronome-toggle-icon" class="fas fa-chevron-up text-text-secondary transform transition-transform duration-300"></i>
+
+            <button id="ms-metro-toggle" class="p-1 rounded-lg hover:bg-white/10 transition-colors focus-ring" title="Plegar">
+                <i id="ms-metro-toggle-icon" class="fas fa-chevron-up text-text-secondary transform transition-transform duration-300"></i>
             </button>
         </div>
-        
-        <!-- EXPANDED CONTROLS -->
-        <div id="metronome-controls-expanded" class="p-4 space-y-4">
-            <!-- BPM CONTROLS -->
+
+        <!-- CONTROLS -->
+        <div id="ms-metro-controls" class="p-4 space-y-4">
+            <!-- BPM -->
             <div class="space-y-3">
                 <div class="flex items-center justify-between">
                     <label class="text-sm font-medium text-text-primary">Tempo (BPM)</label>
                     <div class="flex items-center space-x-2">
-                        <button id="bpm-down" class="btn-secondary w-8 h-8 rounded-lg flex items-center justify-center">
+                        <button id="ms-bpm-down" class="btn-secondary w-8 h-8 rounded-lg flex items-center justify-center">
                             <i class="fas fa-minus text-xs"></i>
                         </button>
-                        <input type="number" id="bpm-input" value="100" min="40" max="200" class="w-16 px-2 py-1 text-center glass rounded-lg border border-white/20 text-text-primary text-sm focus-ring">
-                        <button id="bpm-up" class="btn-secondary w-8 h-8 rounded-lg flex items-center justify-center">
+                        <input type="number" id="ms-bpm-input" value="100" min="40" max="208"
+                               class="w-16 px-2 py-1 text-center glass rounded-lg border border-white/20 text-text-primary text-sm focus-ring">
+                        <button id="ms-bpm-up" class="btn-secondary w-8 h-8 rounded-lg flex items-center justify-center">
                             <i class="fas fa-plus text-xs"></i>
                         </button>
                     </div>
                 </div>
-                <input type="range" id="bpm-slider" min="40" max="200" value="100" class="w-full">
+                <input type="range" id="ms-bpm-slider" min="40" max="208" value="100" class="w-full">
             </div>
 
             <!-- TIME SIGNATURE -->
             <div class="space-y-3">
                 <label class="text-sm font-medium text-text-primary">Compàs</label>
                 <div class="grid grid-cols-4 gap-2">
-                    <button class="time-sig-btn active" data-sig="4/4">4/4</button>
-                    <button class="time-sig-btn" data-sig="3/4">3/4</button>
-                    <button class="time-sig-btn" data-sig="2/4">2/4</button>
-                    <button class="time-sig-btn" data-sig="6/8">6/8</button>
+                    <button class="ms-time-sig-btn active" data-sig="4/4">4/4</button>
+                    <button class="ms-time-sig-btn" data-sig="3/4">3/4</button>
+                    <button class="ms-time-sig-btn" data-sig="2/4">2/4</button>
+                    <button class="ms-time-sig-btn" data-sig="6/8">6/8</button>
                 </div>
             </div>
 
-            <!-- BEAT VISUALIZATION -->
+            <!-- BEAT INDICATORS -->
             <div class="space-y-3">
                 <label class="text-sm font-medium text-text-primary">Beat Visual</label>
-                <div id="beat-indicators" class="flex justify-center space-x-2">
-                    <!-- Beat indicators will be generated by JS -->
-                </div>
+                <div id="ms-beat-indicators" class="flex justify-center space-x-2"></div>
             </div>
 
             <!-- SOUND & VOLUME -->
             <div class="space-y-3">
                 <div class="flex items-center justify-between">
                     <label class="text-sm font-medium text-text-primary">So</label>
-                    <select id="metronome-sound" class="glass rounded-lg border border-white/20 px-2 py-1 text-sm text-text-primary focus-ring">
+                    <select id="ms-sound-select" class="glass rounded-lg border border-white/20 px-2 py-1 text-sm text-text-primary focus-ring">
                         <option value="click">Click</option>
                         <option value="wood">Fusta</option>
                         <option value="beep">Beep</option>
-                        <option value="tick">Tick</option>
                     </select>
                 </div>
                 <div class="flex items-center space-x-3">
                     <i class="fas fa-volume-down text-text-secondary text-sm"></i>
-                    <input type="range" id="volume-slider" min="0" max="100" value="50" class="flex-grow">
-                    <span id="volume-display" class="text-xs text-text-secondary w-8 text-right">50%</span>
+                    <input type="range" id="ms-vol-slider" min="0" max="100" value="50" class="flex-grow">
+                    <span id="ms-vol-display" class="text-xs text-text-secondary w-8 text-right">50%</span>
                 </div>
             </div>
-            
-            <!-- MAIN CONTROL -->
-            <button id="metronom-toggle" class="btn-primary w-full py-3 font-semibold focus-ring">
-                <i id="metronom-play-icon" class="fas fa-play mr-2"></i>
-                <i id="metronom-pause-icon" class="fas fa-pause mr-2 hidden"></i>
-                <span id="metronom-text">Iniciar</span>
+
+            <!-- MAIN PLAY/PAUSE -->
+            <button id="ms-metro-playbtn" class="btn-primary w-full py-3 font-semibold focus-ring">
+                <i id="ms-metro-play" class="fas fa-play mr-2"></i>
+                <i id="ms-metro-pause" class="fas fa-pause mr-2 hidden"></i>
+                <span id="ms-metro-text">Iniciar</span>
             </button>
         </div>
     </div>
 
     <!-- 3. MAIN CONTAINER (Enhanced Mobile-First) -->
     <div class="flex flex-col min-h-screen">
-        
+
         <!-- SIMPLIFIED HEADER -->
         <header class="container-mobile mx-auto px-4 py-6">
             <div class="text-center">
@@ -600,7 +645,8 @@
                     </div>
                     <div class="flex items-center space-x-2">
                         <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
-                        <span id="protocol-status-light" class="text-cyan-400 font-medium uppercase tracking-wider">Preparat</span>
+                        <span id="protocol-status-light"
+                            class="text-cyan-400 font-medium uppercase tracking-wider">Preparat</span>
                     </div>
                     <div class="flex items-center space-x-2" title="Temps dedicat avui">
                         <i class="fas fa-stopwatch text-cyan-400"></i>
@@ -609,7 +655,7 @@
                 </div>
             </div>
         </header>
-        
+
         <!-- MAIN TIMER SECTION -->
         <main class="flex-grow flex flex-col items-center justify-center container-mobile mx-auto px-4 py-8">
 
@@ -623,7 +669,8 @@
                 </h2>
                 <!-- Phase Description -->
                 <div id="fase-descripcio" class="text-gray-300 max-w-2xl mx-auto">
-                    <p class="text-lg mb-3">Utilitza el seqüenciador inferior per triar un bloc, i premeu Play per iniciar la rutina.</p>
+                    <p class="text-lg mb-3">Utilitza el seqüenciador inferior per triar un bloc, i premeu Play per
+                        iniciar la rutina.</p>
                     <div class="flex items-center justify-center space-x-6 text-sm text-cyan-400">
                         <span class="flex items-center space-x-2">
                             <i class="fas fa-drum"></i>
@@ -636,42 +683,56 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- SIMPLIFIED TIMER DISPLAY -->
             <div class="relative mb-8">
                 <!-- Simple Progress Circle -->
                 <svg id="progress-svg" class="w-48 h-48 lg:w-64 lg:h-64 transform -rotate-90" viewBox="0 0 120 120">
                     <!-- Background circle - completely hidden -->
-                    <circle class="stroke-transparent" stroke-width="0" cx="60" cy="60" r="54" fill="transparent"></circle>
+                    <circle class="stroke-transparent" stroke-width="0" cx="60" cy="60" r="54" fill="transparent">
+                    </circle>
                     <!-- Progress circle -->
-                    <circle id="progress-circle" class="progress-ring__circle stroke-current stroke-cyan-400 transition-all duration-500" stroke-width="4" stroke-linecap="round" cx="60" cy="60" r="54" fill="transparent" stroke-dasharray="339" stroke-dashoffset="339"></circle>
+                    <circle id="progress-circle"
+                        class="progress-ring__circle stroke-current stroke-cyan-400 transition-all duration-500"
+                        stroke-width="4" stroke-linecap="round" cx="60" cy="60" r="54" fill="transparent"
+                        stroke-dasharray="339" stroke-dashoffset="339"></circle>
                     <!-- Pulse circle for active state -->
-                    <circle id="pulse-circle" class="stroke-cyan-400 hidden animate-pulse" stroke-width="1" cx="60" cy="60" r="58" fill="transparent" opacity="0.5"></circle>
+                    <circle id="pulse-circle" class="stroke-cyan-400 hidden animate-pulse" stroke-width="1" cx="60"
+                        cy="60" r="58" fill="transparent" opacity="0.5"></circle>
                 </svg>
 
                 <!-- Timer Display -->
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
-                    <div id="time-display" class="text-4xl lg:text-5xl font-light text-white font-mono leading-none">00:00</div>
+                    <div id="time-display" class="text-4xl lg:text-5xl font-light text-white font-mono leading-none">
+                        00:00</div>
                     <div id="timer-status" class="text-sm text-cyan-400 uppercase tracking-wide mt-2">Inactiu</div>
                 </div>
             </div>
 
             <!-- ENHANCED TIMER CONTROLS -->
             <div class="flex items-center space-x-4 lg:space-x-6">
-                
+
                 <!-- Previous Phase Button -->
-                <button id="prev-btn" class="btn-secondary w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center focus-ring" title="Fase anterior">
+                <button id="prev-btn"
+                    class="btn-secondary w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center focus-ring"
+                    title="Fase anterior">
                     <i class="fas fa-step-backward text-lg"></i>
                 </button>
-                
+
                 <!-- Main Play/Pause Button -->
-                <button id="play-pause-btn" class="relative w-16 h-16 lg:w-20 lg:h-20 rounded-full btn-primary flex items-center justify-center shadow-2xl focus-ring group" title="Iniciar/Pausar">
-                    <i id="play-icon" class="fas fa-play text-xl lg:text-2xl transition-transform group-hover:scale-110"></i>
-                    <i id="pause-icon" class="fas fa-pause text-xl lg:text-2xl hidden transition-transform group-hover:scale-110"></i>
+                <button id="play-pause-btn"
+                    class="relative w-16 h-16 lg:w-20 lg:h-20 rounded-full btn-primary flex items-center justify-center shadow-2xl focus-ring group"
+                    title="Iniciar/Pausar">
+                    <i id="play-icon"
+                        class="fas fa-play text-xl lg:text-2xl transition-transform group-hover:scale-110"></i>
+                    <i id="pause-icon"
+                        class="fas fa-pause text-xl lg:text-2xl hidden transition-transform group-hover:scale-110"></i>
                 </button>
-                
+
                 <!-- Next Phase Button -->
-                <button id="next-btn" class="btn-secondary w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center focus-ring" title="Fase següent">
+                <button id="next-btn"
+                    class="btn-secondary w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center focus-ring"
+                    title="Fase següent">
                     <i class="fas fa-step-forward text-lg"></i>
                 </button>
             </div>
@@ -687,7 +748,7 @@
             </div>
 
         </main>
-        
+
     </div>
 
     <!-- 4. ENHANCED PHASE SEQUENCER -->
@@ -704,12 +765,12 @@
                     <span class="sm:hidden">Desliza</span>
                 </div>
             </div>
-            
+
             <!-- Phase Cards Container -->
             <div id="fase-selector-container" class="phase-selector-container flex space-x-4 pb-4">
                 <!-- Phase cards will be generated by JavaScript -->
             </div>
-            
+
             <!-- Phase Progress Indicator -->
             <div class="flex justify-center mt-4">
                 <div id="phase-progress-dots" class="flex space-x-2">
@@ -868,11 +929,11 @@
         const totalTimeDisplay = document.getElementById('total-time-display');
         const faseSelectorContainer = document.getElementById('fase-selector-container');
         const phaseProgressDots = document.getElementById('phase-progress-dots');
-        
+
         // =======================================================
         // CONSTANTS
         // =======================================================
-        
+
         const CIRCLE_RADIUS = 54;
         const totalCircleLength = 2 * Math.PI * CIRCLE_RADIUS;
         const TIMER_INTERVAL = 1000; // 1 second
@@ -938,12 +999,12 @@
                     </button>
                 </div>
             `;
-            
+
             document.body.appendChild(notification);
-            
+
             // Trigger animation
             setTimeout(() => notification.classList.remove('translate-x-full'), 100);
-            
+
             // Auto remove after 5 seconds
             setTimeout(() => {
                 notification.classList.add('translate-x-full');
@@ -978,22 +1039,22 @@
             if (currentTimeDisplay) {
                 currentTimeDisplay.textContent = formatClock(new Date());
             }
-            
+
             // Update time spent on page  
             if (totalTimeDisplay) {
                 totalTimeDisplay.textContent = formatTimeWithHours(totalSecondsDedicated);
             }
-            
+
             totalSecondsDedicated++;
         }
 
         function updateUI() {
             const executablePhases = getExecutablePhases();
-            const currentExecutableIndex = executablePhases.findIndex((phase, index) => 
+            const currentExecutableIndex = executablePhases.findIndex((phase, index) =>
                 STUDY_PHASES.indexOf(phase) === currentPhaseIndex);
-            
+
             if (currentExecutableIndex === -1) return;
-            
+
             const phase = STUDY_PHASES[currentPhaseIndex];
             const percent = timeLeft / phase.duration;
             const offset = totalCircleLength * (1 - percent);
@@ -1009,7 +1070,7 @@
             const groupPhase = findGroupForPhase(currentPhaseIndex);
             groupTitle.textContent = groupPhase ? groupPhase.title : '';
             phaseTitle.textContent = phase.title.replace(/^[IVX]+\.\d*\s*/, ''); // Remove phase number prefix
-            
+
             // Update description
             const descriptionHTML = `
                 <p class="text-lg mb-3">${phase.description}</p>
@@ -1049,7 +1110,7 @@
         function updateBackgroundColor(phase) {
             // Remove existing background classes
             document.body.classList.remove('bg-phase-green', 'bg-phase-cyan', 'bg-phase-blue', 'bg-phase-purple', 'bg-phase-pink', 'bg-phase-orange');
-            
+
             // Add current phase background
             if (phase.backgroundClass) {
                 document.body.classList.add(phase.backgroundClass);
@@ -1068,11 +1129,11 @@
             };
 
             const phaseColor = phaseColors[phase.backgroundClass] || phaseColors['bg-phase-cyan'];
-            
+
             // Update circle stroke color and glow effect
             progressCircle.style.stroke = phaseColor.color;
             progressCircle.style.filter = `drop-shadow(0 0 12px ${phaseColor.glow})`;
-            
+
             // Also update pulse circle color
             pulseCircle.style.stroke = phaseColor.color;
         }
@@ -1090,7 +1151,7 @@
             // Get current phase colors
             const phaseColors = {
                 'bg-phase-green': '#00ff9f',
-                'bg-phase-cyan': '#00ffff', 
+                'bg-phase-cyan': '#00ffff',
                 'bg-phase-blue': '#4ea5d9',
                 'bg-phase-purple': '#9d4edd',
                 'bg-phase-pink': '#f72585',
@@ -1098,7 +1159,7 @@
             };
 
             const currentColor = phase ? phaseColors[phase.backgroundClass] || '#00ffff' : '#00ffff';
-            
+
             if (isRunning) {
                 timerStatus.textContent = 'Actiu';
                 timerStatus.style.color = currentColor;
@@ -1120,11 +1181,11 @@
 
         function startTimer() {
             if (isRunning) return;
-            
+
             isRunning = true;
             playIcon.classList.add('hidden');
             pauseIcon.classList.remove('hidden');
-            
+
             interval = setInterval(() => {
                 if (timeLeft > 0) {
                     timeLeft--;
@@ -1133,7 +1194,7 @@
                     handlePhaseCompletion();
                 }
             }, TIMER_INTERVAL);
-            
+
             updateUI();
         }
 
@@ -1149,7 +1210,7 @@
             pauseTimer();
             const executablePhases = getExecutablePhases();
             if (executablePhases.length > 0) {
-                const currentExecutableIndex = executablePhases.findIndex(phase => 
+                const currentExecutableIndex = executablePhases.findIndex(phase =>
                     STUDY_PHASES.indexOf(phase) === currentPhaseIndex);
                 if (currentExecutableIndex !== -1) {
                     timeLeft = executablePhases[currentExecutableIndex].duration;
@@ -1161,26 +1222,26 @@
         function handlePhaseCompletion() {
             clearInterval(interval);
             isRunning = false;
-            
+
             playSuccessSound();
             vibrate([200, 100, 200]);
-            
+
             const executablePhases = getExecutablePhases();
-            const currentExecutableIndex = executablePhases.findIndex(phase => 
+            const currentExecutableIndex = executablePhases.findIndex(phase =>
                 STUDY_PHASES.indexOf(phase) === currentPhaseIndex);
-            
+
             if (currentExecutableIndex < executablePhases.length - 1) {
                 // Move to next executable phase
                 const nextPhase = executablePhases[currentExecutableIndex + 1];
                 currentPhaseIndex = STUDY_PHASES.indexOf(nextPhase);
                 timeLeft = nextPhase.duration;
-                
+
                 showNotification(
                     'Fase completada!',
                     `Següent: ${nextPhase.title}`,
                     'fas fa-check-circle'
                 );
-                
+
                 // Auto-start next phase after 3 seconds
                 setTimeout(() => {
                     if (!isRunning) {
@@ -1191,7 +1252,7 @@
                 // Routine completed
                 completeRoutine();
             }
-            
+
             updateUI();
         }
 
@@ -1200,7 +1261,7 @@
             timerStatus.className = 'text-sm text-green-400 uppercase tracking-wide mt-2';
             protocolStatusLight.textContent = 'Completat';
             protocolStatusLight.className = 'text-green-400 font-medium uppercase tracking-wider';
-            
+
             phaseTitle.textContent = 'Rutina Completada!';
             groupTitle.textContent = 'Felicitats!';
             phaseDescription.innerHTML = `
@@ -1212,13 +1273,13 @@
                     </span>
                 </div>
             `;
-            
+
             showNotification(
                 'Rutina completada!',
                 'Has completat tota la sessió d\'estudi. Molt bé!',
                 'fas fa-trophy'
             );
-            
+
             playCompletionSound();
             vibrate([300, 100, 300, 100, 300]);
         }
@@ -1227,7 +1288,7 @@
         // =======================================================
 
         let audioContext;
-        
+
         function initAudioContext() {
             try {
                 if (!audioContext) {
@@ -1247,21 +1308,21 @@
             try {
                 const ctx = initAudioContext();
                 if (!ctx) return;
-                
+
                 const oscillator = ctx.createOscillator();
                 const gainNode = ctx.createGain();
 
                 oscillator.connect(gainNode);
                 gainNode.connect(ctx.destination);
-                
+
                 oscillator.type = 'sine';
                 oscillator.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
                 oscillator.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
                 oscillator.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2); // G5
-                
+
                 gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
-                
+
                 oscillator.start();
                 oscillator.stop(ctx.currentTime + 0.6);
             } catch (error) {
@@ -1273,20 +1334,20 @@
             try {
                 const ctx = initAudioContext();
                 const frequencies = [523.25, 659.25, 783.99, 1046.50]; // C-E-G-C
-                
+
                 frequencies.forEach((freq, index) => {
                     const oscillator = ctx.createOscillator();
                     const gainNode = ctx.createGain();
-                    
+
                     oscillator.connect(gainNode);
                     gainNode.connect(ctx.destination);
-                    
+
                     oscillator.type = 'sine';
                     oscillator.frequency.setValueAtTime(freq, ctx.currentTime + index * 0.2);
-                    
+
                     gainNode.gain.setValueAtTime(0.2, ctx.currentTime + index * 0.2);
                     gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + index * 0.2 + 0.5);
-                    
+
                     oscillator.start(ctx.currentTime + index * 0.2);
                     oscillator.stop(ctx.currentTime + index * 0.2 + 0.5);
                 });
@@ -1296,296 +1357,12 @@
         }
 
         // =======================================================
-        // 6. ENHANCED METRONOME SYSTEM
-        // =======================================================
-
-        let metronomeAudioContext;
-        let metronomeInterval;
-        let metronomeIsRunning = false;
-        let currentBPM = 100;
-        let currentTimeSignature = { beats: 4, noteValue: 4 };
-        let beatCount = 0;
-        let metronomeVolume = 0.5;
-        let metronomeSound = 'click';
-        let isMetronomeCollapsed = window.innerWidth < 1024;
-
-        // Metronome DOM elements
-        const metronomeArea = document.getElementById('metronome-area');
-        const metronomeToggleIcon = document.getElementById('metronome-toggle-icon');
-        const metronomeControlsExpanded = document.getElementById('metronome-controls-expanded');
-        const metronomeMinimizedView = document.getElementById('metronome-minimized-view');
-        const metronomeToggle = document.getElementById('metronom-toggle');
-        const metronomePlayPauseMin = document.getElementById('metronom-play-pause-min');
-        const metronomeState = document.getElementById('metronome-state');
-        const minimizedBPM = document.getElementById('minimized-bpm');
-        const minimizedTimeSig = document.getElementById('minimized-time-sig');
-        const bpmInput = document.getElementById('bpm-input');
-        const bpmSlider = document.getElementById('bpm-slider');
-        const bpmUpBtn = document.getElementById('bpm-up');
-        const bpmDownBtn = document.getElementById('bpm-down');
-        const volumeSlider = document.getElementById('volume-slider');
-        const volumeDisplay = document.getElementById('volume-display');
-        const metronomeSoundSelect = document.getElementById('metronome-sound');
-        const beatIndicators = document.getElementById('beat-indicators');
-        const metronomePlayIcon = document.getElementById('metronom-play-icon');
-        const metronomePauseIcon = document.getElementById('metronom-pause-icon');
-        const metronomeText = document.getElementById('metronom-text');
-
-        // Sound generation functions for different metronome sounds
-        const metronomeSounds = {
-            click: (ctx, time, isAccent) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                
-                osc.type = 'square';
-                osc.frequency.setValueAtTime(isAccent ? 1200 : 800, time);
-                
-                gain.gain.setValueAtTime(metronomeVolume * 0.3, time);
-                gain.gain.exponentialRampToValueAtTime(0.001, time + 0.1);
-                
-                osc.start(time);
-                osc.stop(time + 0.1);
-            },
-            
-            wood: (ctx, time, isAccent) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                const filter = ctx.createBiquadFilter();
-                
-                osc.connect(filter);
-                filter.connect(gain);
-                gain.connect(ctx.destination);
-                
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(isAccent ? 800 : 400, time);
-                
-                filter.type = 'bandpass';
-                filter.frequency.setValueAtTime(isAccent ? 2000 : 1000, time);
-                filter.Q.setValueAtTime(10, time);
-                
-                gain.gain.setValueAtTime(metronomeVolume * 0.4, time);
-                gain.gain.exponentialRampToValueAtTime(0.001, time + 0.05);
-                
-                osc.start(time);
-                osc.stop(time + 0.05);
-            },
-            
-            beep: (ctx, time, isAccent) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(isAccent ? 1000 : 600, time);
-                
-                gain.gain.setValueAtTime(metronomeVolume * 0.2, time);
-                gain.gain.exponentialRampToValueAtTime(0.001, time + 0.2);
-                
-                osc.start(time);
-                osc.stop(time + 0.2);
-            },
-            
-            tick: (ctx, time, isAccent) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                const filter = ctx.createBiquadFilter();
-                
-                osc.connect(filter);
-                filter.connect(gain);
-                gain.connect(ctx.destination);
-                
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(isAccent ? 2000 : 1500, time);
-                
-                filter.type = 'highpass';
-                filter.frequency.setValueAtTime(800, time);
-                
-                gain.gain.setValueAtTime(metronomeVolume * 0.3, time);
-                gain.gain.exponentialRampToValueAtTime(0.001, time + 0.03);
-                
-                osc.start(time);
-                osc.stop(time + 0.03);
-            }
-        };
-
-        function createMetronomeClick(time, isAccent) {
-            if (!metronomeAudioContext) return;
-            
-            const soundFunction = metronomeSounds[metronomeSound] || metronomeSounds.click;
-            soundFunction(metronomeAudioContext, time, isAccent);
-        }
-
-        function metronomeTick() {
-            if (!metronomeIsRunning) return;
-            
-            beatCount = (beatCount % currentTimeSignature.beats) + 1;
-            const isAccent = beatCount === 1;
-
-            try {
-                if (!metronomeAudioContext) {
-                    metronomeAudioContext = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                
-                if (metronomeAudioContext.state === 'suspended') {
-                    metronomeAudioContext.resume();
-                }
-                
-                const now = metronomeAudioContext.currentTime;
-                createMetronomeClick(now, isAccent);
-            } catch (error) {
-                console.warn("Error creating metronome click:", error);
-            }
-            
-            updateBeatIndicators(beatCount, isAccent);
-        }
-
-        function updateBeatIndicators(currentBeat, isAccent) {
-            const indicators = beatIndicators.querySelectorAll('.beat-indicator');
-            indicators.forEach((indicator, index) => {
-                indicator.classList.remove('active', 'accent');
-                if (index + 1 === currentBeat) {
-                    indicator.classList.add('active');
-                    if (isAccent) {
-                        indicator.classList.add('accent');
-                    }
-                }
-            });
-        }
-
-        function createBeatIndicators() {
-            beatIndicators.innerHTML = '';
-            for (let i = 0; i < currentTimeSignature.beats; i++) {
-                const indicator = document.createElement('div');
-                indicator.className = 'beat-indicator';
-                beatIndicators.appendChild(indicator);
-            }
-        }
-
-        function updateMetronomeInterval() {
-            if (metronomeIsRunning) {
-                clearInterval(metronomeInterval);
-                const secondsPerBeat = 60 / currentBPM;
-                const delay = secondsPerBeat * 1000;
-                metronomeInterval = setInterval(metronomeTick, delay);
-            }
-        }
-
-        function startMetronome() {
-            if (metronomeIsRunning) return;
-            
-            metronomeIsRunning = true;
-            beatCount = 0;
-            
-            updateMetronomeInterval();
-            
-            // Update UI
-            metronomeState.textContent = 'ACTIU';
-            metronomeState.className = 'text-xs text-success';
-            
-            metronomePlayIcon.classList.add('hidden');
-            metronomePauseIcon.classList.remove('hidden');
-            metronomeText.textContent = 'Aturar';
-            
-            const minPlayIcon = document.getElementById('min-play-icon');
-            const minPauseIcon = document.getElementById('min-pause-icon');
-            minPlayIcon.classList.add('hidden');
-            minPauseIcon.classList.remove('hidden');
-        }
-
-        function stopMetronome() {
-            if (!metronomeIsRunning) return;
-            
-            clearInterval(metronomeInterval);
-            metronomeIsRunning = false;
-            
-            // Update UI
-            metronomeState.textContent = 'INACTIU';
-            metronomeState.className = 'text-xs text-text-secondary';
-            
-            metronomePlayIcon.classList.remove('hidden');
-            metronomePauseIcon.classList.add('hidden');
-            metronomeText.textContent = 'Iniciar';
-            
-            const minPlayIcon = document.getElementById('min-play-icon');
-            const minPauseIcon = document.getElementById('min-pause-icon');
-            minPlayIcon.classList.remove('hidden');
-            minPauseIcon.classList.add('hidden');
-            
-            // Reset beat indicators
-            const indicators = beatIndicators.querySelectorAll('.beat-indicator');
-            indicators.forEach(indicator => {
-                indicator.classList.remove('active', 'accent');
-            });
-        }
-
-        function toggleMetronomeCollapse() {
-            isMetronomeCollapsed = !isMetronomeCollapsed;
-            
-            if (isMetronomeCollapsed) {
-                metronomeArea.classList.add('metronome-minimized');
-                metronomeControlsExpanded.classList.add('hidden');
-                metronomeMinimizedView.classList.remove('hidden');
-                metronomeToggleIcon.classList.add('rotate-180');
-                metronomeArea.style.width = 'auto';
-            } else {
-                metronomeArea.classList.remove('metronome-minimized');
-                metronomeControlsExpanded.classList.remove('hidden');
-                metronomeMinimizedView.classList.add('hidden');
-                metronomeToggleIcon.classList.remove('rotate-180');
-                metronomeArea.style.width = '320px';
-            }
-        }
-
-        function updateBPM(newBPM) {
-            newBPM = Math.max(40, Math.min(200, parseInt(newBPM)));
-            currentBPM = newBPM;
-            
-            bpmInput.value = currentBPM;
-            bpmSlider.value = currentBPM;
-            minimizedBPM.textContent = currentBPM;
-            
-            if (metronomeIsRunning) {
-                updateMetronomeInterval();
-            }
-        }
-
-        function updateVolume(newVolumePercent) {
-            metronomeVolume = parseFloat(newVolumePercent) / 100;
-            volumeDisplay.textContent = `${newVolumePercent}%`;
-        }
-
-        function setTimeSignature(sig) {
-            const [beats, noteValue] = sig.split('/').map(Number);
-            currentTimeSignature = { beats, noteValue };
-            
-            // Update UI
-            document.querySelectorAll('.time-sig-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.sig === sig) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            minimizedTimeSig.textContent = sig;
-            createBeatIndicators();
-            
-            if (metronomeIsRunning) {
-                beatCount = 0; // Reset beat count when changing time signature
-            }
-        }
-
-        // =======================================================
         // 7. PHASE SELECTOR & NAVIGATION
         // =======================================================
 
         function buildPhaseSelector() {
             faseSelectorContainer.innerHTML = '';
-            
+
             STUDY_PHASES.forEach((phase, index) => {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'phase-card-wrapper flex-shrink-0';
@@ -1593,9 +1370,9 @@
                 const card = document.createElement('div');
                 card.className = 'phase-card bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 transition-all duration-500 cursor-pointer hover:border-cyan-400/50 hover:bg-white/15';
                 card.setAttribute('data-index', index);
-                
+
                 const timeMin = Math.floor(phase.duration / 60);
-                
+
                 if (phase.isGroup) {
                     // Group phase card
                     card.innerHTML = `
@@ -1626,10 +1403,10 @@
                             </div>
                         </div>
                     `;
-                    
+
                     card.addEventListener('click', () => changePhase(index));
                 }
-                
+
                 wrapper.appendChild(card);
                 faseSelectorContainer.appendChild(wrapper);
             });
@@ -1637,11 +1414,11 @@
 
         function updatePhaseSelector() {
             const cards = faseSelectorContainer.querySelectorAll('.phase-card');
-            
+
             cards.forEach((card, index) => {
                 const phase = STUDY_PHASES[index];
                 card.classList.remove('border-cyan-400', 'bg-cyan-400/20', 'border-white/20');
-                
+
                 if (index === currentPhaseIndex && !phase.isGroup) {
                     card.classList.add('border-cyan-400', 'bg-cyan-400/20');
                 } else {
@@ -1653,16 +1430,15 @@
         function updateProgressDots() {
             const executablePhases = getExecutablePhases();
             phaseProgressDots.innerHTML = '';
-            
+
             executablePhases.forEach((phase, index) => {
                 const dot = document.createElement('div');
                 const phaseIndex = STUDY_PHASES.indexOf(phase);
-                
-                dot.className = `w-2 h-2 rounded-full transition-colors duration-300 ${
-                    phaseIndex === currentPhaseIndex ? 'bg-cyan-400' : 
-                    phaseIndex < currentPhaseIndex ? 'bg-green-400' : 'bg-white/30'
-                }`;
-                
+
+                dot.className = `w-2 h-2 rounded-full transition-colors duration-300 ${phaseIndex === currentPhaseIndex ? 'bg-cyan-400' :
+                        phaseIndex < currentPhaseIndex ? 'bg-green-400' : 'bg-white/30'
+                    }`;
+
                 phaseProgressDots.appendChild(dot);
             });
         }
@@ -1704,7 +1480,7 @@
                     break;
                 }
             }
-            
+
             // Update UI
             buildPhaseSelector();
             updateUI();
@@ -1719,7 +1495,7 @@
         function createCustomRoutine() {
             const modal = document.getElementById('custom-routine-modal');
             modal.classList.remove('hidden');
-            
+
             // Initialize with empty routine
             document.getElementById('routine-name').value = '';
             document.getElementById('custom-phases-list').innerHTML = '';
@@ -1728,7 +1504,7 @@
         function addCustomPhase() {
             const phasesList = document.getElementById('custom-phases-list');
             const phaseIndex = phasesList.children.length + 1;
-            
+
             const phaseDiv = document.createElement('div');
             phaseDiv.className = 'glass rounded-lg p-4 border border-white/20';
             phaseDiv.innerHTML = `
@@ -1769,9 +1545,9 @@
                     </div>
                 </div>
             `;
-            
+
             phasesList.appendChild(phaseDiv);
-            
+
             // Add remove functionality
             phaseDiv.querySelector('.remove-phase-btn').addEventListener('click', () => {
                 phaseDiv.remove();
@@ -1799,74 +1575,74 @@
                     startTimer();
                 }
             });
-            
+
             nextBtn.addEventListener('click', () => {
                 const executablePhases = getExecutablePhases();
-                const currentIndex = executablePhases.findIndex(phase => 
+                const currentIndex = executablePhases.findIndex(phase =>
                     STUDY_PHASES.indexOf(phase) === currentPhaseIndex);
                 if (currentIndex < executablePhases.length - 1) {
                     const nextPhase = executablePhases[currentIndex + 1];
                     changePhase(STUDY_PHASES.indexOf(nextPhase));
                 }
             });
-            
+
             prevBtn.addEventListener('click', () => {
                 const executablePhases = getExecutablePhases();
-                const currentIndex = executablePhases.findIndex(phase => 
+                const currentIndex = executablePhases.findIndex(phase =>
                     STUDY_PHASES.indexOf(phase) === currentPhaseIndex);
                 if (currentIndex > 0) {
                     const prevPhase = executablePhases[currentIndex - 1];
                     changePhase(STUDY_PHASES.indexOf(prevPhase));
                 }
             });
-            
+
             document.getElementById('reset-btn').addEventListener('click', resetTimer);
             document.getElementById('skip-phase-btn').addEventListener('click', () => {
                 handlePhaseCompletion();
             });
-            
+
             // Routine selector
             document.getElementById('routine-selector').addEventListener('click', () => {
                 document.querySelector('.dropdown').classList.toggle('active');
             });
-            
+
             document.querySelectorAll('.routine-option').forEach(option => {
                 option.addEventListener('click', () => {
                     loadRoutine(option.dataset.routine);
                     document.querySelector('.dropdown').classList.remove('active');
                 });
             });
-            
+
             document.getElementById('create-routine-btn').addEventListener('click', () => {
                 createCustomRoutine();
                 document.querySelector('.dropdown').classList.remove('active');
             });
-            
+
             // Custom routine modal
             document.getElementById('close-routine-modal').addEventListener('click', () => {
                 document.getElementById('custom-routine-modal').classList.add('hidden');
             });
-            
+
             document.getElementById('add-phase-btn').addEventListener('click', addCustomPhase);
-            
+
             document.getElementById('save-routine-btn').addEventListener('click', () => {
                 const name = document.getElementById('routine-name').value.trim();
                 if (!name) {
                     showNotification('Error', 'Si us plau, introdueix un nom per la rutina', 'fas fa-exclamation-triangle');
                     return;
                 }
-                
+
                 const phases = [];
                 const phaseElements = document.querySelectorAll('#custom-phases-list > div');
                 let totalTime = 0;
-                
+
                 phaseElements.forEach((phaseEl, index) => {
                     const title = phaseEl.querySelector('.phase-title').value.trim();
                     const duration = parseInt(phaseEl.querySelector('.phase-duration').value) * 60;
                     const description = phaseEl.querySelector('.phase-description').value.trim();
                     const bpm = phaseEl.querySelector('.phase-bpm').value.trim();
                     const icon = phaseEl.querySelector('.phase-icon').value;
-                    
+
                     if (title && duration > 0) {
                         phases.push({
                             id: `C.${index + 1}`,
@@ -1882,12 +1658,12 @@
                         totalTime += duration;
                     }
                 });
-                
+
                 if (phases.length === 0) {
                     showNotification('Error', 'Si us plau, afegeix almenys una fase vàlida', 'fas fa-exclamation-triangle');
                     return;
                 }
-                
+
                 const routine = {
                     id: `custom_${Date.now()}`,
                     name: name,
@@ -1895,44 +1671,18 @@
                     totalTime: totalTime,
                     phases: phases
                 };
-                
+
                 saveCustomRoutine(routine);
                 loadRoutine(routine.id);
                 document.getElementById('custom-routine-modal').classList.add('hidden');
-                
+
                 showNotification('Rutina creada', `${name} s'ha guardat correctament`, 'fas fa-check');
             });
-            
+
             document.getElementById('cancel-routine-btn').addEventListener('click', () => {
                 document.getElementById('custom-routine-modal').classList.add('hidden');
             });
-            
-            // Metronome controls
-            metronomeToggle.addEventListener('click', () => {
-                metronomeIsRunning ? stopMetronome() : startMetronome();
-            });
-            
-            metronomePlayPauseMin.addEventListener('click', () => {
-                metronomeIsRunning ? stopMetronome() : startMetronome();
-            });
-            
-            bpmInput.addEventListener('input', (e) => updateBPM(e.target.value));
-            bpmSlider.addEventListener('input', (e) => updateBPM(e.target.value));
-            bpmUpBtn.addEventListener('click', () => updateBPM(currentBPM + 5));
-            bpmDownBtn.addEventListener('click', () => updateBPM(currentBPM - 5));
-            
-            volumeSlider.addEventListener('input', (e) => updateVolume(e.target.value));
-            metronomeSoundSelect.addEventListener('change', (e) => {
-                metronomeSound = e.target.value;
-            });
-            
-            // Time signature buttons
-            document.querySelectorAll('.time-sig-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    setTimeSignature(btn.dataset.sig);
-                });
-            });
-            
+
             // Close dropdowns when clicking outside
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('.dropdown')) {
@@ -1952,32 +1702,23 @@
         }
 
         function initialize() {
-            // Initialize metronome
-            if (window.innerWidth < 1024) {
-                toggleMetronomeCollapse();
-            }
-            createBeatIndicators();
-            setTimeSignature('4/4');
-            updateBPM(currentBPM);
-            updateVolume(metronomeVolume * 100);
-            
             // Initialize timer
             const executablePhases = getExecutablePhases();
             if (executablePhases.length > 0) {
                 currentPhaseIndex = STUDY_PHASES.indexOf(executablePhases[0]);
                 timeLeft = executablePhases[0].duration;
             }
-            
+
             // Initialize UI
             progressCircle.style.strokeDasharray = totalCircleLength;
             progressCircle.style.strokeDashoffset = totalCircleLength;
-            
+
             // Load default routine
             loadRoutine('default');
-            
+
             // Setup event handlers
             setupEventHandlers();
-            
+
             // Start clocks immediately and set up interval
             setTimeout(() => {
                 updateClocks(); // Call after a small delay to ensure DOM is ready
@@ -1987,7 +1728,7 @@
 
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', initialize);
-        
+
         // Handle visibility change to pause/resume appropriately
         document.addEventListener('visibilitychange', () => {
             if (document.hidden && isRunning) {
@@ -2002,17 +1743,229 @@
             if (interval) {
                 clearInterval(interval);
             }
-            if (metronomeInterval) {
-                clearInterval(metronomeInterval);
-            }
             if (audioContext && audioContext.state !== 'closed') {
                 audioContext.close();
             }
-            if (metronomeAudioContext && metronomeAudioContext.state !== 'closed') {
-                metronomeAudioContext.close();
-            }
         });
+
+        // =========================
+        // METRONOME (Self-contained)
+        // =========================
+        (function () {
+            // State
+            let msCtx = null;
+            let msInterval = null;
+            let msIsRunning = false;
+            let msBPM = 100;
+            let msBeatCount = 0;
+            let msTimeSig = { beats: 4, note: 4 };
+            let msVolume = 0.5;
+            let msSound = 'click';
+            let msCollapsed = false;
+
+            // DOM
+            const area = document.getElementById('ms-metro-area');
+            if (!area) return; // If HTML removed, do nothing
+            const header = document.getElementById('ms-metro-header');
+            const stateLbl = document.getElementById('ms-metro-state');
+            const minWrap = document.getElementById('ms-metro-min');
+            const minBPM = document.getElementById('ms-min-bpm');
+            const minSig = document.getElementById('ms-min-timesig');
+            const minPlayBtn = document.getElementById('ms-min-play-btn');
+            const minPlayIcon = document.getElementById('ms-min-play');
+            const minPauseIcon = document.getElementById('ms-min-pause');
+            const toggleBtn = document.getElementById('ms-metro-toggle');
+            const toggleIcon = document.getElementById('ms-metro-toggle-icon');
+            const controls = document.getElementById('ms-metro-controls');
+            const bpmInput = document.getElementById('ms-bpm-input');
+            const bpmSlider = document.getElementById('ms-bpm-slider');
+            const bpmUp = document.getElementById('ms-bpm-up');
+            const bpmDown = document.getElementById('ms-bpm-down');
+            const sigBtns = Array.from(document.querySelectorAll('.ms-time-sig-btn'));
+            const beatIndicators = document.getElementById('ms-beat-indicators');
+            const soundSelect = document.getElementById('ms-sound-select');
+            const volSlider = document.getElementById('ms-vol-slider');
+            const volDisplay = document.getElementById('ms-vol-display');
+            const playBtn = document.getElementById('ms-metro-playbtn');
+            const playIcon = document.getElementById('ms-metro-play');
+            const pauseIcon = document.getElementById('ms-metro-pause');
+            const playText = document.getElementById('ms-metro-text');
+
+            // Init UI
+            function msCreateBeatIndicators() {
+                beatIndicators.innerHTML = '';
+                for (let i = 0; i < msTimeSig.beats; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'ms-beat-indicator';
+                    beatIndicators.appendChild(dot);
+                }
+            }
+
+            function msInitAudio() {
+                if (!msCtx) {
+                    try {
+                        msCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    } catch (e) {
+                        console.warn('AudioContext not available:', e);
+                    }
+                }
+                if (msCtx && msCtx.state === 'suspended') msCtx.resume();
+                return msCtx;
+            }
+
+            const msSounds = {
+                click: (ctx, time, accent) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(accent ? 1200 : 800, time);
+                    gain.gain.setValueAtTime(msVolume * 0.3, time);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.1);
+                    osc.start(time); osc.stop(time + 0.1);
+                },
+                wood: (ctx, time, accent) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    const filt = ctx.createBiquadFilter();
+                    osc.connect(filt); filt.connect(gain); gain.connect(ctx.destination);
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(accent ? 800 : 400, time);
+                    filt.type = 'bandpass';
+                    filt.frequency.setValueAtTime(accent ? 2000 : 1000, time);
+                    filt.Q.setValueAtTime(10, time);
+                    gain.gain.setValueAtTime(msVolume * 0.4, time);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.06);
+                    osc.start(time); osc.stop(time + 0.06);
+                },
+                beep: (ctx, time, accent) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(accent ? 1000 : 600, time);
+                    gain.gain.setValueAtTime(msVolume * 0.25, time);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.18);
+                    osc.start(time); osc.stop(time + 0.18);
+                },
+            };
+
+            function msTick() {
+                if (!msIsRunning) return;
+                msBeatCount = (msBeatCount % msTimeSig.beats) + 1;
+                const accent = msBeatCount === 1;
+                const ctx = msInitAudio();
+                if (ctx) {
+                    const now = ctx.currentTime;
+                    const fn = msSounds[msSound] || msSounds.click;
+                    try { fn(ctx, now, accent); } catch { }
+                }
+                const nodes = beatIndicators.querySelectorAll('.ms-beat-indicator');
+                nodes.forEach((n, i) => {
+                    n.classList.toggle('active', i + 1 === msBeatCount);
+                    n.classList.toggle('accent', accent && i === 0);
+                });
+            }
+
+            function msUpdateInterval() {
+                if (!msIsRunning) return;
+                clearInterval(msInterval);
+                const delay = (60 / msBPM) * 1000;
+                msInterval = setInterval(msTick, delay);
+            }
+
+            function msStart() {
+                if (msIsRunning) return;
+                msIsRunning = true; msBeatCount = 0;
+                stateLbl.textContent = 'ACTIU';
+                stateLbl.className = 'text-xs text-success';
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+                playText.textContent = 'Aturar';
+                minPlayIcon.classList.add('hidden');
+                minPauseIcon.classList.remove('hidden');
+                msUpdateInterval();
+            }
+
+            function msStop() {
+                if (!msIsRunning) return;
+                clearInterval(msInterval);
+                msIsRunning = false;
+                stateLbl.textContent = 'INACTIU';
+                stateLbl.className = 'text-xs text-text-secondary';
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+                playText.textContent = 'Iniciar';
+                minPlayIcon.classList.remove('hidden');
+                minPauseIcon.classList.add('hidden');
+                // reset visuals
+                beatIndicators.querySelectorAll('.ms-beat-indicator').forEach(n => n.classList.remove('active', 'accent'));
+            }
+
+            function msSetBPM(v) {
+                const val = Math.max(40, Math.min(208, parseInt(v || 0)));
+                msBPM = val;
+                bpmInput.value = val;
+                bpmSlider.value = val;
+                minBPM.textContent = val;
+                if (msIsRunning) msUpdateInterval();
+            }
+
+            function msSetVol(percent) {
+                msVolume = Math.max(0, Math.min(1, (parseFloat(percent) || 0) / 100));
+                volDisplay.textContent = `${Math.round(msVolume * 100)}%`;
+            }
+
+            function msSetSig(sig) {
+                const [b, n] = sig.split('/').map(Number);
+                msTimeSig = { beats: b, note: n };
+                sigBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.sig === sig));
+                minSig.textContent = sig;
+                msCreateBeatIndicators();
+                if (msIsRunning) msBeatCount = 0;
+            }
+
+            function msToggleCollapse() {
+                msCollapsed = !msCollapsed;
+                if (msCollapsed) {
+                    area.classList.add('ms-metro-minimized');
+                    controls.classList.add('hidden');
+                    minWrap.classList.remove('hidden');
+                    toggleIcon.classList.add('rotate-180');
+                    area.style.width = 'auto';
+                } else {
+                    area.classList.remove('ms-metro-minimized');
+                    controls.classList.remove('hidden');
+                    minWrap.classList.add('hidden');
+                    toggleIcon.classList.remove('rotate-180');
+                    area.style.width = '320px';
+                }
+            }
+
+            // Events
+            toggleBtn.addEventListener('click', msToggleCollapse);
+            playBtn.addEventListener('click', () => (msIsRunning ? msStop() : msStart()));
+            minPlayBtn.addEventListener('click', () => (msIsRunning ? msStop() : msStart()));
+            bpmInput.addEventListener('input', e => msSetBPM(e.target.value));
+            bpmSlider.addEventListener('input', e => msSetBPM(e.target.value));
+            bpmUp.addEventListener('click', () => msSetBPM(msBPM + 5));
+            bpmDown.addEventListener('click', () => msSetBPM(msBPM - 5));
+            volSlider.addEventListener('input', e => msSetVol(e.target.value));
+            soundSelect.addEventListener('change', e => { msSound = e.target.value; });
+            sigBtns.forEach(btn => btn.addEventListener('click', () => msSetSig(btn.dataset.sig)));
+
+            // Boot
+            msCreateBeatIndicators();
+            msSetSig('4/4');
+            msSetBPM(100);
+            msSetVol(50);
+            if (window.innerWidth < 1024) msToggleCollapse();
+
+            // Cleanup
+            window.addEventListener('beforeunload', () => { if (msInterval) clearInterval(msInterval); if (msCtx && msCtx.state !== 'closed') msCtx.close(); });
+        })();
 
     </script>
 </body>
+
 </html>
