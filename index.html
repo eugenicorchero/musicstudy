@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Music Study Protocol</title>
+    <title>Music Study Protocol - Guiatge d'Estudi</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -21,8 +21,7 @@
             background-color: var(--bg-main);
             color: #f0f6fc;
             font-family: 'Inter', sans-serif;
-            height: 100dvh;
-            overflow: hidden; /* Evita qualsevol scroll vertical en telèfons allargats */
+            min-height: 100dvh;
         }
 
         .glass-panel {
@@ -36,110 +35,230 @@
         }
 
         .interactive-element {
-            transition: transform 0.15s ease;
+            transition: transform 0.15s ease, background-color 0.2s ease;
             touch-action: manipulation;
         }
 
         .interactive-element:active {
             transform: scale(0.95);
         }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 
-<body class="flex flex-col justify-between h-full p-0 m-0 selection:bg-cyan-500">
+<body class="flex flex-col justify-between h-full p-0 m-0 selection:bg-cyan-500 overflow-x-hidden">
 
-    <!-- HEADER MINIMALISTA -->
-    <header class="px-4 py-2 sm:py-3 flex items-center justify-between border-b border-white/10 shrink-0">
+    <!-- HEADER -->
+    <header class="px-4 py-2 sm:py-3 flex items-center justify-between border-b border-white/10 shrink-0 glass-panel z-20">
         <div class="flex items-center space-x-2">
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500 flex items-center justify-center text-black font-bold">
-                <i class="fas fa-music text-xs"></i>
+            <div class="w-8 h-8 rounded-lg bg-cyan-500 flex items-center justify-center text-black font-bold shadow-md shadow-cyan-500/20">
+                <i class="fas fa-music text-sm"></i>
             </div>
-            <h1 class="font-bold text-xs sm:text-base">Music Protocol</h1>
+            <div>
+                <h1 class="font-bold text-xs sm:text-base leading-tight">Music Protocol</h1>
+                <p class="text-[10px] text-gray-400 hidden sm:block">Rutina d'Estudi Universal</p>
+            </div>
         </div>
 
         <div class="flex items-center gap-2">
-            <!-- Botó per mostrar/amagar detalls en mòbil -->
-            <button onclick="toggleDetails()" class="sm:hidden text-xs text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-1 rounded-lg">
-                <i class="fas fa-info-circle"></i> Info
+            <!-- BOTÓ PRINCIPAL D'INFORMACIÓ -->
+            <button onclick="toggleInfoModal()" class="text-xs text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-3 py-1.5 rounded-lg interactive-element flex items-center gap-1.5 font-medium">
+                <i class="fas fa-info-circle text-sm"></i> Guia de Fase
             </button>
-            <div class="flex items-center space-x-1.5 bg-white/5 px-2.5 py-1 rounded-lg border border-white/10 text-xs font-mono-custom">
+            <div class="flex items-center space-x-1.5 bg-white/5 px-2.5 py-1.5 rounded-lg border border-white/10 text-xs font-mono-custom">
                 <i class="fas fa-stopwatch text-cyan-400 text-xs"></i>
                 <span id="total-time">00:00:00</span>
             </div>
         </div>
     </header>
 
-    <!-- MAIN (COMPACTE I SENSE OVERFLOW) -->
-    <main class="flex-grow flex flex-col items-center justify-evenly px-4 py-2 max-w-md mx-auto w-full">
+    <!-- MAIN APP CONTENT -->
+    <main class="flex-grow flex flex-col items-center justify-evenly px-4 py-3 sm:py-6 max-w-2xl mx-auto w-full">
 
-        <!-- FASE ACTUAL (TITOL PREDOMINANT) -->
+        <!-- FASE ACTUAL -->
         <div class="text-center w-full">
-            <span id="phase-badge" class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-1">
+            <span id="phase-badge" class="inline-block px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-1">
                 Fase I.1
             </span>
-            <h2 id="phase-title" class="text-lg sm:text-2xl font-bold text-white tracking-tight leading-tight">
+            <h2 id="phase-title" class="text-lg sm:text-2xl font-extrabold text-white tracking-tight leading-tight mb-2">
                 Preparació i So Fonamental
             </h2>
 
-            <!-- DESCRIPCIÓ COMPACTABLE EN MÒBIL -->
-            <div id="details-panel" class="hidden sm:block mt-2">
-                <p id="phase-desc" class="text-gray-400 text-xs leading-relaxed mb-2">
-                    Estiraments lleugers i concentració. Toca notes llargues per centrar el teu so.
-                </p>
-                <div class="inline-flex items-center gap-1.5 text-[10px] font-mono-custom text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span id="bpm-text">No s'usa metrònom</span>
-                </div>
+            <!-- RESUM RÀPID (COMPACTE PER A PANTALLA PRINCIPAL) -->
+            <div class="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-mono-custom text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded border border-emerald-500/20">
+                <i class="fas fa-tachometer-alt"></i>
+                <span id="bpm-text">Sense metrònom</span>
             </div>
         </div>
 
-        <!-- TIMER ESCALAT DE MANERA OPTIMITZADA -->
-        <div class="relative w-44 sm:w-60 aspect-square flex items-center justify-center my-1">
+        <!-- TIMER ESCALABLE -->
+        <div class="relative w-44 xs:w-48 sm:w-60 aspect-square flex items-center justify-center my-2 sm:my-4">
             <svg class="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
                 <circle cx="60" cy="60" r="52" class="stroke-white/5" stroke-width="6" fill="transparent" />
                 <circle id="timer-progress" cx="60" cy="60" r="52" class="stroke-cyan-400 transition-all duration-300" stroke-width="6" stroke-dasharray="326.72" stroke-dashoffset="0" stroke-linecap="round" fill="transparent" />
             </svg>
             <div class="absolute flex flex-col items-center justify-center text-center">
                 <span id="timer-display" class="text-3xl sm:text-5xl font-bold font-mono-custom text-white tracking-tighter">05:00</span>
-                <span id="timer-state" class="text-[9px] uppercase tracking-widest text-gray-400">Pausat</span>
+                <span id="timer-state" class="text-[9px] sm:text-xs uppercase tracking-widest text-gray-400 mt-0.5">Pausat</span>
             </div>
         </div>
 
         <!-- CONTROLS PRINCIPALS -->
-        <div class="flex items-center justify-center gap-3">
-            <button id="btn-prev" aria-label="Anterior" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl glass-panel text-gray-300 flex items-center justify-center interactive-element">
-                <i class="fas fa-backward text-sm"></i>
+        <div class="flex items-center justify-center gap-3 sm:gap-4">
+            <button id="btn-prev" aria-label="Anterior" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl glass-panel text-gray-300 hover:text-white flex items-center justify-center interactive-element">
+                <i class="fas fa-backward text-sm sm:text-base"></i>
             </button>
             <button id="btn-play" aria-label="Play" class="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-cyan-500 text-black font-bold text-lg sm:text-2xl flex items-center justify-center shadow-lg shadow-cyan-500/25 interactive-element">
                 <i id="play-icon" class="fas fa-play ml-0.5"></i>
             </button>
-            <button id="btn-next" aria-label="Següent" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl glass-panel text-gray-300 flex items-center justify-center interactive-element">
-                <i class="fas fa-forward text-sm"></i>
+            <button id="btn-next" aria-label="Següent" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl glass-panel text-gray-300 hover:text-white flex items-center justify-center interactive-element">
+                <i class="fas fa-forward text-sm sm:text-base"></i>
+            </button>
+            <button id="btn-reset" aria-label="Reiniciar" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl glass-panel text-gray-300 hover:text-white flex items-center justify-center interactive-element" title="Reiniciar fase">
+                <i class="fas fa-redo-alt text-sm sm:text-base"></i>
             </button>
         </div>
 
     </main>
 
-    <!-- NAVEGACIÓ INFERIOR COMPACTA (SELECTOR EN LLOC DE CARRUSEL EN MÒBIL) -->
-    <footer class="glass-panel border-t border-white/10 p-3 shrink-0">
-        <div class="max-w-md mx-auto flex items-center justify-between gap-2">
-            <span class="text-[10px] uppercase font-bold text-gray-400 shrink-0">Fase:</span>
-            <select id="phase-select" onchange="loadPhase(parseInt(this.value))" class="bg-white/10 text-white text-xs rounded-lg p-2 border border-white/10 w-full focus:outline-none focus:border-cyan-400">
-                <!-- S'omple amb JS -->
-            </select>
+    <!-- FOOTER NAVEGACIÓ -->
+    <footer class="glass-panel border-t border-white/10 p-2.5 sm:p-4 shrink-0 w-full">
+        <div class="max-w-4xl mx-auto">
+            <!-- Selector Mòbil -->
+            <div class="flex sm:hidden items-center justify-between gap-2">
+                <span class="text-[10px] uppercase font-bold text-gray-400 shrink-0">Fase:</span>
+                <select id="phase-select" onchange="loadPhase(parseInt(this.value))" class="bg-white/10 text-white text-xs rounded-lg p-2 border border-white/10 w-full focus:outline-none focus:border-cyan-400">
+                    <!-- Dynamic -->
+                </select>
+            </div>
+
+            <!-- Carrusel Escritori -->
+            <div class="hidden sm:block">
+                <div class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2 flex items-center gap-1.5">
+                    <i class="fas fa-stream text-cyan-400"></i> Seqüència d'Estudi
+                </div>
+                <div id="sequence-container" class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                    <!-- Dynamic -->
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- LOGIC SCRIPT -->
+    <!-- MODAL D'INFORMACIÓ PEDAGÒGICA COMPLETA (RECUPERADA DEL CSV) -->
+    <div id="info-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-lg w-full rounded-2xl p-5 sm:p-6 border border-white/20 max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-start mb-4 border-b border-white/10 pb-3">
+                <div>
+                    <span id="modal-badge" class="text-[10px] font-bold uppercase tracking-wider text-cyan-400">Fase I.1</span>
+                    <h3 id="modal-title" class="text-lg font-bold text-white leading-snug">Preparació i So Fonamental</h3>
+                </div>
+                <button onclick="toggleInfoModal()" class="text-gray-400 hover:text-white p-1"><i class="fas fa-times text-lg"></i></button>
+            </div>
+
+            <!-- CONTINGUT DETALLAT -->
+            <div class="space-y-4 text-xs sm:text-sm text-gray-300">
+                <div>
+                    <h4 class="text-xs uppercase font-bold text-gray-400 mb-1 flex items-center gap-1.5">
+                        <i class="fas fa-align-left text-cyan-400"></i> Objectiu i Descripció
+                    </h4>
+                    <p id="modal-desc" class="leading-relaxed bg-white/5 p-3 rounded-xl border border-white/5 text-gray-200">
+                        <!-- Text complet -->
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-xs uppercase font-bold text-gray-400 mb-1 flex items-center gap-1.5">
+                        <i class="fas fa-lightbulb text-amber-400"></i> Instruccions i Estratègia
+                    </h4>
+                    <p id="modal-instructions" class="leading-relaxed bg-white/5 p-3 rounded-xl border border-white/5 text-gray-200">
+                        <!-- Text complet -->
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-xs uppercase font-bold text-gray-400 mb-1 flex items-center gap-1.5">
+                        <i class="fas fa-tachometer-alt text-emerald-400"></i> Indicació de Metrònom (BPM)
+                    </h4>
+                    <p id="modal-bpm" class="font-mono-custom text-emerald-300 bg-emerald-500/10 p-2.5 rounded-xl border border-emerald-500/20">
+                        <!-- BPM -->
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="toggleInfoModal()" class="w-full mt-5 py-2.5 rounded-xl bg-cyan-500 text-black font-bold text-xs uppercase tracking-wider interactive-element">
+                Entesos, tornar a l'estudi
+            </button>
+        </div>
+    </div>
+
     <script>
+        // TEXTOS INTEGRALS EXTRACTETS DEL FITXER CSV
         const phases = [
-            { id: "I.1", group: "I. Escalfament", name: "Preparació i So Fonamental", time: 5 * 60, desc: "Estiraments lleugers i concentració. Toca notes llargues per centrar el teu so.", bpm: "Sense metrònom" },
-            { id: "I.2", group: "I. Escalfament", name: "Tècnica Diària (Escales)", time: 15 * 60, desc: "Practica la tècnica amb uniformitat i precisió.", bpm: "60-80 → Obj: 100-120 bpm" },
-            { id: "II.1", group: "II. Repertori", name: "Peça de Repàs / Fluïdesa", time: 10 * 60, desc: "Toca una peça coneguda per guanyar confiança.", bpm: "Tempo de la partitura" },
-            { id: "II.2", group: "II. Repertori", name: "El Repte (Passatges Difícils)", time: 25 * 60, desc: "Practica lenta i concentrada. Aïlla els errors.", bpm: "40-60 bpm (gradual)" },
-            { id: "II.3", group: "II. Repertori", name: "Simulació", time: 5 * 60, desc: "Toca sense aturar-te. Simula una actuació.", bpm: "80% - 100% tempo real" },
-            { id: "III.1", group: "III. Desenvolupament", name: "Lectura a Vista / Oïda", time: 10 * 60, desc: "Lectura de peces fàcils o transcripció.", bpm: "Tempo lent" },
-            { id: "III.2", group: "III. Desenvolupament", name: "Avaluació i Registre", time: 5 * 60, desc: "Apunta progressos i objectius.", bpm: "Sense metrònom" }
+            { 
+                id: "I.1", 
+                group: "I. Escalfament i Tècnica", 
+                name: "Preparació i So Fonamental", 
+                time: 5 * 60, 
+                desc: "Realitza estiraments corporals lleugers, postura i exercicis de respiració profunda. Toca notes llargues (long tones) centrades en l'emissió, l'afinació i la qualitat del so.", 
+                instructions: "Comença sense instrument fent 1 min d'estiraments de coll, espatlles i braços. Toca notes llargues en un registre còmode, buscant un so estable, ric en harmònics i sense vibrat forçat.", 
+                bpm: "No s'usa metrònom (focus total en l'escolta, la respiració i la sensació física)" 
+            },
+            { 
+                id: "I.2", 
+                group: "I. Escalfament i Tècnica", 
+                name: "Tècnica Diària (Escales, Arpegis i Mecanisme)", 
+                time: 15 * 60, 
+                desc: "Treball rutinari d'escales, arpegis, articulació i exercicis mecànics per desenvolupar agilitat i uniformitat.", 
+                instructions: "Tria 1 o 2 tonalitats per sessió. Treballa les escales amb diferents articulacions (legato, staccato, patrons de ritme). Prioritza la claredat i la igualtat de les notes abans que la velocitat.", 
+                bpm: "Exemple: 60-80 bpm per començar; augmenta progressivament fins a l'objectiu (ex: 100-120 bpm)" 
+            },
+            { 
+                id: "II.1", 
+                group: "II. Repertori i Estudi Actiu", 
+                name: "Peça de Repàs o Fluïdesa", 
+                time: 10 * 60, 
+                desc: "Tocar una peça o fragment que ja es domina per treballar la musicalitat, la memòria i la confiança.", 
+                instructions: "Toca el fragment de principi a fi sense aturar-te pels petits errors. Centra't en l'expressivitat, la dinàmica, la fraseig i la connexió emocional amb la música.", 
+                bpm: "Al tempo real indicat a la partitura" 
+            },
+            { 
+                id: "II.2", 
+                group: "II. Repertori i Estudi Actiu", 
+                name: "El Repte: Passatges Difícils i Resolució de Problemes", 
+                time: 25 * 60, 
+                desc: "Bloc principal d'estudi lent, analític i concentrat sobre els fragments més complexos de la nova peça.", 
+                instructions: "Aïlla el passatge concret (1-4 compassos). Aplica estratègies d'estudi: toca molt lentament, canvia els ritmes (puntuats), practica a l'inrevés o per blocs de notes. Enregistra't per escoltar de forma objectiva.", 
+                bpm: "Molt lent (ex: 40-60 bpm); augmenta 2-4 bpm només quan ho toquis 3 vegades segides perfectament" 
+            },
+            { 
+                id: "II.3", 
+                group: "II. Repertori i Estudi Actiu", 
+                name: "Simulació d'Interpretació i Integració", 
+                time: 5 * 60, 
+                desc: "Integrar els passatges treballats en el context de la secció o de tota la peça.", 
+                instructions: "Fes un 'passi' de la secció completa com si estiguessis en un concert o examen. Si comets un error, NO t'aturis; mantén la concentració i continua. Pren nota mental d'on s'ha perdut la fluïdesa.", 
+                bpm: "80% - 100% del tempo final" 
+            },
+            { 
+                id: "III.1", 
+                group: "III. Desenvolupament Creatiu i Avaluació", 
+                name: "Lectura a Vista o Treball d'Oïda", 
+                time: 10 * 60, 
+                desc: "Desenvolupament de la lectura ràpida o de la capacitat de transcriure/reproduir melodies d'oïda.", 
+                instructions: "Per a lectura a vista: agafa una peça fàcil i nova. Escaneja durant 30 segons la tonalitat, compàs i zones difícils abans de tocar. Per a oïda: intenta treure una melodia senzella sense partitura.", 
+                bpm: "Tempo lent i constant que permeti mantenir la lectura sense pauses" 
+            },
+            { 
+                id: "III.2", 
+                group: "III. Desenvolupament Creatiu i Avaluació", 
+                name: "Avaluació, Diari d'Estudi i Refredament", 
+                time: 5 * 60, 
+                desc: "Tancament conscient de la sessió d'estudi, registre de progressos i descans físic.", 
+                instructions: "Escriu en el teu diari d'estudi: Què ha anat bé? Quins tempos has assolit? Què s'ha de treballar demà? Fes un parell d'estiraments suaus per relaxar la musculatura utilitzada.", 
+                bpm: "Sense metrònom" 
+            }
         ];
 
         let currentIndex = 0;
@@ -150,18 +269,19 @@
 
         const phaseBadge = document.getElementById('phase-badge');
         const phaseTitle = document.getElementById('phase-title');
-        const phaseDesc = document.getElementById('phase-desc');
         const bpmText = document.getElementById('bpm-text');
         const timerDisplay = document.getElementById('timer-display');
         const timerState = document.getElementById('timer-state');
         const playBtn = document.getElementById('btn-play');
         const playIcon = document.getElementById('play-icon');
         const phaseSelect = document.getElementById('phase-select');
+        const seqContainer = document.getElementById('sequence-container');
 
         function init() {
-            // Omplir desplegable
             phaseSelect.innerHTML = phases.map((p, i) => `<option value="${i}">${p.id} - ${p.name}</option>`).join('');
+            renderDesktopCards();
             loadPhase(0);
+            
             setInterval(() => {
                 if (isRunning) {
                     totalSeconds++;
@@ -181,10 +301,17 @@
 
             phaseBadge.innerText = `${p.id} • ${p.group}`;
             phaseTitle.innerText = p.name;
-            phaseDesc.innerText = p.desc;
             bpmText.innerText = p.bpm;
 
+            // Actualitzar Modal
+            document.getElementById('modal-badge').innerText = `${p.id} • ${p.group}`;
+            document.getElementById('modal-title').innerText = p.name;
+            document.getElementById('modal-desc').innerText = p.desc;
+            document.getElementById('modal-instructions').innerText = p.instructions;
+            document.getElementById('modal-bpm').innerText = p.bpm;
+
             updateTimer();
+            updateDesktopCardsUI();
             if (isRunning) pause();
         }
 
@@ -224,14 +351,35 @@
             clearInterval(timerInterval);
         }
 
-        function toggleDetails() {
-            const panel = document.getElementById('details-panel');
-            panel.classList.toggle('hidden');
+        function toggleInfoModal() {
+            document.getElementById('info-modal').classList.toggle('hidden');
+        }
+
+        function renderDesktopCards() {
+            seqContainer.innerHTML = '';
+            phases.forEach((p, idx) => {
+                const card = document.createElement('button');
+                card.onclick = () => loadPhase(idx);
+                card.className = `p-2.5 rounded-xl border text-left min-w-[130px] flex-1 interactive-element ${idx === currentIndex ? 'bg-cyan-500/10 border-cyan-500/50 text-cyan-400' : 'bg-white/5 border-white/10 text-gray-400'}`;
+                card.innerHTML = `
+                    <div class="text-[9px] font-bold uppercase tracking-wider">${p.id}</div>
+                    <div class="text-xs font-bold text-white truncate my-0.5">${p.name}</div>
+                    <div class="text-[10px] opacity-70">${Math.floor(p.time/60)} min</div>
+                `;
+                seqContainer.appendChild(card);
+            });
+        }
+
+        function updateDesktopCardsUI() {
+            Array.from(seqContainer.children).forEach((child, idx) => {
+                child.className = `p-2.5 rounded-xl border text-left min-w-[130px] flex-1 interactive-element ${idx === currentIndex ? 'bg-cyan-500/10 border-cyan-500/50 text-cyan-400' : 'bg-white/5 border-white/10 text-gray-400'}`;
+            });
         }
 
         playBtn.onclick = toggleTimer;
         document.getElementById('btn-prev').onclick = () => { if (currentIndex > 0) loadPhase(currentIndex - 1); };
         document.getElementById('btn-next').onclick = () => { if (currentIndex < phases.length - 1) loadPhase(currentIndex + 1); };
+        document.getElementById('btn-reset').onclick = () => loadPhase(currentIndex);
 
         window.onload = init;
     </script>
